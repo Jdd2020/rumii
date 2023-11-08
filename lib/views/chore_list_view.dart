@@ -23,7 +23,7 @@ class _ChoreListViewState extends State<ChoreListView> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: const Column(children: <Widget>[
-              Text('Hello'),
+              Text('Chore List'),
             ])));
   }
 }

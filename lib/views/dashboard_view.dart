@@ -23,7 +23,7 @@ class _DashboardViewState extends State<DashboardView> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: const Column(children: <Widget>[
-              Text('Hello'),
+              Text('Dashboard'),
             ])));
   }
 }

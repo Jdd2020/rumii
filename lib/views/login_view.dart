@@ -23,7 +23,7 @@ class _LoginViewState extends State<LoginView> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: const Column(children: <Widget>[
-              Text('Hello'),
+              Text('Login'),
             ])));
   }
 }
