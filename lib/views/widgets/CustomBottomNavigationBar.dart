@@ -4,8 +4,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final String currentRoute;
   final ValueChanged<String> onRouteChanged;
 
-  CustomBottomNavigationBar(
-      {required this.currentRoute, required this.onRouteChanged});
+  const CustomBottomNavigationBar(
+      {super.key, required this.currentRoute, required this.onRouteChanged});
 
   @override
   Widget build(BuildContext context) {
