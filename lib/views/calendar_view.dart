@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
 
-class DashboardView extends StatefulWidget {
-  const DashboardView({super.key});
+class CalendarView extends StatefulWidget {
+  const CalendarView({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _DashboardViewState createState() => _DashboardViewState();
+  _CalendarViewState createState() => _CalendarViewState();
 }
 
-class _DashboardViewState extends State<DashboardView> {
+class _CalendarViewState extends State<CalendarView> {
 
   @override
   void initState() {
@@ -21,17 +21,17 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Rumii"),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false
         ),
         body: Container(
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: const Column(children: <Widget>[
-              Text('Dashboard'),
+              Text('Calendar'),
             ])),
-            bottomNavigationBar: CustomBottomNavigationBar(
-              currentRoute: '/', 
+           bottomNavigationBar: CustomBottomNavigationBar(
+              currentRoute: '/calendar', 
               onRouteChanged: (route) {
                 Navigator.of(context).pushNamed(route); // navigate to a different view
               } 

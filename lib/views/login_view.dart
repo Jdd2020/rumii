@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
