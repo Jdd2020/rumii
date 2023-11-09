@@ -4,7 +4,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final String currentRoute;
   final ValueChanged<String> onRouteChanged;
 
-  CustomBottomNavigationBar({required this.currentRoute, required this.onRouteChanged});
+  CustomBottomNavigationBar(
+      {required this.currentRoute, required this.onRouteChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }
 
   int _getSelectedIndex(String route) {
-    if (route == '/') return 0;
+    if (route == '/home') return 0;
     if (route == '/chores') return 1;
     if (route == '/shopping_list') return 2;
     if (route == '/calendar') return 3;
@@ -47,7 +48,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   String _getRouteFromIndex(int index) {
     switch (index) {
       case 0:
-        return '/';
+        return '/home';
       case 1:
         return '/chores';
       case 2:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/views/dashboard_view.dart';
 import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
 
 class LoginView extends StatefulWidget {
@@ -58,7 +59,14 @@ class _LoginViewState extends State<LoginView> {
                       height: 50,
                       width: 200,
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text("Submit")))
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DashboardView()));
+                          },
+                          child: const Text("Submit")))
                 ]))));
   }
 }

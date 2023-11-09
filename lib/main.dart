@@ -27,7 +27,8 @@ class App extends StatelessWidget {
       initialRoute: loginRoute,*/
       initialRoute: '/',
       routes: {
-        '/': (context) => const DashboardView(),
+        '/': (context) => const LoginView(),
+        '/home': (context) => const DashboardView(),
         '/chores': (context) => const ChoreListView(),
         '/shopping_list': (context) => const ShoppingListView(),
         '/calendar': (context) => const CalendarView(),
