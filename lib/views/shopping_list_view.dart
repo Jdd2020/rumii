@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class ShoppingListView extends StatefulWidget {
+  const ShoppingListView({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _LoginViewState createState() => _LoginViewState();
+  _ShoppingListViewState createState() => _ShoppingListViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _ShoppingListViewState extends State<ShoppingListView> {
 
   @override
   void initState() {
@@ -19,16 +19,19 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Rumii")),
+        appBar: AppBar(
+          title: const Text("Rumii"),
+          automaticallyImplyLeading: false
+        ),
         body: Container(
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: const Column(children: <Widget>[
-              Text('Login'),
+              Text('Shopping'),
             ])),
             bottomNavigationBar: CustomBottomNavigationBar(
-              currentRoute: '/', 
+              currentRoute: '/shopping_list', 
               onRouteChanged: (route) {
                 Navigator.of(context).pushNamed(route); // navigate to a different view
               } 
