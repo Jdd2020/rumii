@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/viewmodels/login_view_model.dart';
 import 'package:rumii/views/login_view.dart';
 
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ class Router {
       case loginRoute:
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider(
-                  create: (context) => null,
+                  create: (context) => LoginViewModel(),
                   child: const LoginView(),
                 ));
       default:

@@ -22,8 +22,42 @@ class _LoginViewState extends State<LoginView> {
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: const Column(children: <Widget>[
-              Text('Hello'),
-            ])));
+            child: Align(
+                alignment: FractionalOffset.center,
+                child:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  const Text(
+                    'Login',
+                    style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(
+                    width: 250,
+                    child: TextField(
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Username',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const SizedBox(
+                    width: 250,
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                      height: 50,
+                      width: 200,
+                      child: ElevatedButton(
+                          onPressed: () {}, child: const Text("Submit")))
+                ]))));
   }
 }
