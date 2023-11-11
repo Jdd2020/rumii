@@ -64,11 +64,34 @@ class NewChore extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            Text(' New Chore'),
-          ],
-        ),
+        child: Column(children: <Widget>[
+          Text(' New Chore'),
+          const SizedBox(height: 20),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            InkWell(
+                child: const Text('Cancel',
+                    style: TextStyle(
+                      fontSize: 16,
+                    )),
+                onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ChoreListView()))
+                    }),
+            InkWell(
+                child: const Text('Save',
+                    style: TextStyle(
+                      fontSize: 16,
+                    )),
+                onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ChoreListView()))
+                    }),
+          ]),
+        ]),
       ),
     );
   }
