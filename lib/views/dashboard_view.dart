@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
+import 'package:rumii/viewmodels/login_view_model.dart';
+
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -20,7 +22,8 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Rumii"),
+          title: Image.asset('assets/images/rumii-logo.png', height: 28.00, width: 70.00), //const Text("Rumii"),
+          centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         body: Container(
@@ -29,6 +32,8 @@ class _DashboardViewState extends State<DashboardView> {
             height: MediaQuery.of(context).size.height,
             child: const Column(children: <Widget>[
               Text('Dashboard'),
+              Text('Hello, (Name)!'),
+              Text('House Key: (#####)')
             ])),
             bottomNavigationBar: CustomBottomNavigationBar(
               currentRoute: '/', 
