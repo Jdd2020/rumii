@@ -20,8 +20,9 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Rumii"),
-          automaticallyImplyLeading: false
+          title: Image.asset('assets/images/rumii-logo.png', height: 28.00, width: 70.00), //const Text("Rumii"),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
         body: Container(
             padding: const EdgeInsets.all(10),
