@@ -1,3 +1,7 @@
+/// This allows the `User` class to access private members in
+/// the generated file. The value for this is *.g.dart, where
+/// the star denotes the source file name.
+
 class Login {
   final String username;
   final String password;
@@ -16,14 +20,21 @@ class Login {
       this.signedIn = false,
       this.verification = -1});
 
+  /// A necessary factory constructor for creating a new User instance
+  /// from a map. Pass the map to the generated `_$UserFromJson()` constructor.
+  /// The constructor is named after the source class, in this case, User.
   factory Login.fromJson(Map<String, dynamic> json) {
     return Login(
-        username: json["Username"],
-        password: json["Password"],
-        email: json["Email"],
-        houseKey: json["houseKey"],
-        uniqueId: json["UniqueId"],
-        signedIn: json["SignedIn"],
-        verification: json["Verification"]);
+        username: json['username'] as String,
+        password: json['password'] as String,
+        email: json['email'] as String,
+        houseKey: json['hosueKey'] as String,
+        uniqueId: json['uniqueId'] as int,
+        signedIn: json['signedIn'] as bool,
+        verification: json['verification'] as int);
   }
+
+  /// `toJson` is the convention for a class to declare support for serialization
+  /// to JSON. The implementation simply calls the private, generated
+  /// helper method `_$UserToJson`.
 }

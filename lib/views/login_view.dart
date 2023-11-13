@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/dashboard_view.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
+import 'dart:convert';
 
 //Initial view for basic login operations
 class LoginView extends StatefulWidget {
@@ -11,9 +14,20 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  // ignore: prefer_typing_uninitialized_variables
+  var jsonData;
+  Future<void> loadJsonAsset() async {
+    final String jsonString = await rootBundle.loadString('assets/userDB.json');
+    var data = jsonDecode(jsonString);
+    setState(() {
+      jsonData = data;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    loadJsonAsset();
   }
 
   @override
@@ -76,7 +90,11 @@ class _LoginViewState extends State<LoginView> {
                           MaterialPageRoute(
                               builder: (context) => const Register()))
                     },
-                  )
+                  ),
+                  Center(
+                      child: jsonData != null
+                          ? Text(jsonData['username'])
+                          : const Text("no data"))
                 ]))));
   }
 }
