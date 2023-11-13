@@ -119,21 +119,21 @@ class DataProvider {
   // example function to fetch the most critical chores
   Future<List<String>> fetchRecentChores() async {
     // fetch data from database
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 0));
     return ["Chore 1", "Chore 2", "Chore 3"];
   }
 
   // example function to fetch the most recently added store needs
   Future<List<String>> fetchRecentStoreNeeds() async {
     // fetch data from database
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 0));
     return ["Item 1", "Item 2", "Item 3"];
   }
 
   // example function to fetch the most upcoming events
   Future<List<String>> fetchRecentEvents() async {
     // fetch data from database
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 0));
     return ["Event 1", "Event 2", "Event 3"];
   }
 }
