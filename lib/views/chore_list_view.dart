@@ -24,11 +24,14 @@ class _ChoreListViewState extends State<ChoreListView> {
           automaticallyImplyLeading: false,
       ),
       body: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Column(children: <Widget>[
-            Text('Chore List'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+            const SizedBox(height: 10),
+            const Text('Chore List', style: (TextStyle(fontSize: 26, fontWeight: FontWeight.bold,))),
             const SizedBox(height: 10),
             Align(
                 alignment: Alignment.topRight,
@@ -46,7 +49,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                               MaterialPageRoute(
                                   builder: (context) => const NewChore()))
                         })),
-          ])),
+          ]),),
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/chores',
           onRouteChanged: (route) {
@@ -69,7 +72,8 @@ class NewChore extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(children: <Widget>[
-          Text(' New Chore'),
+          const SizedBox(height: 10),
+          const Text('New Chore', style: (TextStyle(fontSize: 26, fontWeight: FontWeight.bold,))),
           const SizedBox(height: 20),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             InkWell(
@@ -140,16 +144,16 @@ class NewChore extends StatelessWidget {
                   child: Text('Daily'),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'weekly',
-                  child: Text('weekly'),
+                  value: 'Weekly',
+                  child: Text('Weekly'),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'bi-weekly',
-                  child: Text('bi-weekly'),
+                  value: 'Bi-weekly',
+                  child: Text('Bi-weekly'),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'monthly',
-                  child: Text('monthly'),
+                  value: 'Monthly',
+                  child: Text('Monthly'),
                 ),
               ],
               onChanged: (String? value) {
