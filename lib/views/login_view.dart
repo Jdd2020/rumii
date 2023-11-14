@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/dashboard_view.dart';
-import 'package:flutter/services.dart' show rootBundle;
-
-import 'dart:convert';
+import 'package:rumii/viewmodels/login_list_view_model.dart';
+import 'package:provider/provider.dart';
 
 //Initial view for basic login operations
 class LoginView extends StatefulWidget {
@@ -15,26 +14,30 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   // ignore: prefer_typing_uninitialized_variables
-  var jsonData;
-  Future<void> loadJsonAsset() async {
-    final String jsonString = await rootBundle.loadString('assets/userDB.json');
-    var data = jsonDecode(jsonString);
-    setState(() {
-      jsonData = data;
-    });
-  }
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    loadJsonAsset();
+    //Provider.of<LoginListViewModel>(context, listen: true);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    //final vm = Provider.of<LoginListViewModel>(context, listen: true);
     return Scaffold(
         appBar: AppBar(
-          title: Image.asset('assets/images/rumii-logo.png', height: 28.00, width: 70.00), //const Text("Rumii"),
+          title: Image.asset('assets/images/rumii-logo.png',
+              height: 28.00, width: 70.00), //const Text("Rumii"),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -51,22 +54,24 @@ class _LoginViewState extends State<LoginView> {
                     style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  const SizedBox(
+                  SizedBox(
                     width: 250,
                     child: TextField(
                       obscureText: false,
-                      decoration: InputDecoration(
+                      controller: _usernameController,
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Username',
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const SizedBox(
+                  SizedBox(
                     width: 250,
                     child: TextField(
                       obscureText: true,
-                      decoration: InputDecoration(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Password',
                       ),
@@ -77,12 +82,80 @@ class _LoginViewState extends State<LoginView> {
                       height: 50,
                       width: 200,
                       child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            var userBase = context.read<LoginListViewModel>();
+                            await userBase.fetchUser(_usernameController.text);
+                            setState(() {});
+                            if (userBase.users.isNotEmpty) {
+                              // ignore: use_build_context_synchronously
+                              if (userBase.users[0].password ==
+                                      _passwordController.text &&
+                                  userBase.users[0].username ==
+                                      _usernameController.text) {
+                                // ignore: use_build_context_synchronously
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const DashboardView()));
+                                setState(() {});
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const AlertDialog(
+                                        content: Text(
+                                            "Invalid username or password"),
+                                      );
+                                    });
+                              }
+                            }
+                            // ignore: use_build_context_synchronously
+                            else {
+                              // ignore: use_build_context_synchronously
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const AlertDialog(
+                                      content:
+                                          Text("Invalid username or password"),
+                                    );
+                                  });
+                            }
+
+                            /*
+                            //vm.clear();
+                            vm.fetchUser(_usernameController.text);
+                            if (vm.users.isNotEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text(vm.users[0].password),
+                                  );
+                                },
+                              );
+                              vm.clear();
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text(
+                                        "invalid user: ${_usernameController.text}"),
+                                  );
+                                },
+                              );
+                            }
+                            */
+                            /*
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const DashboardView()));
+                                      */
                           },
                           child: const Text("Submit"))),
                   const SizedBox(height: 20),
@@ -95,10 +168,6 @@ class _LoginViewState extends State<LoginView> {
                               builder: (context) => const Register()))
                     },
                   ),
-                  Center(
-                      child: jsonData != null
-                          ? Text(jsonData['username'])
-                          : const Text("no data"))
                 ]))));
   }
 }

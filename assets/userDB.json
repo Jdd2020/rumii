@@ -1,9 +1,21 @@
 {
-            "username" : "Henry",
-            "password" : "KP4EVA",
-            "email" : "henryNumOne@hotmail.com",
-            "hosueKey" : "DSBU781",
-            "uniqueId" : 0,
-            "signedIn" : true,
-            "verification" : 18732
+   "Henry" : {
+                "username" : "Henry",
+                "password" : "KP4EVA",
+                "email" : "henryNumOne@hotmail.com",
+                "hosueKey" : "DSBU781",
+                "uniqueId" : 0,
+                "signedIn" : true,
+                "verification" : 18732
+    },
+    "HDawg": {
+                "username" : "HDawg",
+                "password" : "KP4EVA",
+                "email" : "henryNumOne@hotmail.com",
+                "hosueKey" : "DSBU781",
+                "uniqueId" : 0,
+                "signedIn" : true,
+                "verification" : 18732
+    }
+
 }

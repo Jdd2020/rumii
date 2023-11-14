@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/views/calendar_view.dart';
 import 'package:rumii/views/chore_list_view.dart';
 import 'package:rumii/views/dashboard_view.dart';
@@ -25,9 +26,12 @@ class App extends StatelessWidget {
       ),
       onGenerateRoute: local_router.Router.generateRoute,
       initialRoute: loginRoute,*/
+      home: ChangeNotifierProvider(
+        create: (context) => LoginListViewModel(),
+        child: const LoginView(),
+      ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginView(),
         '/home': (context) => const DashboardView(),
         '/chores': (context) => const ChoreListView(),
         '/shopping_list': (context) => const ShoppingListView(),
