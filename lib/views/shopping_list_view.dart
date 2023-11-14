@@ -25,11 +25,14 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           automaticallyImplyLeading: false,
         ),
         body: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(20),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: const Column(children: <Widget>[
-              Text('Shopping'),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+              SizedBox(height: 10),
+              Text('Shopping List', style: (TextStyle(fontSize: 26, fontWeight: FontWeight.bold,))),
             ])),
             bottomNavigationBar: CustomBottomNavigationBar(
               currentRoute: '/shopping_list', 
