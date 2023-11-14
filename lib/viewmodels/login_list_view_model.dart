@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rumii/viewmodels/login_view_model.dart';
 import 'package:rumii/models/login_model.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'dart:io';
 
 import 'dart:convert';
 
@@ -19,12 +20,16 @@ class LoginListViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> clear() async {
-    users = <LoginViewModel>[];
-    notifyListeners();
+  Future<void> writeUser(Login user) async {
+    final String jsonString = await rootBundle.loadString('assets/userDB.json');
+    var userList = await jsonDecode(jsonString) as Map<String, dynamic>;
+    var data = user.toJson();
+    userList[user.username] = data;
+    File('assets/userDB.json').writeAsStringSync(json.encode(userList));
   }
 
-  void update() {
+  Future<void> clear() async {
+    users = <LoginViewModel>[];
     notifyListeners();
   }
 }

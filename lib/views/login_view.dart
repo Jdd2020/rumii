@@ -123,39 +123,6 @@ class _LoginViewState extends State<LoginView> {
                                     );
                                   });
                             }
-
-                            /*
-                            //vm.clear();
-                            vm.fetchUser(_usernameController.text);
-                            if (vm.users.isNotEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Text(vm.users[0].password),
-                                  );
-                                },
-                              );
-                              vm.clear();
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Text(
-                                        "invalid user: ${_usernameController.text}"),
-                                  );
-                                },
-                              );
-                            }
-                            */
-                            /*
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DashboardView()));
-                                      */
                           },
                           child: const Text("Submit"))),
                   const SizedBox(height: 20),
