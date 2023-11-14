@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rumii/views/dashboard_view.dart';
+import 'package:rumii/views/Dashboard/dashboard_view.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:provider/provider.dart';
 
