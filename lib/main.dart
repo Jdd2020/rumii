@@ -30,7 +30,8 @@ class App extends StatelessWidget {
         create: (context) => LoginListViewModel(),
         child: const LoginView(),
       ),
-      initialRoute: '/',
+      onGenerateRoute: local_router.Router.generateRoute,
+      initialRoute: loginRoute,
       routes: {
         '/home': (context) => const DashboardView(),
         '/chores': (context) => const ChoreListView(),

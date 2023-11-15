@@ -1,12 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:rumii/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:rumii/viewmodels/login_list_view_model.dart';
+import 'package:rumii/views/Login/login_view.dart';
+import 'package:rumii/views/Login/register_view.dart';
+import 'main.dart';
+
 class Router {
-  /*
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case loginRoute:
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider(
-                  create: (context) => LoginViewModel(),
+                  create: (context) => LoginListViewModel(),
                   child: const LoginView(),
+                ));
+      case registerRoute:
+        return MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider(
+                  create: (context) => LoginListViewModel(),
+                  child: const RegisterView(),
                 ));
       default:
         return MaterialPageRoute(
@@ -15,7 +28,5 @@ class Router {
                       child: Text('No route defined for ${settings.name}')),
                 ));
     }
-  
   }
-  */
 }
