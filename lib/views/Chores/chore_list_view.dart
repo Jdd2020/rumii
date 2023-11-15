@@ -84,7 +84,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => ViewChore(chore: chore),
+                                                builder: (context) => ViewChore(choreName: chore.name, assignUser: ""),
                                             ),
                                           )
                                         },
