@@ -73,11 +73,11 @@ class _DashboardViewState extends State<DashboardView> {
                           fontWeight: FontWeight.bold,
                         ))),
                     const SizedBox(height: 20),
-                    const Text('Hello, (Name)!',
+                    const Text('Hello, Henry!',
                         style: TextStyle(
                           fontSize: 32,
                         )),
-                    const Text('House Key: (#####)',
+                    const Text('House Key: DSBU781',
                         style: TextStyle(
                           fontSize: 18,
                         )),

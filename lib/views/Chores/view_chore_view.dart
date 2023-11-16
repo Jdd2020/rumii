@@ -74,10 +74,17 @@ class _ViewChoreState extends State<ViewChore> {
                                             )))
                               }),
                     ]),
-                const SizedBox(
-                  height: 30,
-                ),
-                const SizedBox(height: 30),
+                    const Text('View Chore',
+                    style: (TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ))),
+                    const SizedBox(height: 5),
+                    Text(widget.choreName,
+                      style: const TextStyle(
+                      fontSize: 20,
+                      )),
+                const SizedBox(height: 20),
                 buildInfoRow('Chore', widget.choreName),
                 buildInfoRow('Assigned', widget.assignUser),
                 buildInfoRow('Due Date', widget.dueDate),
