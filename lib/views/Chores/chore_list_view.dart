@@ -152,6 +152,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                     });
                                                   },
                                                 ),
+                                                const SizedBox(width: 15),
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
