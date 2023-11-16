@@ -14,7 +14,7 @@
 
 4. Optional: Add a new Virtual Device from Android Studio Code to use as an Emulator. This will allow you to run the app from a virtual device, such as a Google Pixel! Once the device is added, you may go to the Command Palette in VS Code, search "Flutter: Select Device", and choose the device from there. It may take a moment for the device to boot (remember to power it on!).
 
-6. Open a new terminal, and run the "flutter run" command. If you are running the app without an emulator, you will be prompted to choose a web browser at this time (do so!).
+6. Open a new terminal, and run the "flutter run" command. If you are running the app without an emulator, you will be prompted to choose a web browser at this time (your system browser is recommended).
 
 7. Rumii should boot up momentarily :)
 
