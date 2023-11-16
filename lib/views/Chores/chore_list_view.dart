@@ -17,24 +17,24 @@ class ChoreListView extends StatefulWidget {
 
 Future<List<UserViewModel>> fetchUsers(String houseKey) async {
   ChoreListViewModel chores = ChoreListViewModel();
-  await chores.getUserList(houseKey);
+  chores.getUserList(houseKey);
   return chores.users;
 }
 
 class _ChoreListViewState extends State<ChoreListView> {
-  final Future<List<UserViewModel>> users =
+  late Future<List<UserViewModel>> users;
+  /*=
       Future<List<UserViewModel>>(() async {
-    print("in funct");
     ChoreListViewModel chores = ChoreListViewModel();
-    print("funct");
     chores.getUserList("DSBU781");
-    print("in funct");
     return chores.users;
   });
+  */
 
   @override
   initState() {
     super.initState();
+    users = fetchUsers("DSBU781");
   }
 
   @override
@@ -74,7 +74,11 @@ class _ChoreListViewState extends State<ChoreListView> {
                   onTap: () => {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const NewChore()),
+                      MaterialPageRoute(
+                          builder: (_) => ChangeNotifierProvider(
+                                create: (context) => ChoreListViewModel(),
+                                child: const NewChore(),
+                              )),
                     )
                   },
                 ),
@@ -88,7 +92,6 @@ class _ChoreListViewState extends State<ChoreListView> {
                         if (snapshot.connectionState != ConnectionState.done) {
                           return const CircularProgressIndicator();
                         }
-                        print("connection finished");
                         if (snapshot.hasData) {
                           return (ListView.builder(
                               itemCount: snapshot.data!.length,

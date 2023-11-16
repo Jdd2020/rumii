@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:rumii/viewmodels/chore_view_model.dart';
 import 'package:rumii/viewmodels/user_view_model.dart';
 import 'package:rumii/models/chore_model.dart';
@@ -12,8 +10,7 @@ class ChoreListViewModel extends ChangeNotifier {
   List<UserViewModel> users = <UserViewModel>[];
 
   Future<void> getUserList(String houseKey) async {
-    final String jsonString =
-        await rootBundle.loadString('assets/choreDB.json');
+    final String jsonString = File('assets/choreDB.json').readAsStringSync();
     var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
     if (houseList.containsKey(houseKey)) {
       var userData = houseList[houseKey] as Map<String, dynamic>;
@@ -33,6 +30,25 @@ class ChoreListViewModel extends ChangeNotifier {
         var user =
             UserViewModel(user: User(name: userList[i], chores: tempChores));
         users.add(user);
+      }
+      print("data updated");
+      notifyListeners();
+    }
+  }
+
+  Future<void> writeUserChores(
+      String houseKey, String username, Chore chore) async {
+    final String jsonString = File('assets/choreDB.json').readAsStringSync();
+    var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
+
+    if (houseList.containsKey(houseKey)) {
+      var userData = houseList[houseKey] as Map<String, dynamic>;
+      if (userData.containsKey(username)) {
+        var chores = userData[username] as Map<String, dynamic>;
+        var data = chore.toJson();
+        chores[chore.name] = data;
+        File('assets/choreDB.json')
+            .writeAsStringSync(json.encode(houseList), flush: true);
       }
       notifyListeners();
     }

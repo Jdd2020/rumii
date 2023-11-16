@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
+import 'package:rumii/viewmodels/chore_list_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:rumii/models/chore_model.dart';
 
 // NewChore View
 class NewChore extends StatefulWidget {
@@ -61,12 +65,22 @@ class _NewChoreState extends State<NewChore> {
                     style: TextStyle(
                       fontSize: 16,
                     )),
-                onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ChoreListView()))
-                    }),
+                onTap: () async {
+                  var newChore = Chore(
+                      name: nameController.text,
+                      priority: false,
+                      dueDate: dueDateController.text,
+                      isCompleted: false);
+                  var chores = context.read<ChoreListViewModel>();
+                  await chores.writeUserChores(
+                      "DSBU781", assignUserController.text, newChore);
+                  setState(() {});
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChoreListView()));
+                }),
           ]),
           const SizedBox(
             height: 30,
