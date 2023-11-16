@@ -30,60 +30,65 @@ class _ViewChoreState extends State<ViewChore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              InkWell(
-                  child: const Text('Cancel',
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ChoreListView())),
-                      }),
-              InkWell(
-                  child: const Text('Edit',
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditChore(
-                                      choreName: widget.choreName,
-                                      assignUser: widget.assignUser,
-                                      dueDate: widget.dueDate,
-                                      repetition: widget.repetition,
-                                      reminder: widget.reminder,
-                                      note: widget.note,
-                                      points: widget.points,
-                                    )))
-                      }),
-            ]),
-            const SizedBox(
-              height: 30,
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width,
+            //height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 20),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                          child: const Text('Cancel',
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ChoreListView())),
+                              }),
+                      InkWell(
+                          child: const Text('Edit',
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditChore(
+                                              choreName: widget.choreName,
+                                              assignUser: widget.assignUser,
+                                              dueDate: widget.dueDate,
+                                              repetition: widget.repetition,
+                                              reminder: widget.reminder,
+                                              note: widget.note,
+                                              points: widget.points,
+                                            )))
+                              }),
+                    ]),
+                const SizedBox(
+                  height: 30,
+                ),
+                const SizedBox(height: 30),
+                buildInfoRow('Chore', widget.choreName),
+                buildInfoRow('Assigned', widget.assignUser),
+                buildInfoRow('Due Date', widget.dueDate),
+                buildInfoRow('Repetition', widget.repetition),
+                buildInfoRow('Reminder', widget.reminder),
+                buildInfoRow('Note', widget.note),
+                buildInfoRow('Points', widget.points),
+              ],
             ),
-            const SizedBox(height: 30),
-            buildInfoRow('Chore', widget.choreName),
-            buildInfoRow('Assigned', widget.assignUser),
-            buildInfoRow('Due Date', widget.dueDate),
-            buildInfoRow('Repetition', widget.repetition),
-            buildInfoRow('Reminder', widget.reminder),
-            buildInfoRow('Note', widget.note),
-            buildInfoRow('Points', widget.points),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget buildInfoRow(String label, String value) {

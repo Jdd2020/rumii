@@ -122,8 +122,14 @@ class _ChoreListViewState extends State<ChoreListView> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => ViewChore(
-                                                    choreName: chore.name,
-                                                    assignUser: ""),
+                                                  choreName: chore.name,
+                                                  assignUser: user.name,
+                                                  note: "",
+                                                  reminder: "",
+                                                  repetition: "",
+                                                  dueDate: chore.dueDate,
+                                                  points: "1",
+                                                ),
                                               ),
                                             )
                                           },

@@ -74,7 +74,6 @@ class _NewChoreState extends State<NewChore> {
                   var chores = context.read<ChoreListViewModel>();
                   await chores.writeUserChores(
                       "DSBU781", assignUserController.text, newChore);
-                  setState(() {});
                   // ignore: use_build_context_synchronously
                   Navigator.push(
                       context,
