@@ -126,11 +126,11 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                 builder: (context) => ViewChore(
                                                   choreName: chore.name,
                                                   assignUser: user.name,
-                                                  note: "",
+                                                  note: "none",
                                                   dueDate: chore.dueDate,
                                                   points: "1",
-                                                  repetition: "",
-                                                  reminder: "",
+                                                  repetition: "everyday",
+                                                  reminder: "1 hour",
                                                 ),
                                               ),
                                             )
