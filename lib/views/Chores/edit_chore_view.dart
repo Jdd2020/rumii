@@ -111,14 +111,14 @@ class _EditChoreState extends State<EditChore> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         Text(
           label,
           style: const TextStyle(
             fontWeight: FontWeight.normal,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 2),
         TextField(
           controller: controller,
           maxLines: 1,
