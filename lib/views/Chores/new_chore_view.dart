@@ -37,7 +37,7 @@ class _NewChoreState extends State<NewChore> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(children: <Widget>[
-          const SizedBox(height: 10),
+          const SizedBox(height: 40),
           const Text('New Chore',
               style: (TextStyle(
                 fontSize: 26,

@@ -5,22 +5,22 @@
                 {
                     "name" : "Wash the Dishes",
                     "priority" : true,
-                    "dueDate": "11-16-2923",
+                    "dueDate": "11-16-2023",
                     "isCompleted" : false
                 },
             "Vaccuum the Living Room" :
                 {
                     "name" : "Vaccuum the Living Room",
                     "priority" : false,
-                    "dueDate": "11-16-2923",
-                    "isCompleted" : true
+                    "dueDate": "11-16-2023",
+                    "isCompleted" : false
                 },
             "Wipe Down Bathroom" :
                 {
                     "name" : "Wipe Down Bathroom",
                     "priority" : false,
-                    "dueDate": "11-19-2923",
-                    "isCompleted" : true
+                    "dueDate": "11-19-2023",
+                    "isCompleted" : false
                 }
         },
     "Josh" : {
@@ -28,14 +28,14 @@
                 {
                     "name" : "Clean Soccer Uniform",
                     "priority" : true,
-                    "dueDate": "11-16-2923",
-                    "isCompleted" : false
+                    "dueDate": "11-16-2023",
+                    "isCompleted" : true
                 },
             "Meal Prep For the Week" :
                 {
                     "name" : "Meal Prep for the Week",
                     "priority" : false,
-                    "dueDate": "11-26-2923",
+                    "dueDate": "11-26-2023",
                     "isCompleted" : false
                 }
         },
@@ -44,14 +44,14 @@
                 {
                     "name" : "Do Laundry",
                     "priority" : false,
-                    "dueDate": "11-16-2923",
-                    "isCompleted" : false
+                    "dueDate": "11-16-2023",
+                    "isCompleted" : true
                 },
             "Take Out the Trash" :
                 {
                     "name" : "Take Out the Trash",
                     "priority" : false,
-                    "dueDate": "11-26-2923",
+                    "dueDate": "11-26-2023",
                     "isCompleted" : false
                 }
         }

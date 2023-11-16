@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rumii/views/Chores/chore_list_view.dart';
+//import 'package:rumii/views/Chores/chore_list_view.dart';
 
 // EditChore View
 class EditChore extends StatelessWidget {
@@ -12,8 +12,24 @@ class EditChore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-        Text('Edit ${chore}'), 
+      body: Container (
+        padding: const EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(children: <Widget>[
+        const SizedBox(height: 40),
+        const Text('Edit Chore',
+              style: (TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ))),
+        const SizedBox(height:5),
+        Text("$chore", style: const TextStyle(
+          fontSize: 20,
+        )),
+        const SizedBox(height: 20),
+        ]),
+      )
     );
   }
 }

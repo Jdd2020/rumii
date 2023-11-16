@@ -6,7 +6,7 @@ class ViewChore extends StatelessWidget {
   final String assignUser;
   
 
-  ViewChore({
+  const ViewChore({super.key, 
     required this.choreName,
     required this.assignUser,
     
@@ -30,10 +30,10 @@ class ViewChore extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chore List'),
+        title: const Text('Chore List'),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             onPressed: () {
               
               Navigator.push(
@@ -52,7 +52,7 @@ class ViewChore extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 10),
+            const SizedBox(height: 40),
             const Text(
               'View Chore',
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
