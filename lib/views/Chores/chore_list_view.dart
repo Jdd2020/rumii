@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/user_view_model.dart';
-import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
+import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rumii/views/Chores/new_chore_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
-import 'package:rumii/viewmodels/user_view_model.dart';
+import 'package:rumii/viewmodels/chore_view_model.dart';
+//import 'package:rumii/viewmodels/user_view_model.dart';
 
 class ChoreListView extends StatefulWidget {
   const ChoreListView({super.key});
@@ -112,7 +113,8 @@ class _ChoreListViewState extends State<ChoreListView> {
                                     ),
                                     ListView.builder(
                                       shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       itemCount: user.chores.length,
                                       itemBuilder: (context, choreIndex) {
                                         final chore = user.chores[choreIndex];
@@ -125,10 +127,10 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                   choreName: chore.name,
                                                   assignUser: user.name,
                                                   note: "",
-                                                  reminder: "",
-                                                  repetition: "",
                                                   dueDate: chore.dueDate,
                                                   points: "1",
+                                                  repetition: "",
+                                                  reminder: "",
                                                 ),
                                               ),
                                             )
@@ -155,7 +157,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(chore.name,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold)),
@@ -171,7 +173,8 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                                       112),
                                                             )),
                                                         Text(chore.dueDate,
-                                                            style: TextStyle(
+                                                            style:
+                                                                const TextStyle(
                                                               color: Color
                                                                   .fromARGB(
                                                                       227,
@@ -183,12 +186,13 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                     ),
                                                   ],
                                                 ),
-                                                Spacer(),
+                                                const Spacer(),
                                                 Checkbox(
                                                   value: chore.isCompleted,
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      //chore.isCompleted = value ?? false;
+                                                      chore.isCompleted =
+                                                          value ?? false;
                                                     });
                                                   },
                                                 ),
@@ -198,7 +202,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                                         );
                                       },
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                   ],
                                 );
                               }));

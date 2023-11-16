@@ -10,9 +10,11 @@ import 'package:provider/provider.dart';
 import 'router.dart' as local_router;
 import 'constants.dart';
 
-void main() => runApp(App());
+void main() => runApp(const App());
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

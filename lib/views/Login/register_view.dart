@@ -4,7 +4,7 @@ import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/models/login_model.dart';
 
-import 'package:rumii/constants.dart';
+//import 'package:rumii/constants.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
+import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({super.key});

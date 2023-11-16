@@ -1,5 +1,5 @@
-//edit chore
 import 'package:flutter/material.dart';
+import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 
 class EditChore extends StatefulWidget {
@@ -51,48 +51,61 @@ class _EditChoreState extends State<EditChore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  child: const Text('Cancel',
-                      style: TextStyle(
-                        fontSize: 16,
-                      )),
-                  onTap: () => Navigator.pop(context),
-                ),
-                InkWell(
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 16,
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width,
+            //height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      child: const Text('Cancel',
+                          style: TextStyle(
+                            fontSize: 16,
+                          )),
+                      onTap: () => Navigator.pop(context),
                     ),
-                  ),
-                  onTap: () {
-                    //save changes
-                    Navigator.pop(context);
-                  },
+                    InkWell(
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      onTap: () {
+                        //save changes
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
+                const Text('Edit Chore',
+                    style: (TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ))),
+                const SizedBox(height: 5),
+                Text(widget.choreName,
+                    style: const TextStyle(
+                      fontSize: 20,
+                    )),
+                const SizedBox(height: 20),
+                buildEditableInfoRow('Chore', nameController),
+                buildEditableInfoRow('Assigned', assignUserController),
+                buildEditableInfoRow('Due Date', dueDateController),
+                buildEditableInfoRow('Repetition', repetitionController),
+                buildEditableInfoRow('Reminder', reminderController),
+                buildEditableInfoRow('Note', noteController),
+                buildEditableInfoRow('Points', pointsController),
               ],
             ),
-            buildEditableInfoRow('Chore', nameController),
-            buildEditableInfoRow('Assigned', assignUserController),
-            buildEditableInfoRow('Due Date', dueDateController),
-            buildEditableInfoRow('Repetition', repetitionController),
-            buildEditableInfoRow('Reminder', reminderController),
-            buildEditableInfoRow('Note', noteController),
-            buildEditableInfoRow('Points', pointsController),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget buildEditableInfoRow(String label, TextEditingController controller) {
