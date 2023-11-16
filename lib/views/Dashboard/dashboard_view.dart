@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rumii/views/widgets/CustomBottomNavigationBar.dart';
+import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:rumii/viewmodels/login_view_model.dart';
+import 'package:rumii/views/Chores/chore_list_view.dart';
+import 'package:rumii/views/Chores/view_chore_view.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -10,16 +16,23 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  DataProvider _dataProvider = DataProvider();
+  final DataProvider _dataProvider = DataProvider();
+
+  String personName = "";
+  String houseKey = "";
 
   List<String> _recentChores = [];
   List<String> _recentStoreNeeds = [];
   List<String> _recentEvents = [];
 
   Future<void> _fetchData() async {
-    List<String> recentChores = await _dataProvider.fetchRecentChores();
+    //List<String> recentChores = await _dataProvider.fetchRecentChores();
     List<String> recentStoreNeeds = await _dataProvider.fetchRecentStoreNeeds();
     List<String> recentEvents = await _dataProvider.fetchRecentEvents();
+    
+    Map<String, dynamic> jsonData = await _dataProvider.fetchJsonData();
+    List<String> recentChores = await _dataProvider.fetchRecentChores("Henry", "DSBU781");
+
 
     setState(() {
       _recentChores = recentChores;
@@ -43,7 +56,9 @@ class _DashboardViewState extends State<DashboardView> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Container(
+      body: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
           padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -68,14 +83,14 @@ class _DashboardViewState extends State<DashboardView> {
                 const SizedBox(height: 20),
                 _buildList("Unfinished Chores", "/chores", _recentChores,
                     Icons.view_list_outlined),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 _buildList("Store Needs", "/shopping_list", _recentStoreNeeds,
                     Icons.shopping_cart_outlined),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 _buildList("Upcoming Events", "/calendar", _recentEvents,
                     Icons.calendar_month_outlined),
-                const SizedBox(height: 10),
-              ])),
+                const SizedBox(height: 5),
+              ]))),
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/home',
           onRouteChanged: (route) {
@@ -87,9 +102,9 @@ class _DashboardViewState extends State<DashboardView> {
   Widget _buildList(
       String title, String route, List<String> items, IconData iconData) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
+        ListTile (
           contentPadding: EdgeInsets.zero,
           leading: Icon(iconData), // header icon
           title: Text(
@@ -109,14 +124,28 @@ class _DashboardViewState extends State<DashboardView> {
           ),
         ),
         // add contents of list
+    
         ListView.builder(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: items.length,
           itemBuilder: (context, index) {
-            return SizedBox(
-              height: 40,
+            return Card(
+              elevation: 2,
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: ListTile(
                 title: Text(items[index]),
+                onTap: () => {
+                    Navigator.push(
+                      context,
+                       MaterialPageRoute(
+                        builder: (context) => ViewChore(
+                           choreName: items[index],
+                            assignUser: ""),
+                            ),
+                          )
+                        },
               ),
             );
           },
@@ -127,11 +156,40 @@ class _DashboardViewState extends State<DashboardView> {
 }
 
 class DataProvider {
-  // example function to fetch the most critical chores
-  Future<List<String>> fetchRecentChores() async {
-    // fetch data from database
-    await Future.delayed(const Duration(seconds: 0));
-    return ["Chore 1", "Chore 2", "Chore 3"];
+    
+    Future<Map<String, dynamic>> fetchJsonData() async {
+      // Load JSON from file 
+      String jsonString = await rootBundle.loadString('assets/choreDB.json');
+      
+      // Parse the JSON string into a map
+      Map<String, dynamic> jsonData = json.decode(jsonString);
+
+      return jsonData;
+  }
+
+    Future<List<String>> fetchRecentChores(String personName, String houseKey) async {
+    //await Future.delayed(const Duration(seconds: 0));
+
+    final Map<String, dynamic> jsonData = await fetchJsonData(); 
+    final List<String> recentChores = [];
+
+    if (jsonData.containsKey(houseKey)) { //personName
+      final Map<String, dynamic> houseData = jsonData[houseKey];
+
+      if (houseData.containsKey(personName)) {
+        final Map<String, dynamic> personData = houseData[personName];
+        final List<dynamic> chores = personData.values.toList();
+
+      // Sort chores based on due date
+      chores.sort((a, b) => a['dueDate'].compareTo(b['dueDate']));
+
+      // Retrieve up to 3 most recent chores
+      for (int i = 0; i < 3 && i < chores.length; i++) {
+        recentChores.add(chores[i]['name']);
+      }
+    }
+  }
+  return recentChores;
   }
 
   // example function to fetch the most recently added store needs

@@ -1,6 +1,7 @@
-//edit chore
 import 'package:flutter/material.dart';
+import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
+
 
 class EditChore extends StatefulWidget {
   final String choreName;
@@ -81,7 +82,18 @@ class _EditChoreState extends State<EditChore> {
                   },
                 ),
               ],
+              
             ),
+            const Text('Edit Chore',
+              style: (TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ))),
+                const SizedBox(height:5),
+                Text(widget.choreName, style: const TextStyle(
+                fontSize: 20,
+                  )),
+                const SizedBox(height: 20),
             buildEditableInfoRow('Chore', nameController),
             buildEditableInfoRow('Assigned', assignUserController),
             buildEditableInfoRow('Due Date', dueDateController),
