@@ -80,7 +80,7 @@ class _DashboardViewState extends State<DashboardView> {
                     style: TextStyle(
                       fontSize: 18,
                     )),
-                const SizedBox(height: 20),
+                const SizedBox(height: 5),
                 _buildList("Unfinished Chores", "/chores", _recentChores,
                     Icons.view_list_outlined),
                 const SizedBox(height: 5),
