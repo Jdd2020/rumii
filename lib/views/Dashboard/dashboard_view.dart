@@ -142,6 +142,11 @@ class _DashboardViewState extends State<DashboardView> {
                        MaterialPageRoute(
                         builder: (context) => ViewChore(
                            choreName: items[index],
+                           dueDate: "",
+                           reminder: "",
+                           repetition: "",
+                           points: "",
+                           note: "",
                             assignUser: ""),
                             ),
                           )
