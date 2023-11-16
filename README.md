@@ -22,24 +22,28 @@
 
 ### 1. Logging In
 #### _A simple login page to get new and existing users into their Rumii account._
-+ New User Registration: Click "Register Now" below the pink Submit button and enter your information into the required fields. Be sure to submit to create your account!
++ **New User Registration** → Click "Register Now" below the pink Submit button and enter your information into the required fields. Be sure to submit to create your account!
 
-+ Typical Login Sequence: Enter your username and password and select "Submit" when fields are complete. Valid credentials will direct you to the Dashboard landing page.
++ **Typical Login Sequence** → Enter your username and password and select "Submit" when fields are complete. Valid credentials will direct you to the Dashboard landing page.
+
+----
 
 ### 2. Checking What's New with the Dashboard
 #### _A summary of the latest updates from each Rumii module (Unfinished Chores, Store Needs, and Upcoming Events)._
-+ Overview: Each module header is accompanies by the three most recent items that are most critical for the logged-in user to complete. The user may navigate to the other modules using the arrows next to each respective module header. They may also view an item directly from the Dashboard (e.g. clicking "Wash the Dishes" to view the chore details).
++ **Overview** → Each module header is accompanies by the three most recent items that are most critical for the logged-in user to complete. The user may navigate to the other modules using the arrows next to each respective module header. They may also view an item directly from the Dashboard (e.g. clicking "Wash the Dishes" to view the chore details).
 
-+ Bottom Navigation Panel: This navigation panel follows the user across all of the app's main views. It can be used to travel from one module to another with ease!
++ **Bottom Navigation Panel** → This navigation panel follows the user across all of the app's main views. It can be used to travel from one module to another with ease!
+
+----
 
 ### 3. Utilizing the Chore List 
 #### _An organizational system to keep your living space spick and span!_
-+ Adding a New Chore: Choose the "+ New" button from the top right of the main chore list page. Complete all fields and choose "Save" when done to make the chore active.
++ **Adding a New Chore** → Choose the "+ New" button from the top right of the main chore list page. Complete all fields and choose "Save" when done to make the chore active.
 
-+ Viewing a Chore: From the main Chore View, tap on any chore (one of yours or that of a household member) to see the details that were entered upon creation of the chore.
++ **Viewing a Chore** → From the main Chore View, tap on any chore (one of yours or that of a household member) to see the details that were entered upon creation of the chore.
 
-+ Editing a Chore: From the View Chore page, click the pencil icon in the top right corner of the Rumii App Bar to enter Edit Mode. Make any necessary changes to the chore's data, and remember to hit "Save" to apply changes!
++ **Editing a Chore** → From the View Chore page, click the pencil icon in the top right corner of the Rumii App Bar to enter Edit Mode. Make any necessary changes to the chore's data, and remember to hit "Save" to apply changes!
 
-+ Prioritize a Chore: Click the Star icon next to a chore to mark it as a priority. A filled-in star means the chore is prioritized.
++ **Prioritize a Chore** → Click the Star icon next to a chore to mark it as a priority. A filled-in star means the chore is prioritized.
 
-+ Mark a Chore as Complete: Click the check box next to a chore to mark it as complete!
++ **Mark a Chore as Complete** → Click the check box next to a chore to mark it as complete!
