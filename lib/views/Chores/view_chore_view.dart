@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rumii/views/Chores/edit_chore_view.dart';
 import 'chore_list_view.dart';
 
-class ViewChore extends StatelessWidget {
+class ViewChore extends StatefulWidget {
   final String choreName;
   final String assignUser;
   final String note;
@@ -23,195 +23,92 @@ class ViewChore extends StatelessWidget {
       : super(key: key);
 
   @override
+  _ViewChoreState createState() => _ViewChoreState();
+}
+
+class _ViewChoreState extends State<ViewChore> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(children: <Widget>[
-          const SizedBox(height: 20),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            InkWell(
-                child: const Text('Cancel',
-                    style: TextStyle(
-                      fontSize: 16,
-                    )),
-                onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ChoreListView()))
-                    }),
-            /*InkWell(
-                child: const Text('Edit',
-                    style: TextStyle(
-                      fontSize: 16,
-                    )),
-                onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EditChore(
-                                    choreName: '',
-                                    assignUser: '',
-                                    note: '',
-                                    dueDate: '',
-                                    repetition: '',
-                                    reminder: '',
-                                    points: '',
-                                  )))
-                    }),*/
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Chore',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              InkWell(
+                  child: const Text('Cancel',
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ChoreListView())),
+                      }),
+              InkWell(
+                  child: const Text('Edit',
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditChore(
+                                      choreName: widget.choreName,
+                                      assignUser: widget.assignUser,
+                                      dueDate: widget.dueDate,
+                                      repetition: widget.repetition,
+                                      reminder: widget.reminder,
+                                      note: widget.note,
+                                      points: widget.points,
+                                    )))
+                      }),
+            ]),
+            const SizedBox(
+              height: 30,
             ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(choreName),
-                ))
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Assigned',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(assignUser),
-                ))
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Due Date',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(dueDate),
-                ))
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Repetition',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(repetition),
-                ))
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Reminder',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(reminder),
-                ))
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Note',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(note),
-                ))
-          ]),
-          const SizedBox(
-            height: 30,
-          ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Points',
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(
-                width: 1500,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Text(points),
-                ))
-          ]),
-        ]),
+            const SizedBox(height: 30),
+            buildInfoRow('Chore', widget.choreName),
+            buildInfoRow('Assigned', widget.assignUser),
+            buildInfoRow('Due Date', widget.dueDate),
+            buildInfoRow('Repetition', widget.repetition),
+            buildInfoRow('Reminder', widget.reminder),
+            buildInfoRow('Note', widget.note),
+            buildInfoRow('Points', widget.points),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget buildInfoRow(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        SizedBox(
+          width: 1500,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              color: Colors.grey.shade300,
+            ),
+            child: Text(value),
+          ),
+        ),
+        const SizedBox(height: 30),
+      ],
     );
   }
 }
