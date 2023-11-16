@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:rumii/viewmodels/login_view_model.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
+import 'package:rumii/viewmodels/chore_view_model.dart';
+import 'package:rumii/models/chore_model.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -21,7 +23,7 @@ class _DashboardViewState extends State<DashboardView> {
   String personName = "";
   String houseKey = "";
 
-  List<String> _recentChores = [];
+  List<Chore> _recentChores = [];
   List<String> _recentStoreNeeds = [];
   List<String> _recentEvents = [];
 
@@ -31,7 +33,7 @@ class _DashboardViewState extends State<DashboardView> {
     List<String> recentEvents = await _dataProvider.fetchRecentEvents();
 
     Map<String, dynamic> jsonData = await _dataProvider.fetchJsonData();
-    List<String> recentChores =
+    List<Chore> recentChores =
         await _dataProvider.fetchRecentChores("Henry", "DSBU781");
 
     setState(() {
@@ -86,9 +88,9 @@ class _DashboardViewState extends State<DashboardView> {
                         Icons.view_list_outlined),
                     const SizedBox(height: 5),
                     _buildList("Store Needs", "/shopping_list",
-                        _recentStoreNeeds, Icons.shopping_cart_outlined),
+                        [], Icons.shopping_cart_outlined), // replace array with _recentStoreNeeds
                     const SizedBox(height: 5),
-                    _buildList("Upcoming Events", "/calendar", _recentEvents,
+                    _buildList("Upcoming Events", "/calendar", [], // replace array with _recentEvents
                         Icons.calendar_month_outlined),
                     const SizedBox(height: 5),
                   ]))),
@@ -101,7 +103,7 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   Widget _buildList(
-      String title, String route, List<String> items, IconData iconData) {
+      String title, String route, List<Chore> items, IconData iconData) {
     return Column(
       //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -132,25 +134,28 @@ class _DashboardViewState extends State<DashboardView> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: items.length,
           itemBuilder: (context, index) {
+            Chore chore = items[index];
+
             return Card(
               elevation: 2,
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: ListTile(
-                title: Text(items[index]),
+                title: Text(chore.name),
                 onTap: () => {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewChore(
-                          choreName: items[index],
-                          dueDate: "",
-                          reminder: "",
-                          repetition: "",
-                          points: "",
-                          note: "",
-                          assignUser: ""),
+                          choreName: chore.name,
+                          dueDate: chore.dueDate,
+                          reminder: "1 hour",
+                          repetition: "everyday",
+                          points: "1",
+                          note: "none",
+                          assignUser: "Henry",
                     ),
-                  )
+                  ),
+                  ),
                 },
               ),
             );
@@ -172,12 +177,12 @@ class DataProvider {
     return jsonData;
   }
 
-  Future<List<String>> fetchRecentChores(
+  Future<List<Chore>> fetchRecentChores(
       String personName, String houseKey) async {
     //await Future.delayed(const Duration(seconds: 0));
 
     final Map<String, dynamic> jsonData = await fetchJsonData();
-    final List<String> recentChores = [];
+    final List<Chore> recentChores = [];
 
     if (jsonData.containsKey(houseKey)) {
       //personName
@@ -192,7 +197,14 @@ class DataProvider {
 
         // Retrieve up to 3 most recent chores
         for (int i = 0; i < 3 && i < chores.length; i++) {
-          recentChores.add(chores[i]['name']);
+          final choreData = chores[i];
+          final chore = Chore(
+            name: choreData['name'],
+            dueDate: choreData['dueDate'],
+            priority: choreData['priority'],
+            isCompleted: choreData['isCompleted'],
+          );
+          recentChores.add(chore);
         }
       }
     }
