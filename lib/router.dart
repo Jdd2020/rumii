@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/views/Login/login_view.dart';
 import 'package:rumii/views/Login/register_view.dart';
-import 'main.dart';
+import 'package:rumii/viewmodels/chore_list_view_model.dart';
+import 'package:rumii/views/Chores/chore_list_view.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,6 +21,12 @@ class Router {
             builder: (_) => ChangeNotifierProvider(
                   create: (context) => LoginListViewModel(),
                   child: const RegisterView(),
+                ));
+      case choreListRoute:
+        return MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider(
+                  create: (context) => ChoreListViewModel(),
+                  child: const ChoreListView(),
                 ));
       default:
         return MaterialPageRoute(

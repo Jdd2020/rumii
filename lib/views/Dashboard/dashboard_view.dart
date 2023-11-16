@@ -10,7 +10,6 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-
   DataProvider _dataProvider = DataProvider();
 
   List<String> _recentChores = [];
@@ -40,7 +39,7 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/rumii-logo.png',
-          height: 28.00, width: 70.00),
+            height: 28.00, width: 70.00),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -52,23 +51,35 @@ class _DashboardViewState extends State<DashboardView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 10),
-                const Text('Dashboard', style: (TextStyle(fontSize: 26, fontWeight: FontWeight.bold,))),
+                const Text('Dashboard',
+                    style: (TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ))),
                 const SizedBox(height: 20),
-                const Text('Hello, (Name)!', style: TextStyle(fontSize: 32,)),
-                const Text('House Key: (#####)', style: TextStyle(fontSize: 18,)),
+                const Text('Hello, (Name)!',
+                    style: TextStyle(
+                      fontSize: 32,
+                    )),
+                const Text('House Key: (#####)',
+                    style: TextStyle(
+                      fontSize: 18,
+                    )),
                 const SizedBox(height: 20),
-                _buildList("Unfinished Chores", "/chores", _recentChores, Icons.view_list_outlined),
+                _buildList("Unfinished Chores", "/chores", _recentChores,
+                    Icons.view_list_outlined),
                 const SizedBox(height: 10),
-                _buildList("Store Needs", "/shopping_list", _recentStoreNeeds, Icons.shopping_cart_outlined),
+                _buildList("Store Needs", "/shopping_list", _recentStoreNeeds,
+                    Icons.shopping_cart_outlined),
                 const SizedBox(height: 10),
-                _buildList("Upcoming Events", "/calendar", _recentEvents, Icons.calendar_month_outlined),
+                _buildList("Upcoming Events", "/calendar", _recentEvents,
+                    Icons.calendar_month_outlined),
                 const SizedBox(height: 10),
               ])),
       bottomNavigationBar: CustomBottomNavigationBar(
-          currentRoute: '/',
+          currentRoute: '/home',
           onRouteChanged: (route) {
-            Navigator.of(context)
-                .pushNamed(route); // navigate to a different view
+            Navigator.pushNamed(context, route); // navigate to a different view
           }),
     );
   }
