@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:rumii/models/chore_model.dart';
 import 'package:rumii/viewmodels/user_view_model.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rumii/views/Chores/new_chore_view.dart';
@@ -24,6 +26,8 @@ Future<List<UserViewModel>> fetchUsers(String houseKey) async {
 
 class _ChoreListViewState extends State<ChoreListView> {
   late Future<List<UserViewModel>> users;
+  late ChoreListViewModel choreListViewModel;
+
   /*=
       Future<List<UserViewModel>>(() async {
     ChoreListViewModel chores = ChoreListViewModel();
@@ -36,6 +40,7 @@ class _ChoreListViewState extends State<ChoreListView> {
   initState() {
     super.initState();
     users = fetchUsers("DSBU781");
+    choreListViewModel = ChoreListViewModel();
   }
 
   @override
@@ -146,9 +151,11 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                         : Icons.star_border,
                                                   ),
                                                   onPressed: () {
-                                                    //toggle priority
+                                                    // toggle priority
                                                     setState(() {
-                                                      //chore.priority = !chore.priority;
+                                                      choreListViewModel
+                                                          .toggleChorePriority(
+                                                              chore);
                                                     });
                                                   },
                                                 ),
