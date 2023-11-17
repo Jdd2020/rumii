@@ -53,4 +53,32 @@ class ChoreListViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Chore findAndUpdateChore(ChoreViewModel choreViewModel) {
+    final Chore chore = choreViewModel.chore;
+    // Update the chore's priority
+    final updatedChore = Chore(
+      priority: !chore.priority,
+      name: chore.name,
+      dueDate: chore.dueDate,
+      isCompleted: chore.isCompleted,
+    );
+    // Update the chore in the choreViewModel
+    choreViewModel.chore = updatedChore;
+    notifyListeners();
+    return updatedChore;
+  }
+
+  void toggleChorePriority(ChoreViewModel choreViewModel) {
+    final Chore updatedChore = findAndUpdateChore(choreViewModel);
+    final List<UserViewModel> updatedUsers = List.from(users);
+    for (var user in updatedUsers) {
+      int choreIndex =
+          user.chores.indexWhere((c) => c.name == updatedChore.name);
+      if (choreIndex != -1) {
+        user.chores[choreIndex] = updatedChore as ChoreViewModel;
+      }
+    }
+    notifyListeners();
+  }
 }
