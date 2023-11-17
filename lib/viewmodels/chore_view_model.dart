@@ -2,7 +2,7 @@ import 'package:rumii/models/chore_model.dart';
 import 'package:flutter/foundation.dart';
 
 class ChoreViewModel extends ChangeNotifier {
-  final Chore chore;
+  late Chore chore;
 
   bool _isCompleted = false; // update to logic for fetching saved state
 
