@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -9,7 +11,9 @@ import 'package:rumii/models/user_model.dart';
 class ChoreListViewModel extends ChangeNotifier {
   List<UserViewModel> users = <UserViewModel>[];
 
-  Future<void> getUserList(String houseKey) async {
+  Future<void> getData(String houseKey) async {
+    //final directory = await getApplicationDocumentsDirectory();
+    //var path = directory.path;
     final String jsonString = File('assets/choreDB.json').readAsStringSync();
     var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
     if (houseList.containsKey(houseKey)) {
@@ -36,21 +40,29 @@ class ChoreListViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> writeUserChores(
-      String houseKey, String username, Chore chore) async {
+  Future<void> writeData(String houseKey) async {
+    //final directory = await getApplicationDocumentsDirectory();
+    //var path = directory.path;
     final String jsonString = File('assets/choreDB.json').readAsStringSync();
     var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
-
     if (houseList.containsKey(houseKey)) {
-      var userData = houseList[houseKey] as Map<String, dynamic>;
-      if (userData.containsKey(username)) {
-        var chores = userData[username] as Map<String, dynamic>;
-        var data = chore.toJson();
-        chores[chore.name] = data;
-        File('assets/choreDB.json')
-            .writeAsStringSync(json.encode(houseList), flush: true);
-      }
-      notifyListeners();
+      houseList[houseKey] = users;
     }
+    File('assets/choreDB.json')
+        .writeAsStringSync(json.encode(houseList), flush: true);
+    print("date written");
+    notifyListeners();
+  }
+
+  Future<void> addChore(Chore chore, String username) async {
+    print(username);
+    for (var i = 0; i < users.length; i++) {
+      if (username == users[i].name) {
+        users[i].chores.add(ChoreViewModel(chore: chore));
+        notifyListeners();
+        print("chore added");
+      }
+    }
+    print("add chore finished");
   }
 }

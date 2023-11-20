@@ -26,7 +26,7 @@ class Router {
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider(
                   create: (context) => ChoreListViewModel(),
-                  child: const ChoreListView(),
+                  child: ChoreListView(),
                 ));
       default:
         return MaterialPageRoute(

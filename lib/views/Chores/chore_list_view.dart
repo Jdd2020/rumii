@@ -1,3 +1,5 @@
+//import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/user_view_model.dart';
@@ -16,14 +18,9 @@ class ChoreListView extends StatefulWidget {
   _ChoreListViewState createState() => _ChoreListViewState();
 }
 
-Future<List<UserViewModel>> fetchUsers(String houseKey) async {
-  ChoreListViewModel chores = ChoreListViewModel();
-  chores.getUserList(houseKey);
-  return chores.users;
-}
-
 class _ChoreListViewState extends State<ChoreListView> {
-  late Future<List<UserViewModel>> users;
+  ChoreListViewModel choreList = ChoreListViewModel();
+
   /*=
       Future<List<UserViewModel>>(() async {
     ChoreListViewModel chores = ChoreListViewModel();
@@ -31,16 +28,29 @@ class _ChoreListViewState extends State<ChoreListView> {
     return chores.users;
   });
   */
+  Future<void> fetchUsers(String houseKey) async {
+    await choreList.getData(houseKey);
+    setState(() {});
+  }
+
+  Future<void> writeUsers(String houseKey) async {
+    await choreList.writeData(houseKey);
+  }
 
   @override
   initState() {
     super.initState();
-    users = fetchUsers("DSBU781");
+    fetchUsers("DSBU781");
+  }
+
+  @override
+  void dispose() {
+    writeUsers("DSBU781");
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-//Provider.of<ChoreListViewModel>(context).users;
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/rumii-logo.png',
@@ -86,135 +96,115 @@ class _ChoreListViewState extends State<ChoreListView> {
               ),
               const SizedBox(height: 20),
               Expanded(
-                  child: FutureBuilder<List<UserViewModel>>(
-                      future: users,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<UserViewModel>> snapshot) {
-                        if (snapshot.connectionState != ConnectionState.done) {
-                          return const CircularProgressIndicator();
-                        }
-                        if (snapshot.hasData) {
-                          return (ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final user = snapshot.data![index];
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      user.name,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                  child: (ListView.builder(
+                      itemCount: choreList.users.length,
+                      itemBuilder: (context, index) {
+                        final user = choreList.users[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.name,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Divider(
+                              color: Colors.black,
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: user.chores.length,
+                              itemBuilder: (context, choreIndex) {
+                                final chore = user.chores[choreIndex];
+                                return InkWell(
+                                  onTap: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewChore(
+                                          choreName: chore.name,
+                                          assignUser: user.name,
+                                          note: "",
+                                          dueDate: chore.dueDate,
+                                          points: "1",
+                                          repetition: "",
+                                          reminder: "",
+                                        ),
                                       ),
-                                    ),
-                                    const Divider(
-                                      color: Colors.black,
-                                    ),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: user.chores.length,
-                                      itemBuilder: (context, choreIndex) {
-                                        final chore = user.chores[choreIndex];
-                                        return InkWell(
-                                          onTap: () => {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => ViewChore(
-                                                  choreName: chore.name,
-                                                  assignUser: user.name,
-                                                  note: "",
-                                                  dueDate: chore.dueDate,
-                                                  points: "1",
-                                                  repetition: "",
-                                                  reminder: "",
-                                                ),
-                                              ),
-                                            )
+                                    )
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(
+                                            chore.priority
+                                                ? Icons.star
+                                                : Icons.star_border,
+                                          ),
+                                          onPressed: () {
+                                            //toggle priority
+                                            setState(() {
+                                              //chore.priority = !chore.priority;
+                                            });
                                           },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(chore.name,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Row(
                                               children: [
-                                                IconButton(
-                                                  icon: Icon(
-                                                    chore.priority
-                                                        ? Icons.star
-                                                        : Icons.star_border,
-                                                  ),
-                                                  onPressed: () {
-                                                    //toggle priority
-                                                    setState(() {
-                                                      //chore.priority = !chore.priority;
-                                                    });
-                                                  },
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(chore.name,
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    Row(
-                                                      children: [
-                                                        const Text('Due Date: ',
-                                                            style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      227,
-                                                                      112,
-                                                                      112,
-                                                                      112),
-                                                            )),
-                                                        Text(chore.dueDate,
-                                                            style:
-                                                                const TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      227,
-                                                                      112,
-                                                                      112,
-                                                                      112),
-                                                            )),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                const Spacer(),
-                                                Checkbox(
-                                                  value: chore.isCompleted,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      chore.isCompleted =
-                                                          value ?? false;
-                                                    });
-                                                  },
-                                                ),
+                                                const Text('Due Date: ',
+                                                    style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          227, 112, 112, 112),
+                                                    )),
+                                                Text(chore.dueDate,
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          227, 112, 112, 112),
+                                                    )),
                                               ],
                                             ),
-                                          ),
-                                        );
-                                      },
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        Checkbox(
+                                          value: chore.isCompleted,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              /*
+                                                      chore.isCompleted =
+                                                          value ?? false;
+                                                          */
+                                            });
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 10),
-                                  ],
+                                  ),
                                 );
-                              }));
-                        } else {
-                          return const Text("No Data");
-                        }
-                      })),
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        );
+                      }))),
             ]),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/chores',
           onRouteChanged: (route) {
+            choreList.writeData("DSBU781");
             Navigator.of(context)
                 .pushNamed(route); // navigate to a different view
           }),

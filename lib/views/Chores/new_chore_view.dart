@@ -74,8 +74,9 @@ class _NewChoreState extends State<NewChore> {
                           dueDate: dueDateController.text,
                           isCompleted: false);
                       var chores = context.read<ChoreListViewModel>();
-                      await chores.writeUserChores(
-                          "DSBU781", assignUserController.text, newChore);
+                      chores.getData("DSBU781");
+                      chores.addChore(newChore, assignUserController.text);
+                      chores.writeData("DSBU781");
                       // ignore: use_build_context_synchronously
                       Navigator.push(
                           context,
