@@ -9,6 +9,7 @@ import 'package:rumii/models/chore_model.dart';
 import 'package:rumii/models/user_model.dart';
 
 class ChoreListViewModel extends ChangeNotifier {
+  ChoreListViewModel();
   List<UserViewModel> users = <UserViewModel>[];
 
   Future<void> getData(String houseKey) async {
@@ -46,7 +47,15 @@ class ChoreListViewModel extends ChangeNotifier {
     final String jsonString = File('assets/choreDB.json').readAsStringSync();
     var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
     if (houseList.containsKey(houseKey)) {
-      houseList[houseKey] = users;
+      var house = houseList[houseKey];
+      house = {};
+      for (var user in users) {
+        house[user.name] = {};
+        for (var chore in user.chores) {
+          house[user.name][chore.name] = chore.chore.toJson();
+        }
+      }
+      houseList[houseKey] = house;
     }
     File('assets/choreDB.json')
         .writeAsStringSync(json.encode(houseList), flush: true);
@@ -55,14 +64,96 @@ class ChoreListViewModel extends ChangeNotifier {
   }
 
   Future<void> addChore(Chore chore, String username) async {
-    print(username);
     for (var i = 0; i < users.length; i++) {
       if (username == users[i].name) {
         users[i].chores.add(ChoreViewModel(chore: chore));
-        notifyListeners();
         print("chore added");
       }
     }
-    print("add chore finished");
+  }
+
+  Future<void> editChore(
+      Chore chored, String username, String lastChore) async {
+    var chore = ChoreViewModel(chore: chored);
+    print(chore.name);
+    for (var i = 0; i < users.length; i++) {
+      print(users[1].name);
+      if (username == users[i].name) {
+        print("first loop");
+        for (var n = 0; n < users[i].chores.length; n++) {
+          print(users[i].chores[n].name);
+          print("second loop");
+          if (lastChore == users[i].chores[n].name) {
+            print("if statement");
+            users[i].chores.removeAt(n);
+            users[i].chores.add(chore);
+            print("Chore edited");
+          }
+        }
+      }
+    }
+    notifyListeners();
+  }
+
+  ChoreViewModel findAndUpdateChorePriority(ChoreViewModel choreViewModel) {
+    final Chore chore = choreViewModel.chore;
+    // Update the chore's priority
+    final updatedChore = Chore(
+      priority: !chore.priority,
+      name: chore.name,
+      dueDate: chore.dueDate,
+      isCompleted: chore.isCompleted,
+    );
+    // Update the chore in the choreViewModel
+    choreViewModel.chore = updatedChore;
+    notifyListeners();
+    return choreViewModel;
+  }
+
+  bool toggleChorePriority(ChoreViewModel choreViewModel) {
+    final ChoreViewModel updatedChore =
+        findAndUpdateChorePriority(choreViewModel);
+    final List<UserViewModel> updatedUsers = users;
+    for (var user in updatedUsers) {
+      int choreIndex =
+          user.chores.indexWhere((c) => c.name == updatedChore.name);
+      if (choreIndex != -1) {
+        user.chores[choreIndex] = updatedChore;
+      }
+    }
+    notifyListeners();
+    return true;
+  }
+
+  ChoreViewModel findAndUpdateChoreComplete(ChoreViewModel choreViewModel) {
+    final Chore chore = choreViewModel.chore;
+    // Update the chore's priority
+    final updatedChore = Chore(
+      priority: chore.priority,
+      name: chore.name,
+      dueDate: chore.dueDate,
+      isCompleted: !chore.isCompleted,
+    );
+    // Update the chore in the choreViewModel
+    choreViewModel.chore = updatedChore;
+    notifyListeners();
+    print("chore updated");
+    return choreViewModel;
+  }
+
+  bool toggleChoreComplete(ChoreViewModel choreViewModel) {
+    final ChoreViewModel updatedChore =
+        findAndUpdateChoreComplete(choreViewModel);
+    final List<UserViewModel> updatedUsers = users;
+    for (var user in updatedUsers) {
+      int choreIndex =
+          user.chores.indexWhere((c) => c.name == updatedChore.name);
+      if (choreIndex != -1) {
+        user.chores[choreIndex] = updatedChore;
+      }
+    }
+    notifyListeners();
+    print(choreViewModel.chore.isCompleted);
+    return choreViewModel.chore.isCompleted;
   }
 }

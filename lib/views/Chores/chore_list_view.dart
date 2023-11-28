@@ -1,7 +1,9 @@
 //import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:rumii/models/chore_model.dart';
 import 'package:rumii/viewmodels/user_view_model.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rumii/views/Chores/new_chore_view.dart';
@@ -19,7 +21,7 @@ class ChoreListView extends StatefulWidget {
 }
 
 class _ChoreListViewState extends State<ChoreListView> {
-  ChoreListViewModel choreList = ChoreListViewModel();
+  //ChoreListViewModel choreList = ChoreListViewModel();
 
   /*=
       Future<List<UserViewModel>>(() async {
@@ -28,24 +30,25 @@ class _ChoreListViewState extends State<ChoreListView> {
     return chores.users;
   });
   */
-  Future<void> fetchUsers(String houseKey) async {
+  Future<void> fetchUsers(String houseKey, ChoreListViewModel choreList) async {
     await choreList.getData(houseKey);
-    setState(() {});
   }
 
-  Future<void> writeUsers(String houseKey) async {
+  Future<void> writeUsers(String houseKey, ChoreListViewModel choreList) async {
     await choreList.writeData(houseKey);
   }
+  //Future<void> toggleChorePriority(ChoreViewModel choreViewModel) {
+  //choreList.toggleChorePriority(choreViewModel);
+  //}
 
   @override
   initState() {
     super.initState();
-    fetchUsers("DSBU781");
+    Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
   }
 
   @override
   void dispose() {
-    writeUsers("DSBU781");
     super.dispose();
   }
 
@@ -88,123 +91,121 @@ class _ChoreListViewState extends State<ChoreListView> {
                       MaterialPageRoute(
                           builder: (_) => ChangeNotifierProvider(
                                 create: (context) => ChoreListViewModel(),
-                                child: const NewChore(),
+                                child: NewChore(),
                               )),
                     )
                   },
                 ),
               ),
               const SizedBox(height: 20),
-              Expanded(
-                  child: (ListView.builder(
-                      itemCount: choreList.users.length,
-                      itemBuilder: (context, index) {
-                        final user = choreList.users[index];
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+              Consumer<ChoreListViewModel>(
+                  builder: (context, choreList, child) {
+                return Expanded(
+                    child: ListView.builder(
+                        itemCount: choreList.users.length,
+                        itemBuilder: (context, index) {
+                          final user = choreList.users[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                user.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                            ),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: user.chores.length,
-                              itemBuilder: (context, choreIndex) {
-                                final chore = user.chores[choreIndex];
-                                return InkWell(
-                                  onTap: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ViewChore(
-                                          choreName: chore.name,
-                                          assignUser: user.name,
-                                          note: "",
-                                          dueDate: chore.dueDate,
-                                          points: "1",
-                                          repetition: "",
-                                          reminder: "",
-                                        ),
-                                      ),
-                                    )
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            chore.priority
-                                                ? Icons.star
-                                                : Icons.star_border,
-                                          ),
-                                          onPressed: () {
-                                            //toggle priority
-                                            setState(() {
-                                              //chore.priority = !chore.priority;
-                                            });
-                                          },
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(chore.name,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            Row(
-                                              children: [
-                                                const Text('Due Date: ',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          227, 112, 112, 112),
-                                                    )),
-                                                Text(chore.dueDate,
-                                                    style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          227, 112, 112, 112),
-                                                    )),
-                                              ],
+                              const Divider(
+                                color: Colors.black,
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: user.chores.length,
+                                itemBuilder: (context, choreIndex) {
+                                  final chore = user.chores[choreIndex];
+                                  return InkWell(
+                                    onTap: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                ChangeNotifierProvider(
+                                                  create: (context) =>
+                                                      ChoreListViewModel(),
+                                                  child: ViewChore(
+                                                      chore: chore,
+                                                      user: user.name,
+                                                      lastChore: chore.name),
+                                                )),
+                                      )
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              chore.priority
+                                                  ? Icons.star
+                                                  : Icons.star_border,
                                             ),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        Checkbox(
-                                          value: chore.isCompleted,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              /*
-                                                      chore.isCompleted =
-                                                          value ?? false;
-                                                          */
-                                            });
-                                          },
-                                        ),
-                                      ],
+                                            onPressed: () {
+                                              choreList
+                                                  .toggleChorePriority(chore);
+                                            },
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(chore.name,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              Row(
+                                                children: [
+                                                  const Text('Due Date: ',
+                                                      style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            227, 112, 112, 112),
+                                                      )),
+                                                  Text(chore.dueDate,
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            227, 112, 112, 112),
+                                                      )),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          Checkbox(
+                                            value: chore.isCompleted,
+                                            onChanged: (value) {
+                                              choreList
+                                                  .toggleChoreComplete(chore);
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                          ],
-                        );
-                      }))),
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          );
+                        }));
+              }),
             ]),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/chores',
           onRouteChanged: (route) {
-            choreList.writeData("DSBU781");
+            Provider.of<ChoreListViewModel>(context, listen: false)
+                .writeData("DSBU781");
+            //choreList.writeData("DSBU781");
             Navigator.of(context)
                 .pushNamed(route); // navigate to a different view
           }),

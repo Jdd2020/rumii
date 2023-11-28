@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
+import 'package:rumii/viewmodels/chore_view_model.dart';
+import 'package:rumii/viewmodels/chore_list_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:rumii/models/chore_model.dart';
 
 class EditChore extends StatefulWidget {
-  final String choreName;
-  final String assignUser;
-  final String note;
-  final String dueDate;
-  final String repetition;
-  final String reminder;
-  final String points;
+  final String user;
+  final ChoreViewModel chore;
+  final String lastChore;
 
   const EditChore({
     Key? key,
-    required this.choreName,
-    required this.assignUser,
-    required this.note,
-    required this.dueDate,
-    required this.repetition,
-    required this.reminder,
-    required this.points,
+    required this.chore,
+    required this.user,
+    required this.lastChore,
   }) : super(key: key);
 
   @override
@@ -39,13 +35,16 @@ class _EditChoreState extends State<EditChore> {
   @override
   void initState() {
     super.initState();
-    nameController.text = widget.choreName;
-    assignUserController.text = widget.assignUser;
-    dueDateController.text = widget.dueDate;
+    Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
+    nameController.text = widget.chore.name;
+    assignUserController.text = widget.user;
+    dueDateController.text = widget.chore.dueDate;
+    /*
     repetitionController.text = widget.repetition;
     reminderController.text = widget.reminder;
     noteController.text = widget.note;
     pointsController.text = widget.points;
+    */
   }
 
   @override
@@ -79,7 +78,17 @@ class _EditChoreState extends State<EditChore> {
                       ),
                       onTap: () {
                         //save changes
-                        Navigator.pop(context);
+                        var altered = Chore(
+                            name: nameController.text,
+                            priority: false,
+                            dueDate: dueDateController.text,
+                            isCompleted: false);
+                        Provider.of<ChoreListViewModel>(context, listen: false)
+                            .editChore(altered, assignUserController.text,
+                                widget.lastChore);
+                        Provider.of<ChoreListViewModel>(context, listen: false)
+                            .writeData("DSBU781");
+                        Navigator.pushNamed(context, "/chores");
                       },
                     ),
                   ],
@@ -90,7 +99,7 @@ class _EditChoreState extends State<EditChore> {
                       fontWeight: FontWeight.bold,
                     ))),
                 const SizedBox(height: 5),
-                Text(widget.choreName,
+                Text(widget.user,
                     style: const TextStyle(
                       fontSize: 20,
                     )),
@@ -98,10 +107,12 @@ class _EditChoreState extends State<EditChore> {
                 buildEditableInfoRow('Chore', nameController),
                 buildEditableInfoRow('Assigned', assignUserController),
                 buildEditableInfoRow('Due Date', dueDateController),
+                /*
                 buildEditableInfoRow('Repetition', repetitionController),
                 buildEditableInfoRow('Reminder', reminderController),
                 buildEditableInfoRow('Note', noteController),
                 buildEditableInfoRow('Points', pointsController),
+                */
               ],
             ),
           ),

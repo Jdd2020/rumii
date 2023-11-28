@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:convert';
 
 class LoginListViewModel extends ChangeNotifier {
+  LoginListViewModel();
   List<LoginViewModel> users = <LoginViewModel>[];
 
   Future<void> fetchUser(String key) async {

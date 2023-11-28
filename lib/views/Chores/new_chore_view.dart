@@ -15,6 +15,7 @@ class NewChore extends StatefulWidget {
 
 class _NewChoreState extends State<NewChore> {
   DateTime? dueDate;
+  ChoreListViewModel choreList = ChoreListViewModel();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController assignUserController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
@@ -22,6 +23,25 @@ class _NewChoreState extends State<NewChore> {
   final TextEditingController reminderController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController pointsController = TextEditingController();
+
+  Future<void> fetchUsers(String houseKey) async {
+    await choreList.getData(houseKey);
+    setState(() {});
+  }
+
+  Future<void> writeUsers(String houseKey) async {
+    await choreList.writeData(houseKey);
+  }
+
+  Future<void> addChore(String username, Chore chore) async {
+    await choreList.addChore(chore, username);
+  }
+
+  @override
+  initState() {
+    super.initState();
+    Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
+  }
 
   @override
   void dispose() {
@@ -73,15 +93,12 @@ class _NewChoreState extends State<NewChore> {
                           priority: false,
                           dueDate: dueDateController.text,
                           isCompleted: false);
-                      var chores = context.read<ChoreListViewModel>();
-                      chores.getData("DSBU781");
-                      chores.addChore(newChore, assignUserController.text);
-                      chores.writeData("DSBU781");
+                      Provider.of<ChoreListViewModel>(context, listen: false)
+                          .addChore(newChore, assignUserController.text);
+                      Provider.of<ChoreListViewModel>(context, listen: false)
+                          .writeData("DSBU781");
                       // ignore: use_build_context_synchronously
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ChoreListView()));
+                      Navigator.of(context).pushNamed("/chores");
                     }),
               ]),
               const SizedBox(
