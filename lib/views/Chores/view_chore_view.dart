@@ -44,7 +44,7 @@ class _ViewChoreState extends State<ViewChore> {
                                 fontSize: 16,
                               )),
                           onTap: () => {
-                                Navigator.pushNamed(context, "/chores"),
+                                Navigator.pop(context),
                               }),
                       InkWell(
                           child: const Text('Edit',

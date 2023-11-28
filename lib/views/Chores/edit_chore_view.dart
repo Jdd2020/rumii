@@ -107,6 +107,21 @@ class _EditChoreState extends State<EditChore> {
                 buildEditableInfoRow('Chore', nameController),
                 buildEditableInfoRow('Assigned', assignUserController),
                 buildEditableInfoRow('Due Date', dueDateController),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: 200,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Provider.of<ChoreListViewModel>(context, listen: false)
+                            .deleteChore(
+                                assignUserController.text, widget.lastChore);
+                        Provider.of<ChoreListViewModel>(context, listen: false)
+                            .writeData("DSBU781");
+                        Navigator.pushNamed(context, "/chores");
+                      },
+                      child: const Text("Delete")),
+                )
                 /*
                 buildEditableInfoRow('Repetition', repetitionController),
                 buildEditableInfoRow('Reminder', reminderController),

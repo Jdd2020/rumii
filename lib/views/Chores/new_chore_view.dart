@@ -76,12 +76,7 @@ class _NewChoreState extends State<NewChore> {
                         style: TextStyle(
                           fontSize: 16,
                         )),
-                    onTap: () => {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ChoreListView()))
-                        }),
+                    onTap: () => {Navigator.pop(context)}),
                 InkWell(
                     child: const Text('Save',
                         style: TextStyle(

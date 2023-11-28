@@ -95,6 +95,24 @@ class ChoreListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteChore(String username, String lastChore) async {
+    for (var i = 0; i < users.length; i++) {
+      if (username == users[i].name) {
+        print("first loop");
+        for (var n = 0; n < users[i].chores.length; n++) {
+          print(users[i].chores[n].name);
+          print("second loop");
+          if (lastChore == users[i].chores[n].name) {
+            print("if statement");
+            users[i].chores.removeAt(n);
+            print("Chore removed");
+          }
+        }
+      }
+    }
+    notifyListeners();
+  }
+
   ChoreViewModel findAndUpdateChorePriority(ChoreViewModel choreViewModel) {
     final Chore chore = choreViewModel.chore;
     // Update the chore's priority
