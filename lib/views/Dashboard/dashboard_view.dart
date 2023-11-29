@@ -3,14 +3,17 @@ import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/viewmodels/login_view_model.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
 import 'package:rumii/models/chore_model.dart';
+import 'package:provider/provider.dart';
 
 class DashboardView extends StatefulWidget {
-  const DashboardView({super.key});
+
+  const DashboardView({Key? key}) : super(key:key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -47,6 +50,7 @@ class _DashboardViewState extends State<DashboardView> {
   void initState() {
     super.initState();
     _fetchData();
+    
   }
 
   @override
@@ -76,7 +80,7 @@ class _DashboardViewState extends State<DashboardView> {
                         ))),
                     const SizedBox(height: 20),
                     const Text('Hello, Henry!',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 32,
                         )),
                     const Text('House Key: DSBU781',
@@ -142,6 +146,7 @@ class _DashboardViewState extends State<DashboardView> {
           itemCount: items.length,
           itemBuilder: (context, index) {
             Chore chore = items[index];
+            ChoreViewModel choreViewModel = ChoreViewModel(chore: chore);
 
             return Card(
               elevation: 2,
@@ -149,22 +154,17 @@ class _DashboardViewState extends State<DashboardView> {
               child: ListTile(
                 title: Text(chore.name),
                 onTap: () => {
-                  /*
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewChore(
-                          choreName: chore.name,
-                          dueDate: chore.dueDate,
-                          reminder: "1 hour",
-                          repetition: "everyday",
-                          points: "1",
-                          note: "none",
-                          assignUser: "Henry",
+                          chore: choreViewModel,
+                          user: "Henry",
+                          lastChore: chore.name,
                     ),
                   ),
                   ),
-                */
+                
                 },
               ),
             );
@@ -233,4 +233,5 @@ class DataProvider {
     await Future.delayed(const Duration(seconds: 0));
     return ["Event 1", "Event 2", "Event 3"];
   }
+
 }

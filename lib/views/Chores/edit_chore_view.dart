@@ -99,7 +99,7 @@ class _EditChoreState extends State<EditChore> {
                       fontWeight: FontWeight.bold,
                     ))),
                 const SizedBox(height: 5),
-                Text(widget.user,
+                Text(nameController.text,
                     style: const TextStyle(
                       fontSize: 20,
                     )),
