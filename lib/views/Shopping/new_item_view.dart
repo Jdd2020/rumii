@@ -52,11 +52,8 @@ class _NewItemState extends State<NewItem> {
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                    ))),
+              ]),
             //add other widgets
           ],
         ),
