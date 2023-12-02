@@ -2,7 +2,7 @@ import 'package:rumii/models/chore_model.dart';
 import 'package:flutter/foundation.dart';
 
 class ChoreViewModel extends ChangeNotifier {
-  late Chore chore;
+  Chore chore;
   // update to logic for fetching saved state
 
   ChoreViewModel({required this.chore});

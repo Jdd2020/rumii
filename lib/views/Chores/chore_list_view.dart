@@ -1,16 +1,11 @@
 //import 'dart:js';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:rumii/models/chore_model.dart';
-import 'package:rumii/viewmodels/user_view_model.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rumii/views/Chores/new_chore_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
-import 'package:rumii/viewmodels/chore_view_model.dart';
-//import 'package:rumii/viewmodels/user_view_model.dart';
 
 class ChoreListView extends StatefulWidget {
   const ChoreListView({super.key});

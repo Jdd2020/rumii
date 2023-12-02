@@ -32,8 +32,8 @@ class ChoreListViewModel extends ChangeNotifier {
                   Chore.fromJson(chores[choreList[n]] as Map<String, dynamic>));
           tempChores.add(chore);
         }
-        var user =
-            UserViewModel(user: User(name: userList[i], chores: tempChores));
+        var user = UserViewModel(user: User(name: userList[i]));
+        user.setChores(tempChores);
         users.add(user);
       }
       print("data updated");

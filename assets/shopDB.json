@@ -1,0 +1,45 @@
+{
+    "DSBU781": {
+        "Henry": {
+            "Doritos": {
+                "name" : "Doritos",
+                "notes" : "Cool ranch",
+                "quantity" : 2,
+                "type" : "SNACKS",
+                "isCompleted" : false
+            },
+            "Mt. Dew": {
+                "name" : "Mt. Dew",
+                "notes" : "Code Red",
+                "quantity" : 1,
+                "type" : "DRINKS",
+                "isCompleted" : false
+            }
+        },
+        "Josh": {
+            "Tofu": {
+                "name" : "Tofu",
+                "notes" : "Silken",
+                "quantity" : 1,
+                "type" : "PRODUCE",
+                "isCompleted" : true
+            },
+            "Kettle Cooked Chips": {
+                "name": "Kettle Cooked Chips",
+                "notes" : "Salt and vinegar",
+                "quantity" : 1,
+                "type" : "SNACKS",
+                "isCompleted" : true
+            }
+        },
+        "Billy": {
+            "Steaks": {
+                "name": "Steaks",
+                "notes" : "Ribeye",
+                "quantity" : 3,
+                "type" : "MEATS",
+                "isCompleted" : false
+            }
+        }
+    }
+}

@@ -68,6 +68,7 @@ flutter:
     - assets/images/
     - assets/userDB.json
     - assets/choreDB.json
+    - assets/shopDB.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

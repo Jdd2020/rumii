@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
+import 'package:rumii/viewmodels/shop_view_model.dart';
 import 'package:rumii/views/Shopping/new_item_view.dart';
 import 'package:rumii/views/Shopping/view_item_view.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
@@ -17,6 +18,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   @override
   void initState() {
     super.initState();
+    Provider.of<ShoppingListViewModel>(context, listen: false)
+        .getData("DSBU781");
   }
 
   @override
@@ -74,57 +77,61 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             ),
             const SizedBox(height: 20),
             // add the list
-            Expanded(
-              child: ListView.separated(
-                itemCount: users.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 10);
-                },
-                itemBuilder: (context, userIndex) {
-                  final user = users[userIndex];
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.pinkAccent,
-                                borderRadius: BorderRadius.circular(5),
+            Consumer<ShoppingListViewModel>(
+                builder: (context, shopList, child) {
+              return Expanded(
+                child: ListView.separated(
+                  itemCount: shopList.users.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(height: 10);
+                  },
+                  itemBuilder: (context, userIndex) {
+                    final user = shopList.users[userIndex];
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.pinkAccent,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                  user.name[0],
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ),
-                              child: Text(
-                                user.name[0],
-                                style: const TextStyle(color: Colors.white),
+                              Text(
+                                user.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(
-                              user.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      const Divider(color: Colors.black),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: user.shoppingItems.length,
-                        itemBuilder: (context, itemIndex) {
-                          final item = user.shoppingItems[itemIndex];
-                          return _buildShoppingItem(item);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
+                        const Divider(color: Colors.black),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: user.shopItems.length,
+                          itemBuilder: (context, itemIndex) {
+                            final item = user.shopItems[itemIndex];
+                            return _buildShoppingItem(item);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              );
+            }),
           ],
         ),
       ),
@@ -137,7 +144,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 
-  Widget _buildShoppingItem(ShoppingItem item) {
+  Widget _buildShoppingItem(ShopViewModel item) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -154,14 +161,14 @@ class _ShoppingListViewState extends State<ShoppingListView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.itemName,
+                  item.name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                const Row(
+                Row(
                   children: [
                     Text(
-                      'Item description',
-                      style: TextStyle(
+                      item.notes,
+                      style: const TextStyle(
                         color: Color.fromARGB(227, 112, 112, 112),
                       ),
                     ),
@@ -171,10 +178,10 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             ),
             const Spacer(),
             Checkbox(
-              value: item.isChecked,
+              value: item.isCompleted,
               onChanged: (value) {
                 setState(() {
-                  item.isChecked = value ?? false;
+                  //item.isCompleted = value ?? false;
                 });
               },
             ),

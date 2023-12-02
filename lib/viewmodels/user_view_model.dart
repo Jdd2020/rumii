@@ -1,5 +1,6 @@
 import 'package:rumii/models/user_model.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
+import 'package:rumii/viewmodels/shop_view_model.dart';
 
 class UserViewModel {
   final User user;
@@ -10,7 +11,19 @@ class UserViewModel {
     return user.chores;
   }
 
+  List<ShopViewModel> get shopItems {
+    return user.shopItems;
+  }
+
   String get name {
     return user.name;
+  }
+
+  void setChores(List<ChoreViewModel> choreList) {
+    user.chores = choreList;
+  }
+
+  void setShopItems(List<ShopViewModel> shopItems) {
+    user.shopItems = shopItems;
   }
 }
