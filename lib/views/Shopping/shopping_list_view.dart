@@ -53,11 +53,11 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     shape: BoxShape.circle,
                     color: Colors.pink,
                   ),
-                  padding: EdgeInsets.all(3),
+                  padding: EdgeInsets.fromLTRB(8, 8, 8, 12),
                   child: const Text(
                     "+",
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: 30,
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
                     ),
@@ -75,7 +75,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            //const SizedBox(height: 20),
             // add the list
             Consumer<ShoppingListViewModel>(
                 builder: (context, shopList, child) {
@@ -94,12 +94,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                           child: Row(
                             children: [
                               Container(
+                                height: 33,
+                                width: 33,
+                                alignment: Alignment.center,
                                 margin:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
+                                    const EdgeInsets.symmetric(horizontal: 8), 
+                                // padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
                                   color: Colors.pinkAccent,
-                                  borderRadius: BorderRadius.circular(5),
+                                  //borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Text(
                                   user.name[0],
