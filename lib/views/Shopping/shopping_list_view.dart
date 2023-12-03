@@ -32,7 +32,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         automaticallyImplyLeading: false,
       ),
       body: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(25),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -44,26 +44,24 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ))),
-            const SizedBox(height: 10),
+            //const SizedBox(height: 10),
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.pink,
-                  ),
-                  padding: EdgeInsets.all(3),
+                child: ElevatedButton(
+                  
                   child: const Text(
-                    "+",
+                    "+ New",
                     style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      //color: Colors.black,
                     ),
                   ),
-                ),
-                onTap: () {
+
+
+                  onPressed: () => {
+                
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -71,11 +69,19 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                               create: (context) => ShoppingListViewModel(),
                               child: const NewItem(),
                             )),
-                  );
+                  ),
                 },
+                style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              ),
+                              
+                          )
+                )
               ),
             ),
-            const SizedBox(height: 20),
+            //const SizedBox(height: 20),
             // add the list
             Consumer<ShoppingListViewModel>(
                 builder: (context, shopList, child) {
@@ -94,12 +100,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                           child: Row(
                             children: [
                               Container(
+                                height: 33,
+                                width: 33,
+                                alignment: Alignment.center,
                                 margin:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
+                                    const EdgeInsets.symmetric(horizontal: 8), 
+                                // padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
                                   color: Colors.pinkAccent,
-                                  borderRadius: BorderRadius.circular(5),
+                                  //borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Text(
                                   user.name[0],
