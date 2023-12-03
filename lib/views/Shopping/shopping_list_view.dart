@@ -160,7 +160,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ViewItem(),
+              builder: (context) => ViewItem(shop: item.toShop()),
             ));
       },
       child: Padding(
