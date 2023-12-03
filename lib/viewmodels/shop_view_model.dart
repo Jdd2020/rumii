@@ -26,4 +26,13 @@ class ShopViewModel extends ChangeNotifier {
   bool get isCompleted {
     return shop.isCompleted;
   }
+  Shop toShop() {
+    return Shop(
+      name: name,
+      notes: notes,
+      quantity: quantity,
+      type: type,
+      isCompleted: isCompleted,
+    );
+  }
 }
