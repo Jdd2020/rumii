@@ -39,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
         appBar: AppBar(
           title: Image.asset('assets/images/rumii-logo.png',
-              height: 28.00, width: 70.00), 
+              height: 28.00, width: 70.00),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -51,8 +51,8 @@ class _LoginViewState extends State<LoginView> {
                 alignment: FractionalOffset.center,
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                    //Image.asset('assets/images/house.png', height: 100, width: 100,),
-                    const SizedBox(height:15),
+                  //Image.asset('assets/images/house.png', height: 100, width: 100,),
+                  const SizedBox(height: 15),
                   const Text(
                     'Login',
                     style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
@@ -100,8 +100,12 @@ class _LoginViewState extends State<LoginView> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const DashboardView()));
+                                        builder: (context) => DashboardView(
+                                            //// username:
+                                            // userBase.users[0].username,
+                                            // housekey:
+                                            //  userBase.users[0].houseKey
+                                            )));
                                 setState(() {});
                               } else {
                                 // ignore: use_build_context_synchronously

@@ -15,8 +15,13 @@ import 'package:rumii/viewmodels/edit_household_view_model.dart';
 import 'package:rumii/views/Dashboard/edit_household_view.dart';
 
 class DashboardView extends StatefulWidget {
+  //final String username;
+  //final String housekey;
 
-  const DashboardView({Key? key}) : super(key:key);
+  const DashboardView({Key? key})
+      //required this.username,
+      //required this.housekey})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -53,7 +58,6 @@ class _DashboardViewState extends State<DashboardView> {
   void initState() {
     super.initState();
     _fetchData();
-    
   }
 
   @override
@@ -86,32 +90,34 @@ class _DashboardViewState extends State<DashboardView> {
                         style: TextStyle(
                           fontSize: 32,
                         )),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                      const Text('House Key: DSBU781',
-                        style: TextStyle(
-                          fontSize: 18,
-                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('House Key: $widget.housekey',
+                            style: const TextStyle(
+                              fontSize: 18,
+                            )),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: 
-                              (context) => EditHousehold()),
-                            );
-                          },
-                          child: const Text('Edit Household', style: TextStyle(color: Colors.black,)),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              ),
-                              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                              side: const BorderSide(color: Colors.black)
-                          )
-                        )
-                          ],
-                        ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditHousehold()),
+                              );
+                            },
+                            child: const Text('Edit Household',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                )),
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                side: const BorderSide(color: Colors.black)))
+                      ],
+                    ),
                     const SizedBox(height: 20),
                     _buildList("Unfinished Chores", "/chores", _recentChores,
                         Icons.view_list_outlined),
@@ -183,13 +189,12 @@ class _DashboardViewState extends State<DashboardView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewChore(
-                          chore: choreViewModel,
-                          user: "Henry",
-                          lastChore: chore.name,
+                        chore: choreViewModel,
+                        user: "Henry",
+                        lastChore: chore.name,
+                      ),
                     ),
                   ),
-                  ),
-                
                 },
               ),
             );
@@ -258,5 +263,4 @@ class DataProvider {
     await Future.delayed(const Duration(seconds: 0));
     return ["Event 1", "Event 2", "Event 3"];
   }
-
 }
