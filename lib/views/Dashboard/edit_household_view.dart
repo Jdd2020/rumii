@@ -41,7 +41,7 @@ class _EditHouseholdState extends State<EditHousehold> {
         title: const Text('Edit Household'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 35, 16, 0),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -49,7 +49,6 @@ class _EditHouseholdState extends State<EditHousehold> {
             mainAxisSpacing: 30.0,
             childAspectRatio: 1.0,
           ),
-          
           itemCount: householdMembers.length + 1,
           itemBuilder: (context, index) {
             if (index == householdMembers.length) {
@@ -60,7 +59,7 @@ class _EditHouseholdState extends State<EditHousehold> {
               child: Column(
                 children: [
                  // _buildAddUserCircle(),
-                  const SizedBox(height: 80.0),
+                  const SizedBox(height: 55.0),
                   Text(
                     'Add New + \n',
                     style: TextStyle(
@@ -110,9 +109,8 @@ class _EditHouseholdState extends State<EditHousehold> {
         }
       },
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.width * 0.4,
-        margin: EdgeInsets.only(bottom: 3.0),
+        width: MediaQuery.of(context).size.width * 0.35,
+        height: MediaQuery.of(context).size.width * 0.35,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
@@ -135,15 +133,15 @@ class _EditHouseholdState extends State<EditHousehold> {
               ),
             ),
             Align(
-              alignment: Alignment.topRight,
+              alignment: Alignment(1.15, -1.15),
               child: GestureDetector(
                 onTap: () {
                   _showDeleteConfirmationDialog(userName);
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.delete,
                   color: Colors.red,
-                  size: 20.0,
+                  size: 25.0,
                 ),
               ),
             ),
