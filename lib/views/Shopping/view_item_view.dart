@@ -46,7 +46,7 @@ class _ViewItemState extends State<ViewItem> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EditItem(shop: widget.shop),
+                      builder: (context) => EditItem(shop: widget.shop),
                     ),
                   );
                 },
