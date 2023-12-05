@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/models/shop_model.dart';
 import 'package:rumii/views/Shopping/edit_item_view.dart';
+import 'package:rumii/viewmodels/shop_view_model.dart';
 
 class ViewItem extends StatefulWidget {
-  final Shop shop;
+  final ShopViewModel shop;
+  final String user;
+  final String lastItem;
 
-  const ViewItem({Key? key, required this.shop}) : super(key: key);
+  const ViewItem({Key? key, 
+      required this.shop,
+      required this.user,
+      required this.lastItem})
+      : super(key: key);
 
   @override
   _ViewItemState createState() => _ViewItemState();
@@ -46,7 +53,11 @@ class _ViewItemState extends State<ViewItem> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditItem(shop: widget.shop),
+                      builder: (context) => EditItem(
+                        shop: widget.shop,
+                        user: widget.user,
+                        lastItem: widget.lastItem,
+                        ),
                     ),
                   );
                 },

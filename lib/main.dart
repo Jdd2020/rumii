@@ -11,10 +11,12 @@ import 'router.dart' as local_router;
 import 'constants.dart';
 
 import 'package:rumii/viewmodels/login_view_model.dart';
+//import 'package:rumii/services/user_provider.dart';
 
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
+
   const App({super.key});
 
   @override
@@ -38,11 +40,11 @@ class App extends StatelessWidget {
       initialRoute: loginRoute,
       routes: {
         '/home': (context) {
-          var loginViewModel = context.watch<LoginViewModel>();
-          var username = loginViewModel.username;
-          var houseKey = loginViewModel.houseKey;
-          return DashboardView(username: username, houseKey: houseKey);
-        },
+            /*var userProvider = Provider.of<UserProvider>(context);
+            var username = userProvider.username;
+            var houseKey = userProvider.houseKey;*/
+            return DashboardView(username: "Henry", houseKey: "DSBU781");
+          },
         // '/chores': (context) => const ChoreListView(),
         // '/shopping_list': (context) => const ShoppingListView(),
         '/calendar': (context) => const CalendarView(),
