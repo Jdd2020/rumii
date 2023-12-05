@@ -62,6 +62,16 @@ class _ViewItemState extends State<ViewItem> {
           buildInfoRow('Quantity', widget.shop.quantity.toString()),
           buildInfoRow('Type', widget.shop.type),
           buildInfoRow('Notes', widget.shop.notes),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 50,
+            width: 200,
+            child: ElevatedButton(
+                onPressed: () {
+                  //the logic
+                },
+                child: const Text("Delete")),
+          )
         ],
       ),
     );
