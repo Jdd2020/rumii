@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/models/shop_model.dart';
+import 'package:rumii/viewmodels/shop_view_model.dart';
 
 class EditItem extends StatefulWidget {
-  final Shop shop;
-  const EditItem({Key? key, required this.shop}) : super(key: key);
+  final String user;
+  final ShopViewModel shop;
+  final String lastItem;
+
+  const EditItem({Key? key, 
+    required this.user,
+    required this.shop,
+    required this.lastItem,
+  }) : super(key: key);
 
   @override
   _EditItemState createState() => _EditItemState();

@@ -144,9 +144,9 @@ class _RegisterViewState extends State<RegisterView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DashboardView(
-                                      // username: "",
-                                      // housekey: "",
+                                  builder: (context) => DashboardView(
+                                      username: "Henry",
+                                      houseKey: "DSBU781",
                                       )));
                         },
                         child: const Text("Register"),

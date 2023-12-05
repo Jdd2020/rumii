@@ -101,6 +101,8 @@ class _LoginViewState extends State<LoginView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DashboardView(
+                                          username: userBase.users[0].username,
+                                          houseKey: userBase.users[0].houseKey,
                                             //// username:
                                             // userBase.users[0].username,
                                             // housekey:

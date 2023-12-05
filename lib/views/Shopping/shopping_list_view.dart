@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
+import 'package:rumii/viewmodels/user_view_model.dart';
 import 'package:rumii/views/Shopping/new_item_view.dart';
 import 'package:rumii/views/Shopping/view_item_view.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
@@ -133,7 +134,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                           itemCount: user.shopItems.length,
                           itemBuilder: (context, itemIndex) {
                             final item = user.shopItems[itemIndex];
-                            return _buildShoppingItem(item);
+                            return _buildShoppingItem(item, user);
                           },
                         ),
                       ],
@@ -154,13 +155,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 
-  Widget _buildShoppingItem(ShopViewModel item) {
+  Widget _buildShoppingItem(ShopViewModel item, UserViewModel user) {
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ViewItem(shop: item.toShop()),
+              builder: (context) => ViewItem(
+                shop: item,
+                user: user.name,
+                lastItem: item.name),
             ));
       },
       child: Padding(

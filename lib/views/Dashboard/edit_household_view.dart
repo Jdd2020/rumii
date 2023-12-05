@@ -11,7 +11,6 @@ class EditHousehold extends StatefulWidget {
 class _EditHouseholdState extends State<EditHousehold> {
   List<String> householdMembers = [];
   late Map<String, dynamic> choreData;
-  bool deleteMode = false;
   late String currentHouseKey = "";
 
   @override
@@ -100,15 +99,7 @@ class _EditHouseholdState extends State<EditHousehold> {
   }
 
   Widget _buildUserCircle(String userName, int index) {
-    return GestureDetector(
-      onTap: () {
-        if (deleteMode) {
-          _showDeleteConfirmationDialog(userName);
-        } else {
-          // Handle user click (optional)
-        }
-      },
-      child: Container(
+    return Container(
         width: MediaQuery.of(context).size.width * 0.35,
         height: MediaQuery.of(context).size.width * 0.35,
         decoration: BoxDecoration(
@@ -147,8 +138,8 @@ class _EditHouseholdState extends State<EditHousehold> {
             ),
           ],
         ),
-      ),
-    );
+      );
+    
   }
 
 /*
