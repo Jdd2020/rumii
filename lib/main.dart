@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'router.dart' as local_router;
 import 'constants.dart';
 
+import 'package:rumii/viewmodels/login_view_model.dart';
+
 void main() => runApp(const App());
 
 class App extends StatelessWidget {
@@ -35,7 +37,12 @@ class App extends StatelessWidget {
       onGenerateRoute: local_router.Router.generateRoute,
       initialRoute: loginRoute,
       routes: {
-        '/home': (context) => const DashboardView(),
+        '/home': (context) {
+          var loginViewModel = context.watch<LoginViewModel>();
+          var username = loginViewModel.username;
+          var houseKey = loginViewModel.houseKey;
+          return DashboardView(username: username, houseKey: houseKey);
+        },
         // '/chores': (context) => const ChoreListView(),
         // '/shopping_list': (context) => const ShoppingListView(),
         '/calendar': (context) => const CalendarView(),

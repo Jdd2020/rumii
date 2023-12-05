@@ -15,12 +15,12 @@ import 'package:rumii/viewmodels/edit_household_view_model.dart';
 import 'package:rumii/views/Dashboard/edit_household_view.dart';
 
 class DashboardView extends StatefulWidget {
-  //final String username;
-  //final String housekey;
+  String? username;
+  String? houseKey;
 
-  const DashboardView({Key? key})
-      //required this.username,
-      //required this.housekey})
+  DashboardView({Key? key, 
+      this.username,
+      this.houseKey, })
       : super(key: key);
 
   @override
@@ -31,27 +31,42 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   final DataProvider _dataProvider = DataProvider();
 
+/*
   String personName = "";
-  String houseKey = "";
+  String houseKey = "";*/
 
   List<Chore> _recentChores = [];
   List<String> _recentStoreNeeds = [];
   List<String> _recentEvents = [];
 
   Future<void> _fetchData() async {
+
+     if (widget.username != null && widget.houseKey != null) {
+      List<Chore> recentChores = await _dataProvider.fetchRecentChores(widget.username!, widget.houseKey!);
+      List<String> recentStoreNeeds = await _dataProvider.fetchRecentStoreNeeds();
+      List<String> recentEvents = await _dataProvider.fetchRecentEvents();
+
+      setState(() {
+        _recentChores = recentChores;
+        _recentStoreNeeds = recentStoreNeeds;
+        _recentEvents = recentEvents;
+      });
+    }
+  /*
+
     //List<String> recentChores = await _dataProvider.fetchRecentChores();
     List<String> recentStoreNeeds = await _dataProvider.fetchRecentStoreNeeds();
     List<String> recentEvents = await _dataProvider.fetchRecentEvents();
 
     Map<String, dynamic> jsonData = await _dataProvider.fetchJsonData();
     List<Chore> recentChores =
-        await _dataProvider.fetchRecentChores("Henry", "DSBU781");
+        await _dataProvider.fetchRecentChores(widget.username!, widget.houseKey!);
 
     setState(() {
       _recentChores = recentChores;
       _recentStoreNeeds = recentStoreNeeds;
       _recentEvents = recentEvents;
-    });
+    });*/
   }
 
   @override
@@ -86,14 +101,14 @@ class _DashboardViewState extends State<DashboardView> {
                           fontWeight: FontWeight.bold,
                         ))),
                     const SizedBox(height: 20),
-                    const Text('Hello, Henry!',
+                    Text('Hello, ${widget.username}!',
                         style: TextStyle(
                           fontSize: 32,
                         )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('House Key: $widget.housekey',
+                        Text('House Key: ${widget.houseKey}',
                             style: const TextStyle(
                               fontSize: 18,
                             )),
@@ -263,4 +278,15 @@ class DataProvider {
     await Future.delayed(const Duration(seconds: 0));
     return ["Event 1", "Event 2", "Event 3"];
   }
+
+  Future<Map<String, dynamic>> fetchUserData(String username) async {
+    final Map<String, dynamic> jsonData = await fetchJsonData();
+
+    if (jsonData.containsKey(username)) {
+      return jsonData[username];
+    }
+
+    return {};
+  }
+
 }
