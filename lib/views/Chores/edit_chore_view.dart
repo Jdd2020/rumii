@@ -53,7 +53,7 @@ class _EditChoreState extends State<EditChore> {
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
             width: MediaQuery.of(context).size.width,
             //height: MediaQuery.of(context).size.height,
             child: Column(

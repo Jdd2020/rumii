@@ -37,4 +37,45 @@ class ShoppingListViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> writeData(String houseKey) async {
+    //final directory = await getApplicationDocumentsDirectory();
+    //var path = directory.path;
+    final String jsonString = File('assets/shopDB.json').readAsStringSync();
+    var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
+    if (houseList.containsKey(houseKey)) {
+      var house = houseList[houseKey];
+      house = {};
+      for (var user in users) {
+        house[user.name] = {};
+        for (var item in user.shopItems) {
+          house[user.name][item.name] = item.shop.toJson();
+        }
+      }
+      houseList[houseKey] = house;
+    }
+    File('assets/shopDB.json')
+        .writeAsStringSync(json.encode(houseList), flush: true);
+    print("data written");
+    notifyListeners();
+  }
+
+  Future<void> deleteItem(String username, String lastItem) async {
+    for (var i = 0; i < users.length; i++) {
+      if (username == users[i].name) {
+        print("first loop");
+        for (var n = 0; n < users[i].shopItems.length; n++) {
+          print(users[i].shopItems[n].name);
+          print("second loop");
+          if (lastItem == users[i].shopItems[n].name) {
+            print("if statement");
+            users[i].shopItems.removeAt(n);
+            print("Item removed");
+          }
+        }
+      }
+    }
+    notifyListeners();
+  }
+
 }
