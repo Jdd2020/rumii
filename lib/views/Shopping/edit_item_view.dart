@@ -8,8 +8,9 @@ class EditItem extends StatefulWidget {
   final String user;
   final ShopViewModel shop;
   final String lastItem;
+  final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
 
-  const EditItem({Key? key, 
+  EditItem({Key? key, 
     required this.user,
     required this.shop,
     required this.lastItem,
@@ -21,20 +22,22 @@ class EditItem extends StatefulWidget {
 
 class _EditItemState extends State<EditItem> {
   late TextEditingController itemController;
+  late TextEditingController assignUserController;
   late TextEditingController quantityController;
   late TextEditingController typeController;
   late TextEditingController notesController;
-  late TextEditingController assignUserController;
+  String selectedAssignee = '';
 
   @override
   void initState() {
     super.initState();
     itemController = TextEditingController(text: widget.shop.name);
+    assignUserController = TextEditingController(text: widget.user);
     quantityController =
         TextEditingController(text: widget.shop.quantity.toString());
     notesController = TextEditingController(text: widget.shop.notes);
     typeController = TextEditingController(text: widget.shop.type);
-    assignUserController = TextEditingController(text: widget.user);
+    selectedAssignee = widget.user;
   }
 
   @override
@@ -144,28 +147,49 @@ class _EditItemState extends State<EditItem> {
             fontWeight: FontWeight.normal,
           ),
         ),
-        SizedBox(
-          height: 45,
-          width: 1250,
-          child: Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+         const SizedBox(height: 2),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.98,
+          height: 50,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: label == "Assign User"
+                    ? DropdownButtonFormField<String>(
+                        value: controller.text,
+                        items: widget.householdMembers.map((String member) {
+                          return DropdownMenuItem<String>(
+                            value: member,
+                            child: Text(member),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              controller.text = newValue;
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      )
+                    : TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
             ),
-            child: Align (
-              alignment: Alignment.center,
-              child: TextField(
-                controller: controller,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
+            ],
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
       ],
     );
   }
