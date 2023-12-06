@@ -96,7 +96,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.fromLTRB(8,12,8,6),
                           child: Row(
                             children: [
                               Container(
