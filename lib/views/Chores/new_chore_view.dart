@@ -63,26 +63,34 @@ class _NewChoreState extends State<NewChore> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
+          child: Padding (
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Container(
-            padding: const EdgeInsets.all(16),
             width: MediaQuery.of(context).size.width,
             // height: MediaQuery.of(context).size.height,
             child: Column(children: <Widget>[
-              const SizedBox(height: 40),
-              const Text('New Chore',
-                  style: (TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ))),
               const SizedBox(height: 20),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                InkWell(
+                Container (
+                  padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), 
+                    color: Colors.grey[300],
+                  ),
+                child: InkWell(
                     child: const Text('Cancel',
                         style: TextStyle(
                           fontSize: 16,
                         )),
                     onTap: () => {Navigator.pop(context)}),
-                InkWell(
+                ),
+                Container(
+                padding: EdgeInsets.fromLTRB(10,2,10,2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), 
+                    color: Colors.grey[300],
+                  ),
+                child: InkWell(
                     child: const Text('Save',
                         style: TextStyle(
                           fontSize: 16,
@@ -100,7 +108,16 @@ class _NewChoreState extends State<NewChore> {
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).pushNamed("/chores");
                     }),
+                ),
               ]),
+              
+              const Text('New Chore',
+                  style: (TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ))),
+              const SizedBox(height: 20),
+              
               const SizedBox(
                 height: 30,
               ),
@@ -283,6 +300,7 @@ class _NewChoreState extends State<NewChore> {
                 ),
               ),
             ]),
+          ),
           ),
         ));
   }

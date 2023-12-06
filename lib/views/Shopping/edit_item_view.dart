@@ -58,8 +58,14 @@ class _EditItemState extends State<EditItem> {
           children: <Widget>[
             const SizedBox(height: 20),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
+              Container (
+                padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), 
+                  color: Colors.grey[300],
+                ),
+              child: InkWell(
+                onTap: () => Navigator.pop(context),
                 child: const Text(
                   'Cancel',
                   style: TextStyle(
@@ -67,9 +73,15 @@ class _EditItemState extends State<EditItem> {
                     color: Colors.black,
                   ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {
+              ),),
+              Container (
+                padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), 
+                  color: Colors.grey[300],
+                ),
+              child: InkWell(
+                onTap: () {
                   //save
                   Navigator.pop(context);
                 },
@@ -78,6 +90,7 @@ class _EditItemState extends State<EditItem> {
                       fontSize: 16.0,
                       color: Colors.black,
                     )),
+              ),
               ),
             ]),
             const Align(

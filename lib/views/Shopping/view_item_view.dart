@@ -28,8 +28,14 @@ class _ViewItemState extends State<ViewItem> {
         children: <Widget>[
           const SizedBox(height: 20.0),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10,2,10,2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20), 
+                color: Colors.grey[300],
+              ),
+              child: InkWell(
+              onTap: () => Navigator.pop(context),
               child: const Text(
                 'Cancel',
                 style: TextStyle(
@@ -38,8 +44,15 @@ class _ViewItemState extends State<ViewItem> {
                 ),
               ),
             ),
-            TextButton(
-                onPressed: () {
+            ),
+            Container ( 
+              padding: const EdgeInsets.fromLTRB(10,2,10,2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20), 
+                color: Colors.grey[300],
+              ),
+            child: InkWell(
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -56,6 +69,7 @@ class _ViewItemState extends State<ViewItem> {
                       fontSize: 16.0,
                       color: Colors.black,
                     ))),
+            ),
           ]),
           const Align(
             alignment: Alignment.topCenter,

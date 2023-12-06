@@ -83,40 +83,56 @@ Widget buildTypeItem(String type, IconData icon, BuildContext context) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16),
+      body: Padding (
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-  
+          children: <Widget>[
             const SizedBox(height: 20),
+            Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Container(
+      padding: const EdgeInsets.fromLTRB(10,2,10,2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20), 
+        color: Colors.grey[300],
+      ),
+      child: InkWell(
+        onTap: () => {Navigator.pop(context)},
+        child: const Text('Cancel',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            )),
+      ),
+    ),
+    Container(
+      padding: const EdgeInsets.fromLTRB(10,2,10,2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20), 
+        color: Colors.grey[300],
+      ),
+      child: InkWell(
+        onTap: () async {
+          Navigator.pop(context);
+        },
+        child: const Text('Save',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            )),
+      ),
+    ),
+  ],
+),
+  
               const Text('New Item',
                   style: (TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ))),
-
-              const SizedBox(height: 20),
-
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                InkWell(
-                    child: const Text('Cancel',
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () => {Navigator.pop(context)}),
-                InkWell(
-                    child: const Text('Save',
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () async {
-                      Navigator.pop(context);
-                    }),
-              ]),
-              const SizedBox(
-                height: 30,
-              ),
 
             const SizedBox(height: 20),
 
@@ -132,6 +148,7 @@ Widget buildTypeItem(String type, IconData icon, BuildContext context) {
               },
               
             ),
+        
 
             const SizedBox(height: 20),
 
@@ -256,6 +273,7 @@ Widget buildTypeItem(String type, IconData icon, BuildContext context) {
             //find a way to display the item's image
           ],
         ),
+      ),
       ),
     );
   }
