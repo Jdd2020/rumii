@@ -114,7 +114,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                   },*/
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Consumer<ChoreListViewModel>(
                   builder: (context, choreList, child) {
                 return Expanded(

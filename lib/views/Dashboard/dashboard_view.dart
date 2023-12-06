@@ -78,7 +78,7 @@ class _DashboardViewState extends State<DashboardView> {
       body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(25),
               width: MediaQuery.of(context).size.width,
               //height: MediaQuery.of(context).size.height,
               child: Column(
@@ -87,7 +87,7 @@ class _DashboardViewState extends State<DashboardView> {
                     const SizedBox(height: 10),
                     const Text('Dashboard',
                         style: (TextStyle(
-                          fontSize: 26,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ))),
                     const SizedBox(height: 20),
