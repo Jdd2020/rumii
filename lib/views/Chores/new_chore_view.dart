@@ -17,12 +17,16 @@ class _NewChoreState extends State<NewChore> {
   DateTime? dueDate;
   ChoreListViewModel choreList = ChoreListViewModel();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController assignUserController = TextEditingController();
+ // final TextEditingController assignUserController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
   final TextEditingController repetitionController = TextEditingController();
   final TextEditingController reminderController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController pointsController = TextEditingController();
+
+  //users
+  late String selectedAssignee = '';
+  final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
 
   Future<void> fetchUsers(String houseKey) async {
     await choreList.getData(houseKey);
@@ -41,12 +45,13 @@ class _NewChoreState extends State<NewChore> {
   initState() {
     super.initState();
     Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
+    selectedAssignee = householdMembers.isNotEmpty ? householdMembers[0] : '';
   }
 
   @override
   void dispose() {
     nameController.dispose();
-    assignUserController.dispose();
+    //assignUserController.dispose();
     dueDateController.dispose();
     noteController.dispose();
     pointsController.dispose();
@@ -89,7 +94,7 @@ class _NewChoreState extends State<NewChore> {
                           dueDate: dueDateController.text,
                           isCompleted: false);
                       Provider.of<ChoreListViewModel>(context, listen: false)
-                          .addChore(newChore, assignUserController.text);
+                          .addChore(newChore, selectedAssignee);
                       Provider.of<ChoreListViewModel>(context, listen: false)
                           .writeData("DSBU781");
                       // ignore: use_build_context_synchronously
@@ -112,7 +117,30 @@ class _NewChoreState extends State<NewChore> {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
+              // Assign User Dropdown
+              DropdownButtonFormField<String>(
+                value: householdMembers.contains(selectedAssignee)
+                    ? selectedAssignee
+                    : null,
+                items: householdMembers.map((member) {
+                  return DropdownMenuItem<String>(
+                    value: member,
+                    child: Text(member),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      selectedAssignee = newValue;
+                    });
+                  }
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Assign User',
+                ),
+              ),
+              
+            /*  SizedBox(
                 width: 1500,
                 child: TextField(
                   controller: assignUserController,
@@ -120,7 +148,7 @@ class _NewChoreState extends State<NewChore> {
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Assign User'),
                 ),
-              ),
+              ), */
               const SizedBox(
                 height: 30,
               ),
