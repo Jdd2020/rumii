@@ -122,7 +122,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                         itemCount: choreList.users.length,
                         itemBuilder: (context, index) {
                           final user = choreList.users[index];
-                          return Column(
+                          return Column (
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -141,7 +141,10 @@ class _ChoreListViewState extends State<ChoreListView> {
                                 itemCount: user.chores.length,
                                 itemBuilder: (context, choreIndex) {
                                   final chore = user.chores[choreIndex];
-                                  return InkWell(
+                                  return Card(
+                                    elevation: 2,
+                                    margin: const EdgeInsets.symmetric(vertical: 2, horizontal:10),
+                                    child: ListTile(
                                     onTap: () => {
                                       Navigator.push(
                                         context,
@@ -157,11 +160,8 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                 )),
                                       )
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          IconButton(
+                                    contentPadding: const EdgeInsets.all(8.0),
+                                    leading: IconButton(
                                             icon: Icon(
                                               chore.priority
                                                   ? Icons.star
@@ -171,16 +171,12 @@ class _ChoreListViewState extends State<ChoreListView> {
                                               choreList
                                                   .toggleChorePriority(chore);
                                             },
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(chore.name,
+                                            ),
+                                      title: Text(chore.name,
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold)),
-                                              Row(
+                                              subtitle: Row(
                                                 children: [
                                                   const Text('Due Date: ',
                                                       style: TextStyle(
@@ -194,29 +190,20 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                       )),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Checkbox(
+                                              trailing: Checkbox(
                                             value: chore.isCompleted,
                                             onChanged: (value) {
                                               choreList
                                                   .toggleChoreComplete(chore);
                                             },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          );
-                        }));
-              }),
-            ]),
+                                            ),),);},),
+                                            const SizedBox(height: 10),
+                                            ],
+        );},),);},),
+            ],
+        ),
       ),
+        
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/chores',
           onRouteChanged: (route) {
