@@ -29,7 +29,7 @@ class _ViewChoreState extends State<ViewChore> {
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
             width: MediaQuery.of(context).size.width,
             //height: MediaQuery.of(context).size.height,
             child: Column(
@@ -38,7 +38,13 @@ class _ViewChoreState extends State<ViewChore> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
+                      Container (
+                        padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20), 
+                          color: Colors.grey[300],
+                        ),
+                      child: InkWell(
                           child: const Text('Cancel',
                               style: TextStyle(
                                 fontSize: 16,
@@ -46,7 +52,14 @@ class _ViewChoreState extends State<ViewChore> {
                           onTap: () => {
                                 Navigator.pop(context),
                               }),
-                      InkWell(
+                      ),
+                      Container (
+                        padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20), 
+                          color: Colors.grey[300],
+                        ),
+                      child: InkWell(
                           child: const Text('Edit',
                               style: TextStyle(
                                 fontSize: 16,
@@ -65,6 +78,7 @@ class _ViewChoreState extends State<ViewChore> {
                                           )),
                                 )
                               }),
+                      ),
                     ]),
                 const Text('View Chore',
                     style: (TextStyle(

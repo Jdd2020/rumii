@@ -60,7 +60,6 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     ),
                   ),
 
-
                   onPressed: () => {
                 
                   Navigator.push(
@@ -97,7 +96,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.fromLTRB(8,12,8,6),
                           child: Row(
                             children: [
                               Container(
@@ -156,7 +155,10 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   }
 
   Widget _buildShoppingItem(ShopViewModel item, UserViewModel user) {
-    return InkWell(
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      child: ListTile(
       onTap: () {
         Navigator.push(
             context,
@@ -167,31 +169,19 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                 lastItem: item.name),
             ));
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+      contentPadding: const EdgeInsets.fromLTRB(15,8,15,8),
+        leading: Text(
                   item.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  children: [
-                    Text(
+                title: Text(
                       item.notes,
                       style: const TextStyle(
+                        fontSize: 14.0,
                         color: Color.fromARGB(227, 112, 112, 112),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-            const Spacer(),
-            Checkbox(
+                  trailing: Checkbox(
               value: item.isCompleted,
               onChanged: (value) {
                 setState(() {
@@ -199,11 +189,11 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                 });
               },
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+      
   }
+  
 }
 
 // Fake data

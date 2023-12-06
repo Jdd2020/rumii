@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/models/shop_model.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
+import 'package:rumii/viewmodels/shopping_list_view_model.dart';
+import 'package:provider/provider.dart';
 
 class EditItem extends StatefulWidget {
   final String user;
@@ -8,8 +10,7 @@ class EditItem extends StatefulWidget {
   final String lastItem;
   final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
 
-  EditItem({
-    Key? key,
+  EditItem({Key? key, 
     required this.user,
     required this.shop,
     required this.lastItem,
@@ -43,78 +44,94 @@ class _EditItemState extends State<EditItem> {
   void dispose() {
     // Dispose controllers to avoid memory leaks
     itemController.dispose();
-    assignUserController.dispose();
     quantityController.dispose();
     typeController.dispose();
     notesController.dispose();
+    assignUserController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Padding (
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Container(
-          child: Column(
-            children: [
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 50.0),
-                  child: Text(
-                    'Edit Item',
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Container (
+                padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), 
+                  color: Colors.grey[300],
+                ),
+              child: InkWell(
+                onTap: () => Navigator.pop(context),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
                   ),
                 ),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Cancel',
+              ),),
+              Container (
+                padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), 
+                  color: Colors.grey[300],
+                ),
+              child: InkWell(
+                onTap: () {
+                  //save
+                  Navigator.pop(context);
+                },
+                child: const Text('Save',
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.black,
-                    ),
+                    )),
+              ),
+              ),
+            ]),
+            const Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                  'Edit Item',
+                  style: TextStyle(
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    //save
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Save',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      )),
+            ),
+            
+            // editable text fields
+            const SizedBox(height: 20),
+            buildEditableTextField("Item", itemController),
+            buildEditableTextField("Assigned user", assignUserController),
+            buildEditableTextField("Quantity", quantityController),
+            buildEditableTextField("Type", typeController),
+            buildEditableTextField("Notes", notesController),
+            const SizedBox(height: 20),
+            SizedBox(
+                  height: 50,
+                  width: 200,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Provider.of<ShoppingListViewModel>(context, listen: false)
+                            .deleteItem(
+                                assignUserController.text, widget.lastItem);
+                        Provider.of<ShoppingListViewModel>(context, listen: false)
+                            .writeData("DSBU781");
+                        Navigator.pushNamed(context, "/shopping_list");
+                      },
+                      child: const Text("Delete")),
                 ),
-              ]),
-              // Editable text fields
-              const SizedBox(height: 20),
-              buildEditableTextField("Item", itemController),
-              buildEditableTextField("Assign User", assignUserController),
-              buildEditableTextField("Quantity", quantityController),
-              buildEditableTextField("Type", typeController),
-              buildEditableTextField("Notes", notesController),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle the delete logic
-                  },
-                  child: const Text("Delete"),
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
+          ],
         ),
+      ),
       ),
     );
   }
@@ -124,14 +141,13 @@ class _EditItemState extends State<EditItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 6),
         Text(
           label,
           style: const TextStyle(
             fontWeight: FontWeight.normal,
           ),
         ),
-        const SizedBox(height: 2),
+         const SizedBox(height: 2),
         Container(
           width: MediaQuery.of(context).size.width * 0.98,
           height: 50,
@@ -169,7 +185,7 @@ class _EditItemState extends State<EditItem> {
                           border: InputBorder.none,
                         ),
                       ),
-              ),
+            ),
             ],
           ),
         ),

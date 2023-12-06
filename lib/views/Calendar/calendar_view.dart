@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:rumii/viewmodels/calendar_view_model.dart';
+import 'package:rumii/views/Calendar/new_event_view.dart';
+import 'package:rumii/viewmodels/event_view_model.dart';
+import 'package:provider/provider.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({super.key});
@@ -25,15 +30,57 @@ class _CalendarViewState extends State<CalendarView> {
           automaticallyImplyLeading: false,
         ),
         body: Container(
-            padding: const EdgeInsets.all(20),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-              SizedBox(height: 10),
-              Text('Calendar', style: (TextStyle(fontSize: 26, fontWeight: FontWeight.bold,))),
-            ])),
+        padding: const EdgeInsets.all(25),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(height: 10),
+            const Text('Calendar',
+                style: (TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ))),
+            //const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                child: ElevatedButton(
+                  
+                  child: const Text(
+                    "+ New",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      //color: Colors.black,
+                    ),
+                  ),
+
+                  onPressed: () => {
+                
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                              create: (context) => CalendarViewModel(),
+                              child: const NewEvent(),
+                            )),
+                  ),
+                },
+                style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              ),
+                              
+                          )
+                )
+              ),
+            ),
+          ],
+        ),
+        ),
            bottomNavigationBar: CustomBottomNavigationBar(
               currentRoute: '/calendar', 
               onRouteChanged: (route) {
