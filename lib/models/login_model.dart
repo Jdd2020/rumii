@@ -36,7 +36,7 @@ class Login {
         'username': username,
         'password': password,
         'email': email,
-        'hosueKey': houseKey,
+        'houseKey': houseKey,
         'uniqueId': uniqueId,
         'signedIn': signedIn,
         'verification': verification

@@ -10,6 +10,9 @@ import 'package:provider/provider.dart';
 import 'router.dart' as local_router;
 import 'constants.dart';
 
+import 'package:rumii/viewmodels/login_view_model.dart';
+//import 'package:rumii/services/user_provider.dart';
+
 void main() => runApp(const App());
 
 class App extends StatelessWidget {

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
+import 'package:rumii/viewmodels/user_view_model.dart';
 import 'package:rumii/views/Shopping/new_item_view.dart';
 import 'package:rumii/views/Shopping/view_item_view.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
@@ -95,7 +96,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.fromLTRB(8, 12, 8, 6),
                           child: Row(
                             children: [
                               Container(
@@ -132,7 +133,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                           itemCount: user.shopItems.length,
                           itemBuilder: (context, itemIndex) {
                             final item = user.shopItems[itemIndex];
-                            return _buildShoppingItem(item);
+                            return _buildShoppingItem(item, user);
                           },
                         ),
                       ],
@@ -154,48 +155,38 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 
-  Widget _buildShoppingItem(ShopViewModel item) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ViewItem(shop: item.toShop()),
-            ));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.name,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      item.notes,
-                      style: const TextStyle(
-                        color: Color.fromARGB(227, 112, 112, 112),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const Spacer(),
-            Checkbox(
-              value: item.isCompleted,
-              onChanged: (value) {
-                setState(() {
-                  //item.isCompleted = value ?? false;
-                });
-              },
-            ),
-          ],
+  Widget _buildShoppingItem(ShopViewModel item, UserViewModel user) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+      child: ListTile(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ViewItem(shop: item, user: user.name, lastItem: item.name),
+              ));
+        },
+        contentPadding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
+        leading: Text(
+          item.name,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        title: Text(
+          item.notes,
+          style: const TextStyle(
+            fontSize: 14.0,
+            color: Color.fromARGB(227, 112, 112, 112),
+          ),
+        ),
+        trailing: Checkbox(
+          value: item.isCompleted,
+          onChanged: (value) {
+            setState(() {
+              //item.isCompleted = value ?? false;
+            });
+          },
         ),
       ),
     );

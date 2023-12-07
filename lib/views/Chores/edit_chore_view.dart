@@ -37,6 +37,7 @@ class _EditChoreState extends State<EditChore> {
   final TextEditingController reminderController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController pointsController = TextEditingController();
+  String selectedAssignee = '';
 
   @override
   void initState() {
@@ -44,7 +45,7 @@ class _EditChoreState extends State<EditChore> {
     Provider.of<ChoreListViewModel>(context, listen: false)
         .getData(widget.housekey);
     nameController.text = widget.chore.name;
-    assignUserController.text = widget.user;
+    selectedAssignee = widget.user;
     dueDateController.text = widget.chore.dueDate;
     /*
     repetitionController.text = widget.repetition;
@@ -60,7 +61,7 @@ class _EditChoreState extends State<EditChore> {
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             width: MediaQuery.of(context).size.width,
             //height: MediaQuery.of(context).size.height,
             child: Column(
@@ -69,36 +70,50 @@ class _EditChoreState extends State<EditChore> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      child: const Text('Cancel',
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[300],
+                      ),
+                      child: InkWell(
+                        child: const Text('Cancel',
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () => Navigator.pop(context),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[300],
+                      ),
+                      child: InkWell(
+                        child: const Text(
+                          'Save',
                           style: TextStyle(
                             fontSize: 16,
-                          )),
-                      onTap: () => Navigator.pop(context),
-                    ),
-                    InkWell(
-                      child: const Text(
-                        'Save',
-                        style: TextStyle(
-                          fontSize: 16,
+                          ),
                         ),
+                        onTap: () {
+                          //save changes
+                          var altered = Chore(
+                              name: nameController.text,
+                              priority: false,
+                              dueDate: dueDateController.text,
+                              isCompleted: false);
+                          Provider.of<ChoreListViewModel>(context,
+                                  listen: false)
+                              .editChore(altered, assignUserController.text,
+                                  widget.lastChore);
+                          Provider.of<ChoreListViewModel>(context,
+                                  listen: false)
+                              .writeData("DSBU781");
+                          Navigator.pushNamed(context, "/chores");
+                        },
                       ),
-                      onTap: () {
-                        //save changes
-                        var altered = Chore(
-                            name: nameController.text,
-                            priority: false,
-                            dueDate: dueDateController.text,
-                            isCompleted: false);
-                        Provider.of<ChoreListViewModel>(context, listen: false)
-                            .editChore(altered, assignUserController.text,
-                                widget.lastChore);
-                        Provider.of<ChoreListViewModel>(context, listen: false)
-                            .writeData(widget.housekey);
-                        Navigator.pushNamed(context, choreListRoute,
-                            arguments: SessionData.data(
-                                widget.username, widget.housekey));
-                      },
                     ),
                   ],
                 ),
@@ -113,9 +128,9 @@ class _EditChoreState extends State<EditChore> {
                       fontSize: 20,
                     )),
                 const SizedBox(height: 20),
-                buildEditableInfoRow('Chore', nameController),
-                buildEditableInfoRow('Assigned', assignUserController),
-                buildEditableInfoRow('Due Date', dueDateController),
+                buildEditableTextField('Chore', nameController),
+                buildEditableTextField('Assigned user', assignUserController),
+                buildEditableTextField('Due Date', dueDateController),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 50,
@@ -134,10 +149,10 @@ class _EditChoreState extends State<EditChore> {
                       child: const Text("Delete")),
                 )
                 /*
-                buildEditableInfoRow('Repetition', repetitionController),
-                buildEditableInfoRow('Reminder', reminderController),
-                buildEditableInfoRow('Note', noteController),
-                buildEditableInfoRow('Points', pointsController),
+                buildEditableTextField('Repetition', repetitionController),
+                buildEditableTextField('Reminder', reminderController),
+                buildEditableTextField('Note', noteController),
+                buildEditableTextField('Points', pointsController),
                 */
               ],
             ),
@@ -145,11 +160,11 @@ class _EditChoreState extends State<EditChore> {
         ));
   }
 
-  Widget buildEditableInfoRow(String label, TextEditingController controller) {
+  Widget buildEditableTextField(
+      String label, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 6),
         Text(
           label,
           style: const TextStyle(
@@ -157,13 +172,47 @@ class _EditChoreState extends State<EditChore> {
           ),
         ),
         const SizedBox(height: 2),
-        TextField(
-          controller: controller,
-          maxLines: 1,
-          obscureText: false,
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.all(10), // Adjust internal padding
-            border: OutlineInputBorder(),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.98,
+          height: 50,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: label == 'Assigned user'
+                    ? DropdownButtonFormField<String>(
+                        value: widget.householdMembers.contains(controller.text)
+                            ? controller.text
+                            : widget.householdMembers[0],
+                        items: widget.householdMembers.map((String member) {
+                          return DropdownMenuItem<String>(
+                            value: member,
+                            child: Text(member),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              controller.text = newValue;
+                            });
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      )
+                    : TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 10),

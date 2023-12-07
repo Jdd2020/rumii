@@ -22,12 +22,16 @@ class _NewChoreState extends State<NewChore> {
   DateTime? dueDate;
   ChoreListViewModel choreList = ChoreListViewModel();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController assignUserController = TextEditingController();
+ // final TextEditingController assignUserController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
   final TextEditingController repetitionController = TextEditingController();
   final TextEditingController reminderController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
   final TextEditingController pointsController = TextEditingController();
+
+  //users
+  late String selectedAssignee = '';
+  final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
 
   Future<void> fetchUsers(String houseKey) async {
     await choreList.getData(houseKey);
@@ -46,12 +50,13 @@ class _NewChoreState extends State<NewChore> {
   initState() {
     super.initState();
     Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
+    selectedAssignee = householdMembers.isNotEmpty ? householdMembers[0] : '';
   }
 
   @override
   void dispose() {
     nameController.dispose();
-    assignUserController.dispose();
+    //assignUserController.dispose();
     dueDateController.dispose();
     noteController.dispose();
     pointsController.dispose();
@@ -63,26 +68,34 @@ class _NewChoreState extends State<NewChore> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
+          child: Padding (
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Container(
-            padding: const EdgeInsets.all(16),
             width: MediaQuery.of(context).size.width,
             // height: MediaQuery.of(context).size.height,
             child: Column(children: <Widget>[
-              const SizedBox(height: 40),
-              const Text('New Chore',
-                  style: (TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ))),
               const SizedBox(height: 20),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                InkWell(
+                Container (
+                  padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), 
+                    color: Colors.grey[300],
+                  ),
+                child: InkWell(
                     child: const Text('Cancel',
                         style: TextStyle(
                           fontSize: 16,
                         )),
                     onTap: () => {Navigator.pop(context)}),
-                InkWell(
+                ),
+                Container(
+                padding: EdgeInsets.fromLTRB(10,2,10,2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), 
+                    color: Colors.grey[300],
+                  ),
+                child: InkWell(
                     child: const Text('Save',
                         style: TextStyle(
                           fontSize: 16,
@@ -94,7 +107,7 @@ class _NewChoreState extends State<NewChore> {
                           dueDate: dueDateController.text,
                           isCompleted: false);
                       Provider.of<ChoreListViewModel>(context, listen: false)
-                          .addChore(newChore, assignUserController.text);
+                          .addChore(newChore, selectedAssignee);
                       Provider.of<ChoreListViewModel>(context, listen: false)
                           .writeData(widget.housekey);
                       // ignore: use_build_context_synchronously
@@ -102,7 +115,16 @@ class _NewChoreState extends State<NewChore> {
                           arguments: SessionData.data(
                               widget.username, widget.housekey));
                     }),
+                ),
               ]),
+              
+              const Text('New Chore',
+                  style: (TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ))),
+              const SizedBox(height: 20),
+              
               const SizedBox(
                 height: 30,
               ),
@@ -119,7 +141,30 @@ class _NewChoreState extends State<NewChore> {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
+              // Assign User Dropdown
+              DropdownButtonFormField<String>(
+                value: householdMembers.contains(selectedAssignee)
+                    ? selectedAssignee
+                    : null,
+                items: householdMembers.map((member) {
+                  return DropdownMenuItem<String>(
+                    value: member,
+                    child: Text(member),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      selectedAssignee = newValue;
+                    });
+                  }
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Assign User',
+                ),
+              ),
+              
+            /*  SizedBox(
                 width: 1500,
                 child: TextField(
                   controller: assignUserController,
@@ -127,7 +172,7 @@ class _NewChoreState extends State<NewChore> {
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Assign User'),
                 ),
-              ),
+              ), */
               const SizedBox(
                 height: 30,
               ),
@@ -262,6 +307,7 @@ class _NewChoreState extends State<NewChore> {
                 ),
               ),
             ]),
+          ),
           ),
         ));
   }
