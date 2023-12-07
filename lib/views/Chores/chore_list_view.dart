@@ -2,13 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rumii/SessionData.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rumii/views/Chores/new_chore_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
 
 class ChoreListView extends StatefulWidget {
-  const ChoreListView({super.key});
+  final String username;
+  final String housekey;
+  const ChoreListView(
+      {Key? key, required this.username, required this.housekey})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -25,13 +30,7 @@ class _ChoreListViewState extends State<ChoreListView> {
     return chores.users;
   });
   */
-  Future<void> fetchUsers(String houseKey, ChoreListViewModel choreList) async {
-    await choreList.getData(houseKey);
-  }
 
-  Future<void> writeUsers(String houseKey, ChoreListViewModel choreList) async {
-    await choreList.writeData(houseKey);
-  }
   //Future<void> toggleChorePriority(ChoreViewModel choreViewModel) {
   //choreList.toggleChorePriority(choreViewModel);
   //}
@@ -39,7 +38,8 @@ class _ChoreListViewState extends State<ChoreListView> {
   @override
   initState() {
     super.initState();
-    Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
+    Provider.of<ChoreListViewModel>(context, listen: false)
+        .getData(widget.housekey);
   }
 
   @override
@@ -74,33 +74,34 @@ class _ChoreListViewState extends State<ChoreListView> {
                 alignment: Alignment.topRight,
                 child: InkWell(
                   child: ElevatedButton(
-                  
-                  child: const Text(
-                    "+ New",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      //color: Colors.black,
-                    ),
-                  ),
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ChangeNotifierProvider(
-                                create: (context) => ChoreListViewModel(),
-                                child: NewChore(),
-                              )),
-                    )
-                  },
-                  style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              ),
-                              
-                          )
-                  ),
+                      child: const Text(
+                        "+ New",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          //color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ChangeNotifierProvider(
+                                        create: (context) =>
+                                            ChoreListViewModel(),
+                                        child: NewChore(
+                                          username: widget.username,
+                                          housekey: widget.housekey,
+                                        ),
+                                      )),
+                            )
+                          },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      )),
 
                   /*onTap: () => {
                     Navigator.push(
@@ -151,9 +152,12 @@ class _ChoreListViewState extends State<ChoreListView> {
                                                   create: (context) =>
                                                       ChoreListViewModel(),
                                                   child: ViewChore(
-                                                      chore: chore,
-                                                      user: user.name,
-                                                      lastChore: chore.name),
+                                                    chore: chore,
+                                                    user: user.name,
+                                                    lastChore: chore.name,
+                                                    housekey: widget.housekey,
+                                                    username: widget.username,
+                                                  ),
                                                 )),
                                       )
                                     },
@@ -221,10 +225,11 @@ class _ChoreListViewState extends State<ChoreListView> {
           currentRoute: '/chores',
           onRouteChanged: (route) {
             Provider.of<ChoreListViewModel>(context, listen: false)
-                .writeData("DSBU781");
+                .writeData(widget.housekey);
             //choreList.writeData("DSBU781");
-            Navigator.of(context)
-                .pushNamed(route); // navigate to a different view
+            Navigator.pushNamed(context, route,
+                arguments: SessionData.data(widget.username,
+                    widget.housekey)); // navigate to a different view
           }),
     );
   }

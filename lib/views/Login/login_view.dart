@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/SessionData.dart';
 import 'package:rumii/views/Dashboard/dashboard_view.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    //Provider.of<LoginListViewModel>(context, listen: true);
+    Provider.of<LoginListViewModel>(context, listen: false).fetchData();
   }
 
   @override
@@ -86,41 +87,21 @@ class _LoginViewState extends State<LoginView> {
                       height: 50,
                       width: 200,
                       child: ElevatedButton(
-                          onPressed: () async {
-                            var userBase = context.read<LoginListViewModel>();
-                            await userBase.fetchUser(_usernameController.text);
-                            setState(() {});
-                            if (userBase.users.isNotEmpty) {
+                          onPressed: () {
+                            //await userBase.fetchUser(_usernameController.text);
+                            if (Provider.of<LoginListViewModel>(context,
+                                    listen: false)
+                                .loginCheck(_usernameController.text,
+                                    _passwordController.text)) {
+                              var user = Provider.of<LoginListViewModel>(
+                                      context,
+                                      listen: false)
+                                  .fetchUser(_usernameController.text);
                               // ignore: use_build_context_synchronously
-                              if (userBase.users[0].password ==
-                                      _passwordController.text &&
-                                  userBase.users[0].username ==
-                                      _usernameController.text) {
-                                // ignore: use_build_context_synchronously
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DashboardView(
-                                            //// username:
-                                            // userBase.users[0].username,
-                                            // housekey:
-                                            //  userBase.users[0].houseKey
-                                            )));
-                                setState(() {});
-                              } else {
-                                // ignore: use_build_context_synchronously
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return const AlertDialog(
-                                        content: Text(
-                                            "Invalid username or password"),
-                                      );
-                                    });
-                              }
-                            }
-                            // ignore: use_build_context_synchronously
-                            else {
+                              Navigator.pushNamed(context, dashRoute,
+                                  arguments: SessionData.data(
+                                      user.username, user.houseKey));
+                            } else {
                               // ignore: use_build_context_synchronously
                               showDialog(
                                   context: context,
@@ -136,7 +117,10 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(height: 20),
                   InkWell(
                     child: const Text("New User? Register Here!"),
-                    onTap: () => {Navigator.pushNamed(context, registerRoute)},
+                    onTap: () => {
+                      Navigator.pushNamed(context, registerRoute,
+                          arguments: SessionData.data("", ""))
+                    },
                   ),
                 ]))));
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/SessionData.dart';
+import 'package:rumii/constants.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
@@ -10,13 +12,17 @@ class EditChore extends StatefulWidget {
   final String user;
   final ChoreViewModel chore;
   final String lastChore;
+  final String housekey;
+  final String username;
 
-  const EditChore({
-    Key? key,
-    required this.chore,
-    required this.user,
-    required this.lastChore,
-  }) : super(key: key);
+  const EditChore(
+      {Key? key,
+      required this.chore,
+      required this.user,
+      required this.lastChore,
+      required this.housekey,
+      required this.username})
+      : super(key: key);
 
   @override
   _EditChoreState createState() => _EditChoreState();
@@ -35,7 +41,8 @@ class _EditChoreState extends State<EditChore> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ChoreListViewModel>(context, listen: false).getData("DSBU781");
+    Provider.of<ChoreListViewModel>(context, listen: false)
+        .getData(widget.housekey);
     nameController.text = widget.chore.name;
     assignUserController.text = widget.user;
     dueDateController.text = widget.chore.dueDate;
@@ -87,8 +94,10 @@ class _EditChoreState extends State<EditChore> {
                             .editChore(altered, assignUserController.text,
                                 widget.lastChore);
                         Provider.of<ChoreListViewModel>(context, listen: false)
-                            .writeData("DSBU781");
-                        Navigator.pushNamed(context, "/chores");
+                            .writeData(widget.housekey);
+                        Navigator.pushNamed(context, choreListRoute,
+                            arguments: SessionData.data(
+                                widget.username, widget.housekey));
                       },
                     ),
                   ],
@@ -117,8 +126,10 @@ class _EditChoreState extends State<EditChore> {
                             .deleteChore(
                                 assignUserController.text, widget.lastChore);
                         Provider.of<ChoreListViewModel>(context, listen: false)
-                            .writeData("DSBU781");
-                        Navigator.pushNamed(context, "/chores");
+                            .writeData(widget.housekey);
+                        Navigator.pushNamed(context, choreListRoute,
+                            arguments: SessionData.data(
+                                widget.username, widget.housekey));
                       },
                       child: const Text("Delete")),
                 )

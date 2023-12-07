@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/SessionData.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -15,12 +16,11 @@ import 'package:rumii/viewmodels/edit_household_view_model.dart';
 import 'package:rumii/views/Dashboard/edit_household_view.dart';
 
 class DashboardView extends StatefulWidget {
-  //final String username;
-  //final String housekey;
+  final String username;
+  final String housekey;
 
-  const DashboardView({Key? key})
-      //required this.username,
-      //required this.housekey})
+  const DashboardView(
+      {Key? key, required this.username, required this.housekey})
       : super(key: key);
 
   @override
@@ -62,6 +62,8 @@ class _DashboardViewState extends State<DashboardView> {
 
   @override
   Widget build(BuildContext context) {
+    var user = widget.username;
+    var house = widget.housekey;
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/rumii-logo.png',
@@ -86,14 +88,14 @@ class _DashboardViewState extends State<DashboardView> {
                           fontWeight: FontWeight.bold,
                         ))),
                     const SizedBox(height: 20),
-                    const Text('Hello, Henry!',
-                        style: TextStyle(
+                    Text('Hello, $user!',
+                        style: const TextStyle(
                           fontSize: 32,
                         )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('House Key: $widget.housekey',
+                        Text('House Key: $house',
                             style: const TextStyle(
                               fontSize: 18,
                             )),
@@ -139,7 +141,9 @@ class _DashboardViewState extends State<DashboardView> {
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/home',
           onRouteChanged: (route) {
-            Navigator.pushNamed(context, route); // navigate to a different view
+            Navigator.pushNamed(context, route,
+                arguments: SessionData.data(
+                    user, house)); // navigate to a different view
           }),
     );
   }
@@ -164,7 +168,9 @@ class _DashboardViewState extends State<DashboardView> {
             // arrow to corresponding module
             icon: const Icon(Icons.arrow_forward),
             onPressed: () {
-              Navigator.of(context).pushNamed(route);
+              Navigator.pushNamed(context, route,
+                  arguments:
+                      SessionData.data(widget.username, widget.housekey));
             },
           ),
         ),
@@ -192,6 +198,8 @@ class _DashboardViewState extends State<DashboardView> {
                         chore: choreViewModel,
                         user: "Henry",
                         lastChore: chore.name,
+                        username: widget.username,
+                        housekey: widget.housekey,
                       ),
                     ),
                   ),

@@ -17,6 +17,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var username = "";
     return MaterialApp(
       title: "Login",
       debugShowCheckedModeBanner: false,
@@ -35,7 +36,7 @@ class App extends StatelessWidget {
       onGenerateRoute: local_router.Router.generateRoute,
       initialRoute: loginRoute,
       routes: {
-        '/home': (context) => const DashboardView(),
+        //'/home': (context) => const DashboardView(),
         // '/chores': (context) => const ChoreListView(),
         // '/shopping_list': (context) => const ShoppingListView(),
         '/calendar': (context) => const CalendarView(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/SessionData.dart';
+import 'package:rumii/constants.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
@@ -7,7 +9,10 @@ import 'package:rumii/models/chore_model.dart';
 
 // NewChore View
 class NewChore extends StatefulWidget {
-  const NewChore({Key? key}) : super(key: key);
+  final String housekey;
+  final String username;
+  const NewChore({Key? key, required this.username, required this.housekey})
+      : super(key: key);
 
   @override
   _NewChoreState createState() => _NewChoreState();
@@ -91,9 +96,11 @@ class _NewChoreState extends State<NewChore> {
                       Provider.of<ChoreListViewModel>(context, listen: false)
                           .addChore(newChore, assignUserController.text);
                       Provider.of<ChoreListViewModel>(context, listen: false)
-                          .writeData("DSBU781");
+                          .writeData(widget.housekey);
                       // ignore: use_build_context_synchronously
-                      Navigator.of(context).pushNamed("/chores");
+                      Navigator.pushNamed(context, choreListRoute,
+                          arguments: SessionData.data(
+                              widget.username, widget.housekey));
                     }),
               ]),
               const SizedBox(

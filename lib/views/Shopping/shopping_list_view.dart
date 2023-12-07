@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rumii/SessionData.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
 import 'package:rumii/views/Shopping/new_item_view.dart';
@@ -7,7 +8,11 @@ import 'package:rumii/views/Shopping/view_item_view.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 
 class ShoppingListView extends StatefulWidget {
-  const ShoppingListView({super.key});
+  final String username;
+  final String housekey;
+  const ShoppingListView(
+      {Key? key, required this.username, required this.housekey})
+      : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -19,7 +24,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   void initState() {
     super.initState();
     Provider.of<ShoppingListViewModel>(context, listen: false)
-        .getData("DSBU781");
+        .getData(widget.housekey);
   }
 
   @override
@@ -48,38 +53,32 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                child: ElevatedButton(
-                  
-                  child: const Text(
-                    "+ New",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      //color: Colors.black,
-                    ),
-                  ),
-
-
-                  onPressed: () => {
-                
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChangeNotifierProvider(
-                              create: (context) => ShoppingListViewModel(),
-                              child: const NewItem(),
-                            )),
-                  ),
-                },
-                style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              ),
-                              
-                          )
-                )
-              ),
+                  child: ElevatedButton(
+                      child: const Text(
+                        "+ New",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          //color: Colors.black,
+                        ),
+                      ),
+                      onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChangeNotifierProvider(
+                                        create: (context) =>
+                                            ShoppingListViewModel(),
+                                        child: const NewItem(),
+                                      )),
+                            ),
+                          },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ))),
             ),
             //const SizedBox(height: 20),
             // add the list
@@ -104,7 +103,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                 width: 33,
                                 alignment: Alignment.center,
                                 margin:
-                                    const EdgeInsets.symmetric(horizontal: 8), 
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 // padding: const EdgeInsets.all(8),
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
@@ -148,7 +147,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       bottomNavigationBar: CustomBottomNavigationBar(
         currentRoute: '/shopping_list',
         onRouteChanged: (route) {
-          Navigator.of(context).pushNamed(route);
+          Navigator.pushNamed(context, route,
+              arguments: SessionData.data(widget.username, widget.housekey));
         },
       ),
     );

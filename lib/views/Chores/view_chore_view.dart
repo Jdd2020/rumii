@@ -10,12 +10,16 @@ class ViewChore extends StatefulWidget {
   final ChoreViewModel chore;
   final String user;
   final String lastChore;
+  final String housekey;
+  final String username;
 
   const ViewChore(
       {Key? key,
       required this.chore,
       required this.user,
-      required this.lastChore})
+      required this.lastChore,
+      required this.housekey,
+      required this.username})
       : super(key: key);
 
   @override
@@ -61,7 +65,9 @@ class _ViewChoreState extends State<ViewChore> {
                                             child: EditChore(
                                                 chore: widget.chore,
                                                 user: widget.user,
-                                                lastChore: widget.lastChore),
+                                                lastChore: widget.lastChore,
+                                                housekey: widget.housekey,
+                                                username: widget.username),
                                           )),
                                 )
                               }),

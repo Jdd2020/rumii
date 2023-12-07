@@ -3,6 +3,7 @@ import 'package:rumii/views/Dashboard/dashboard_view.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/models/login_model.dart';
+import 'package:rumii/views/Login/housekey_view.dart';
 
 //import 'package:rumii/constants.dart';
 
@@ -116,7 +117,8 @@ class _RegisterViewState extends State<RegisterView> {
                       height: 50,
                       width: 250,
                       child: ElevatedButton(
-                        onPressed: () async {
+                        onPressed: () {
+                          /*
                           var reg = Login(
                               username: _usernameController.text,
                               password: _passwordController.text,
@@ -129,6 +131,7 @@ class _RegisterViewState extends State<RegisterView> {
                           var userBase = context.read<LoginListViewModel>();
                           await userBase.writeUser(reg);
                           setState(() {});
+                          */
 
                           /*
                           showDialog(
@@ -144,9 +147,14 @@ class _RegisterViewState extends State<RegisterView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DashboardView(
-                                      // username: "",
-                                      // housekey: "",
+                                  builder: (_) => ChangeNotifierProvider(
+                                        create: (context) =>
+                                            LoginListViewModel(),
+                                        child: HousekeyView(
+                                          username: _usernameController.text,
+                                          password: _passwordController.text,
+                                          email: _emailController.text,
+                                        ),
                                       )));
                         },
                         child: const Text("Register"),

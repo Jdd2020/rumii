@@ -26,6 +26,7 @@ class ShopViewModel extends ChangeNotifier {
   bool get isCompleted {
     return shop.isCompleted;
   }
+
   Shop toShop() {
     return Shop(
       name: name,
