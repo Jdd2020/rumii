@@ -41,7 +41,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Rumii")),
+        appBar: AppBar(title: const Text("Login")),
         body: Container(
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
