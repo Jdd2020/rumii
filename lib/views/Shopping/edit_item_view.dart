@@ -10,7 +10,8 @@ class EditItem extends StatefulWidget {
   final String lastItem;
   final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
 
-  EditItem({Key? key, 
+  EditItem({
+    Key? key,
     required this.user,
     required this.shop,
     required this.lastItem,
@@ -54,84 +55,85 @@ class _EditItemState extends State<EditItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding (
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Container(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Container (
-                padding: const EdgeInsets.fromLTRB(10,2,10,2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), 
-                  color: Colors.grey[300],
-                ),
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 20),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[300],
+                  ),
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
-              ),),
-              Container (
-                padding: const EdgeInsets.fromLTRB(10,2,10,2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), 
-                  color: Colors.grey[300],
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[300],
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      //save
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Save',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+                        )),
+                  ),
                 ),
-              child: InkWell(
-                onTap: () {
-                  //save
-                  Navigator.pop(context);
-                },
-                child: const Text('Save',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
-                    )),
-              ),
-              ),
-            ]),
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Text(
+              ]),
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Text(
                   'Edit Item',
                   style: TextStyle(
                     fontSize: 26.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-            ),
-            
-            // editable text fields
-            const SizedBox(height: 20),
-            buildEditableTextField("Item", itemController),
-            buildEditableTextField("Assigned user", assignUserController),
-            buildEditableTextField("Quantity", quantityController),
-            buildEditableTextField("Type", typeController),
-            buildEditableTextField("Notes", notesController),
-            const SizedBox(height: 20),
-            SizedBox(
-                  height: 50,
-                  width: 200,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Provider.of<ShoppingListViewModel>(context, listen: false)
-                            .deleteItem(
-                                assignUserController.text, widget.lastItem);
-                        Provider.of<ShoppingListViewModel>(context, listen: false)
-                            .writeData("DSBU781");
-                        Navigator.pushNamed(context, "/shopping_list");
-                      },
-                      child: const Text("Delete")),
-                ),
-          ],
+              ),
+
+              // editable text fields
+              const SizedBox(height: 20),
+              buildEditableTextField("Item", itemController),
+              buildEditableTextField("Assigned user", assignUserController),
+              buildEditableTextField("Quantity", quantityController),
+              buildEditableTextField("Type", typeController),
+              buildEditableTextField("Notes", notesController),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Provider.of<ShoppingListViewModel>(context, listen: false)
+                          .deleteItem(
+                              assignUserController.text, widget.lastItem);
+                      Provider.of<ShoppingListViewModel>(context, listen: false)
+                          .writeData("DSBU781");
+                      Navigator.pushNamed(context, "/shopping_list");
+                    },
+                    child: const Text("Delete")),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -147,7 +149,7 @@ class _EditItemState extends State<EditItem> {
             fontWeight: FontWeight.normal,
           ),
         ),
-         const SizedBox(height: 2),
+        const SizedBox(height: 2),
         Container(
           width: MediaQuery.of(context).size.width * 0.98,
           height: 50,
@@ -159,9 +161,11 @@ class _EditItemState extends State<EditItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: label == "Assign User"
+                child: label == 'Assigned user'
                     ? DropdownButtonFormField<String>(
-                        value: controller.text,
+                        value: widget.householdMembers.contains(controller.text)
+                            ? controller.text
+                            : widget.householdMembers[0],
                         items: widget.householdMembers.map((String member) {
                           return DropdownMenuItem<String>(
                             value: member,
@@ -185,7 +189,7 @@ class _EditItemState extends State<EditItem> {
                           border: InputBorder.none,
                         ),
                       ),
-            ),
+              ),
             ],
           ),
         ),
