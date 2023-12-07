@@ -12,6 +12,14 @@ class ChoreListViewModel extends ChangeNotifier {
   ChoreListViewModel();
   List<UserViewModel> users = <UserViewModel>[];
 
+  List<String> getUsernames() {
+    List<String> names = [];
+    for (var user in users) {
+      names.add(user.name);
+    }
+    return names;
+  }
+
   Future<void> getData(String houseKey) async {
     //final directory = await getApplicationDocumentsDirectory();
     //var path = directory.path;

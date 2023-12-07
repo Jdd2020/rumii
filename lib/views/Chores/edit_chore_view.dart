@@ -162,6 +162,8 @@ class _EditChoreState extends State<EditChore> {
 
   Widget buildEditableTextField(
       String label, TextEditingController controller) {
+    List<String> householdMembers =
+        Provider.of<ChoreListViewModel>(context, listen: false).getUsernames();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -185,10 +187,10 @@ class _EditChoreState extends State<EditChore> {
               Expanded(
                 child: label == 'Assigned user'
                     ? DropdownButtonFormField<String>(
-                        value: widget.householdMembers.contains(controller.text)
+                        value: householdMembers.contains(controller.text)
                             ? controller.text
-                            : widget.householdMembers[0],
-                        items: widget.householdMembers.map((String member) {
+                            : householdMembers[0],
+                        items: householdMembers.map((String member) {
                           return DropdownMenuItem<String>(
                             value: member,
                             child: Text(member),

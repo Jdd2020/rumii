@@ -43,11 +43,11 @@ class _DashboardViewState extends State<DashboardView> {
   List<String> _recentEvents = [];
 
   Future<void> _fetchData() async {
-    if (widget.username != null && widget.houseKey != null) {
+    if (widget.username != null && widget.housekey != null) {
       List<Chore> recentChores = await _dataProvider.fetchRecentChores(
-          widget.username!, widget.houseKey!);
+          widget.username!, widget.housekey!);
       List<Shop> recentStoreNeeds = await _dataProvider.fetchRecentStoreNeeds(
-          widget.username!, widget.houseKey!);
+          widget.username!, widget.housekey!);
       List<String> recentEvents = await _dataProvider.fetchRecentEvents();
 
       setState(() {

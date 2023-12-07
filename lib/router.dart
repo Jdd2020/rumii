@@ -4,12 +4,14 @@ import 'package:rumii/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
+import 'package:rumii/views/Calendar/calendar_view.dart';
 import 'package:rumii/views/Dashboard/dashboard_view.dart';
 import 'package:rumii/views/Login/login_view.dart';
 import 'package:rumii/views/Login/register_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
 import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Shopping/shopping_list_view.dart';
+import 'package:rumii/viewmodels/calendar_view_model.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -53,6 +55,16 @@ class Router {
             builder: (_) => ChangeNotifierProvider(
                   create: (context) => ChoreListViewModel(),
                   child: DashboardView(
+                    username: userData.username,
+                    housekey: userData.housekey,
+                  ),
+                ));
+      case calenderRoute:
+        SessionData userData = args;
+        return MaterialPageRoute(
+            builder: (_) => ChangeNotifierProvider(
+                  create: (context) => CalendarViewModel(),
+                  child: CalendarView(
                     username: userData.username,
                     housekey: userData.housekey,
                   ),
