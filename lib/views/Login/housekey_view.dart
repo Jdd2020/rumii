@@ -31,10 +31,10 @@ class _HousekeyViewState extends State<HousekeyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Rumii")),
+        appBar: AppBar(title: const Text("")),
         body: Container(
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+            width: double.infinity,
             height: MediaQuery.of(context).size.height,
             child: Align(
                 alignment: FractionalOffset.center,
@@ -42,23 +42,24 @@ class _HousekeyViewState extends State<HousekeyView> {
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   const Text("Welcome to Rumii!",
                       style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold, height: 1.1)),
                   const SizedBox(height: 10),
                   const Text(
-                    "We have a few questions to get you started",
-                    style: TextStyle(fontSize: 16),
+                    "We have a few questions to get you started.",
+                    style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
-                  const Text("Have a houhold at Rumii already?",
+                  const Text("Have a household using Rumii already?",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   SizedBox(
                     width: 200,
+                    height: 30,
                     child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -76,9 +77,10 @@ class _HousekeyViewState extends State<HousekeyView> {
                         },
                         child: const Text("Yes, I have a household")),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 35),
                   SizedBox(
                       width: 200,
+                      height: 30,
                       child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(

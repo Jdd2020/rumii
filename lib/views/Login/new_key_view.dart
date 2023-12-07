@@ -33,26 +33,44 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Rumii")),
+        appBar: AppBar(title: const Text("Have a Household?")),
         body: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(vertical:10,horizontal:40),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Align(
                 alignment: FractionalOffset.center,
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  const Text("Welcome to Rumii!",
+                  const Text("Create a New Household",
                       style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold, height: 1.1)),
                   const SizedBox(height: 10),
                   const Text(
-                    "We have a few questions to get you started",
-                    style: TextStyle(fontSize: 16),
+                    "There are just a few steps to get you started.",
+                    style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
+                  const Divider(thickness:1),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Text(
+                    "Create a 'House Key'",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Text(
+                    "This is a unique code that others can use to join your household group.",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height:20),
+                  const Text(
+                    "Recommended Format: e.g. ABC1234",
+                    style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 122, 122, 122)),
+                  ),
+                  const SizedBox(height:8),
                   SizedBox(
                     width: 250,
                     child: TextField(
@@ -60,25 +78,18 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                       controller: _housekeyController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Housekey',
+                        labelText: 'House Key',
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    "Enter a key that'll be used to join your house!",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   SizedBox(
                       height: 50,
-                      width: 200,
+                      width: 180,
                       child: ElevatedButton(
-                          child: const Text("New Home"),
+                          child: const Text("Create Household"),
                           onPressed: () {
                             var user = Login(
                                 username: widget.username,

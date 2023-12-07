@@ -33,25 +33,25 @@ class _HasHousekeyViewState extends State<HasHousekeyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Rumii")),
+        appBar: AppBar(title: const Text("Have a Household?")),
         body: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Align(
                 alignment: FractionalOffset.center,
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  const Text("Welcome to Rumii!",
+                  const Text("Join the Household!",
                       style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold, height: 1.1)),
                   const SizedBox(height: 10),
                   const Text(
-                    "We have a few questions to get you started",
-                    style: TextStyle(fontSize: 16),
+                    "Your housemates can find their House Key code on the Dashboard.",
+                    style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   SizedBox(
                     width: 250,
@@ -60,7 +60,7 @@ class _HasHousekeyViewState extends State<HasHousekeyView> {
                       controller: _housekeyController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Housekey',
+                        labelText: 'Enter House Key',
                       ),
                     ),
                   ),
@@ -69,9 +69,9 @@ class _HasHousekeyViewState extends State<HasHousekeyView> {
                   ),
                   SizedBox(
                       height: 50,
-                      width: 200,
+                      width: 180,
                       child: ElevatedButton(
-                          child: const Text("Join Home"),
+                          child: const Text("Join Household"),
                           onPressed: () {
                             var user = Login(
                                 username: widget.username,
