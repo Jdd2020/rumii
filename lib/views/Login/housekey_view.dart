@@ -70,7 +70,7 @@ class _HousekeyViewState extends State<HousekeyView> {
                                         child: HasHousekeyView(
                                           username: widget.username,
                                           password: widget.password,
-                                          email: widget.password,
+                                          email: widget.email,
                                         ),
                                       )));
                         },
