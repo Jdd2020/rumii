@@ -108,7 +108,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EditHousehold()),
+                                    builder: (context) => EditHousehold(housekey: widget.housekey)),
                               );
                             },
                             child: const Text('Edit Household',
