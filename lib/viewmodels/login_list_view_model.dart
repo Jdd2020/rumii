@@ -34,14 +34,16 @@ class LoginListViewModel extends ChangeNotifier {
 
   Future<void> fetchData() async {
     final String jsonString = await rootBundle.loadString('assets/userDB.json');
-    var userList = await jsonDecode(jsonString) as Map<String, dynamic>;
+    var loginData = await jsonDecode(jsonString) as Map<String, dynamic>;
+    var userList = loginData['Users'] as Map<String, dynamic>;
+    var houseList = loginData['Houses'];
 
-    for (var tempUser in userList['Users'].keys.toList()) {
-      var user = Login.fromJson(userList['Users'][tempUser]);
+    for (var tempUser in userList.keys.toList()) {
+      var user = Login.fromJson(userList[tempUser]);
       users.add(LoginViewModel(login: user));
       notifyListeners();
     }
-    for (var houseKey in userList["Houses"]) {
+    for (var houseKey in houseList) {
       houseKeys.add(houseKey);
     }
     notifyListeners();

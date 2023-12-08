@@ -27,7 +27,7 @@ class Login {
       : username = json['username'] as String,
         password = json['password'] as String,
         email = json['email'] as String,
-        houseKey = json['hosueKey'] as String,
+        houseKey = json['houseKey'] as String,
         uniqueId = json['uniqueId'] as int,
         signedIn = json['signedIn'] as bool,
         verification = json['verification'] as int;

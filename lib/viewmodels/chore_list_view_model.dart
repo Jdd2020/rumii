@@ -11,6 +11,7 @@ import 'package:rumii/models/user_model.dart';
 class ChoreListViewModel extends ChangeNotifier {
   ChoreListViewModel();
   List<UserViewModel> users = <UserViewModel>[];
+  List<String> usernames = <String>[];
 
   List<String> getUsernames() {
     List<String> names = [];
@@ -43,6 +44,7 @@ class ChoreListViewModel extends ChangeNotifier {
         var user = UserViewModel(user: User(name: userList[i]));
         user.setChores(tempChores);
         users.add(user);
+        usernames.add(user.name);
       }
       print("data updated");
       notifyListeners();

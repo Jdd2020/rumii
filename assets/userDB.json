@@ -1,1 +1,53 @@
-{"Users":{"Henry":{"username":"Henry","password":"KP4EVA","email":"henryNumOne@hotmail.com","hosueKey":"DSBU781","uniqueId":0,"signedIn":true,"verification":18732},"HDawg":{"username":"HDawg","password":"KP4EVA","email":"henryNumOne@hotmail.com","hosueKey":"DSBU781","uniqueId":0,"signedIn":true,"verification":18732},"Jimbo":{"username":"Jimbo","password":"CheetahMan","email":"jdawg@supercool.com","hosueKey":"","uniqueId":0,"signedIn":false,"verification":-1},"Chet":{"username":"Chet","password":"1234","email":"1234","hosueKey":"DSBU781","uniqueId":0,"signedIn":false,"verification":-1},"Harry":{"username":"Harry","password":"1234","email":"1234","hosueKey":"HGH1234","uniqueId":0,"signedIn":false,"verification":-1}},"Houses":["DSBU781","HGH1234"]}
+{
+    "Users": {
+        "Henry": {
+            "username": "Henry",
+            "password": "KP4EVA",
+            "email": "henryNumOne@hotmail.com",
+            "houseKey": "DSBU781",
+            "uniqueId": 0,
+            "signedIn": true,
+            "verification": 18732
+        },
+        "HDawg": {
+            "username": "HDawg",
+            "password": "KP4EVA",
+            "email": "henryNumOne@hotmail.com",
+            "houseKey": "DSBU781",
+            "uniqueId": 0,
+            "signedIn": true,
+            "verification": 18732
+        },
+        "Jimbo": {
+            "username": "Jimbo",
+            "password": "CheetahMan",
+            "email": "jdawg@supercool.com",
+            "houseKey": "",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": -1
+        },
+        "Chet": {
+            "username": "Chet",
+            "password": "1234",
+            "email": "1234",
+            "houseKey": "DSBU781",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": -1
+        },
+        "Harry": {
+            "username": "Harry",
+            "password": "1234",
+            "email": "1234",
+            "houseKey": "HGH1234",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": -1
+        }
+    },
+    "Houses": [
+        "DSBU781",
+        "HGH1234"
+    ]
+}

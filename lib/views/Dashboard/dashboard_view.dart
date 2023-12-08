@@ -229,6 +229,8 @@ class _DashboardViewState extends State<DashboardView> {
                           shop: shopViewModel,
                           user: "Henry",
                           lastItem: storeNeed.name,
+                          housekey: widget.housekey,
+                          username: widget.username,
                         ),
                       ),
                     );

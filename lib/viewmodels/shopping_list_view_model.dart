@@ -9,6 +9,15 @@ import 'package:rumii/models/user_model.dart';
 class ShoppingListViewModel extends ChangeNotifier {
   ShoppingListViewModel();
   List<UserViewModel> users = <UserViewModel>[];
+  List<String> usernames = <String>[];
+
+  List<String> getUsernames() {
+    List<String> usernames = [];
+    for (var user in users) {
+      usernames.add(user.name);
+    }
+    return usernames;
+  }
 
   Future<void> getData(String houseKey) async {
     //final directory = await getApplicationDocumentsDirectory();
@@ -32,6 +41,7 @@ class ShoppingListViewModel extends ChangeNotifier {
         var user = UserViewModel(user: User(name: userList[i]));
         user.setShopItems(tempItems);
         users.add(user);
+        usernames.add(user.name);
       }
       print("data updated");
       notifyListeners();
@@ -60,6 +70,26 @@ class ShoppingListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addItem(Shop shop, String username) {
+    for (var user in users) {
+      if (user.name == username) {
+        user.shopItems.add(ShopViewModel(shop: shop));
+      }
+    }
+  }
+
+  void removeItem(String username, String oldItem) {
+    for (var user in users) {
+      if (user.name == username) {
+        for (var shop in user.shopItems) {
+          if (oldItem == shop.name) {
+            user.shopItems.remove(shop);
+          }
+        }
+      }
+    }
+  }
+
   Future<void> deleteItem(String username, String lastItem) async {
     for (var i = 0; i < users.length; i++) {
       if (username == users[i].name) {
@@ -77,5 +107,4 @@ class ShoppingListViewModel extends ChangeNotifier {
     }
     notifyListeners();
   }
-
 }

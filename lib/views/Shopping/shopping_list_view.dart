@@ -63,17 +63,20 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                           //color: Colors.black,
                         ),
                       ),
-                      onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChangeNotifierProvider(
-                                        create: (context) =>
-                                            ShoppingListViewModel(),
-                                        child: const NewItem(),
-                                      )),
-                            ),
-                          },
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChangeNotifierProvider(
+                                    create: (context) =>
+                                        ShoppingListViewModel(),
+                                    child: NewItem(
+                                      username: widget.username,
+                                      housekey: widget.housekey,
+                                    ),
+                                  )),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
                         shape: RoundedRectangleBorder(
@@ -164,8 +167,13 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    ViewItem(shop: item, user: user.name, lastItem: item.name),
+                builder: (context) => ViewItem(
+                  shop: item,
+                  user: user.name,
+                  lastItem: item.name,
+                  housekey: widget.housekey,
+                  username: widget.username,
+                ),
               ));
         },
         contentPadding: const EdgeInsets.fromLTRB(15, 8, 15, 8),

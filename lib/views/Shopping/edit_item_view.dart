@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rumii/SessionData.dart';
+import 'package:rumii/constants.dart';
 import 'package:rumii/models/shop_model.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
@@ -8,14 +10,18 @@ class EditItem extends StatefulWidget {
   final String user;
   final ShopViewModel shop;
   final String lastItem;
-  final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
+  final String housekey;
+  List<String> householdMembers = [];
+  final String username;
 
-  EditItem({
-    Key? key,
-    required this.user,
-    required this.shop,
-    required this.lastItem,
-  }) : super(key: key);
+  EditItem(
+      {Key? key,
+      required this.user,
+      required this.shop,
+      required this.lastItem,
+      required this.housekey,
+      required this.username})
+      : super(key: key);
 
   @override
   _EditItemState createState() => _EditItemState();
@@ -39,6 +45,9 @@ class _EditItemState extends State<EditItem> {
     notesController = TextEditingController(text: widget.shop.notes);
     typeController = TextEditingController(text: widget.shop.type);
     selectedAssignee = widget.user;
+
+    Provider.of<ShoppingListViewModel>(context, listen: false)
+        .getData(widget.housekey);
   }
 
   @override
@@ -88,7 +97,22 @@ class _EditItemState extends State<EditItem> {
                   child: InkWell(
                     onTap: () {
                       //save
-                      Navigator.pop(context);
+                      Provider.of<ShoppingListViewModel>(context, listen: false)
+                          .deleteItem(widget.user, widget.shop.name);
+                      Provider.of<ShoppingListViewModel>(context, listen: false)
+                          .addItem(
+                              Shop(
+                                  isCompleted: false,
+                                  name: itemController.text,
+                                  notes: notesController.text,
+                                  quantity: int.parse(quantityController.text),
+                                  type: typeController.text),
+                              widget.user);
+                      Provider.of<ShoppingListViewModel>(context, listen: false)
+                          .writeData(widget.housekey);
+                      Navigator.pushNamed(context, shopListRoute,
+                          arguments: SessionData.data(
+                              widget.username, widget.housekey));
                     },
                     child: const Text('Save',
                         style: TextStyle(
@@ -126,8 +150,10 @@ class _EditItemState extends State<EditItem> {
                           .deleteItem(
                               assignUserController.text, widget.lastItem);
                       Provider.of<ShoppingListViewModel>(context, listen: false)
-                          .writeData("DSBU781");
-                      Navigator.pushNamed(context, "/shopping_list");
+                          .writeData(widget.housekey);
+                      Navigator.pushNamed(context, shopListRoute,
+                          arguments: SessionData.data(
+                              widget.username, widget.housekey));
                     },
                     child: const Text("Delete")),
               ),
@@ -160,36 +186,41 @@ class _EditItemState extends State<EditItem> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: label == 'Assigned user'
-                    ? DropdownButtonFormField<String>(
-                        value: widget.householdMembers.contains(controller.text)
-                            ? controller.text
-                            : widget.householdMembers[0],
-                        items: widget.householdMembers.map((String member) {
-                          return DropdownMenuItem<String>(
-                            value: member,
-                            child: Text(member),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() {
-                              controller.text = newValue;
-                            });
-                          }
-                        },
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
+              Consumer<ShoppingListViewModel>(
+                  builder: (context, shopList, child) {
+                var householdMembers = shopList.usernames;
+
+                return Expanded(
+                  child: label == 'Assigned user'
+                      ? DropdownButtonFormField<String>(
+                          value: householdMembers.contains(controller.text)
+                              ? controller.text
+                              : householdMembers[0],
+                          items: householdMembers.map((String member) {
+                            return DropdownMenuItem<String>(
+                              value: member,
+                              child: Text(member),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                controller.text = newValue;
+                              });
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                        )
+                      : TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
                         ),
-                      )
-                    : TextField(
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-              ),
+                );
+              }),
             ],
           ),
         ),

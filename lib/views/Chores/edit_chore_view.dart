@@ -162,8 +162,6 @@ class _EditChoreState extends State<EditChore> {
 
   Widget buildEditableTextField(
       String label, TextEditingController controller) {
-    List<String> householdMembers =
-        Provider.of<ChoreListViewModel>(context, listen: false).getUsernames();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -184,36 +182,40 @@ class _EditChoreState extends State<EditChore> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: label == 'Assigned user'
-                    ? DropdownButtonFormField<String>(
-                        value: householdMembers.contains(controller.text)
-                            ? controller.text
-                            : householdMembers[0],
-                        items: householdMembers.map((String member) {
-                          return DropdownMenuItem<String>(
-                            value: member,
-                            child: Text(member),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            setState(() {
-                              controller.text = newValue;
-                            });
-                          }
-                        },
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
+              Consumer<ChoreListViewModel>(
+                  builder: (context, choreList, child) {
+                var householdMembers = choreList.usernames;
+                return Expanded(
+                  child: label == 'Assigned user'
+                      ? DropdownButtonFormField<String>(
+                          value: householdMembers.contains(controller.text)
+                              ? controller.text
+                              : householdMembers[0],
+                          items: householdMembers.map((String member) {
+                            return DropdownMenuItem<String>(
+                              value: member,
+                              child: Text(member),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                controller.text = newValue;
+                              });
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                        )
+                      : TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
                         ),
-                      )
-                    : TextField(
-                        controller: controller,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-              ),
+                );
+              }),
             ],
           ),
         ),

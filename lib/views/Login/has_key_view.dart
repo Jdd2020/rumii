@@ -43,8 +43,10 @@ class _HasHousekeyViewState extends State<HasHousekeyView> {
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   const Text("Join the Household!",
-                      style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold, height: 1.1)),
+                      style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          height: 1.1)),
                   const SizedBox(height: 10),
                   const Text(
                     "Your housemates can find their House Key code on the Dashboard.",
@@ -74,17 +76,20 @@ class _HasHousekeyViewState extends State<HasHousekeyView> {
                       height: 50,
                       width: 180,
                       child: ElevatedButton(
-                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.pink),
-                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(
-                                color: const Color.fromARGB(0, 255, 255, 255),
-                                width: 0,
+                          style: ButtonStyle(
+                            backgroundColor:
+                                const MaterialStatePropertyAll(Colors.pink),
+                            shape: MaterialStatePropertyAll<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                side: const BorderSide(
+                                  color: Color.fromARGB(0, 255, 255, 255),
+                                  width: 0,
+                                ),
                               ),
+                            ),
                           ),
-                        ),),
                           child: const Text("Join Household"),
                           onPressed: () {
                             var user = Login(
