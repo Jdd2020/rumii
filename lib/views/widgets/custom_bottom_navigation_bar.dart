@@ -41,7 +41,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     if (route == '/home') return 0;
     if (route == '/chores') return 1;
     if (route == '/shopping_list') return 2;
-    if (route == '/calender') return 3;
+    if (route == '/calendar') return 3;
     return 0;
   }
 
@@ -54,7 +54,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       case 2:
         return '/shopping_list';
       case 3:
-        return '/calender';
+        return '/calendar';
       default:
         return '/';
     }

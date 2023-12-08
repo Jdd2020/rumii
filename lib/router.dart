@@ -59,7 +59,7 @@ class Router {
                     housekey: userData.housekey,
                   ),
                 ));
-      case calenderRoute:
+      case calendarRoute:
         SessionData userData = args;
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider(
