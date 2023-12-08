@@ -78,7 +78,8 @@ class _CalendarViewState extends State<CalendarView> {
                         ),
                       ))),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
+            
             TableCalendar(
               headerStyle: const HeaderStyle(
                 formatButtonVisible: false,
@@ -98,8 +99,17 @@ class _CalendarViewState extends State<CalendarView> {
               firstDay: DateTime.utc(2023, 12, 1),
               currentDay: DateTime.now(),
               focusedDay: DateTime.now(),
-              lastDay: DateTime.utc(2050, 12, 31)),
+              lastDay: DateTime.utc(2050, 12, 31)
+            ),
                
+          const SizedBox(height: 20),
+
+          const Text('Upcoming Events', 
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            ))
+
           ],
         ),
       ),
