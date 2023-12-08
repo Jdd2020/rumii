@@ -43,7 +43,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
         appBar: AppBar(title: const Text("Login")),
         body: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Align(
@@ -52,19 +52,21 @@ class _RegisterViewState extends State<RegisterView> {
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   const Text(
                     "Sign Up",
-                    style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   SizedBox(
-                    width: 250,
+                    height: 45,
+                    width: MediaQuery.of(context).size.width,
                     child: TextField(
                       obscureText: false,
                       controller: _usernameController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Username',
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                        labelText: '   Username',
                       ),
                     ),
                   ),
@@ -72,13 +74,16 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 20,
                   ),
                   SizedBox(
-                    width: 250,
+                    height: 45,
+                    width: MediaQuery.of(context).size.width,
                     child: TextField(
                       obscureText: false,
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email',
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        labelText: '   Email',
                       ),
                     ),
                   ),
@@ -86,13 +91,14 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 20,
                   ),
                   SizedBox(
-                    width: 250,
+                    height: 45,
+                    width: MediaQuery.of(context).size.width,
                     child: TextField(
                       obscureText: true,
                       controller: _passwordController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                        labelText: '   Password',
                       ),
                     ),
                   ),
@@ -100,23 +106,35 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 20,
                   ),
                   SizedBox(
-                    width: 250,
+                    height: 45,
+                    width: MediaQuery.of(context).size.width,
                     child: TextField(
                       obscureText: true,
                       controller: _confirmPasswordController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Confirm Password',
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                        labelText: '   Confirm Password',
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   SizedBox(
-                      height: 50,
-                      width: 250,
+                      height: 45,
+                      width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(Colors.pink),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(
+                                color: const Color.fromARGB(0, 255, 255, 255),
+                                width: 0,
+                              ),
+                        ),),
+                        ),
                         onPressed: () {
                           /*
                           var reg = Login(

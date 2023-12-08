@@ -72,13 +72,16 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                   ),
                   const SizedBox(height:8),
                   SizedBox(
+                    height: 45,
                     width: 250,
                     child: TextField(
                       obscureText: false,
                       controller: _housekeyController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'House Key',
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        labelText: ' House Key',
                       ),
                     ),
                   ),
@@ -89,6 +92,17 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                       height: 50,
                       width: 180,
                       child: ElevatedButton(
+                         style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(Colors.pink),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(
+                                color: const Color.fromARGB(0, 255, 255, 255),
+                                width: 0,
+                              ),
+                          ),
+                        ),),
                           child: const Text("Create Household"),
                           onPressed: () {
                             var user = Login(
