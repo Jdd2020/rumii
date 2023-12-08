@@ -6,6 +6,7 @@ import 'package:rumii/viewmodels/calendar_view_model.dart';
 import 'package:rumii/views/Calendar/new_event_view.dart';
 import 'package:rumii/viewmodels/event_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class CalendarView extends StatefulWidget {
   final String username;
@@ -77,6 +78,28 @@ class _CalendarViewState extends State<CalendarView> {
                         ),
                       ))),
             ),
+            const SizedBox(height: 40),
+            TableCalendar(
+              headerStyle: const HeaderStyle(
+                formatButtonVisible: false,
+                titleTextStyle: 
+                TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,)
+              ),
+              calendarStyle: const CalendarStyle(
+                todayDecoration: BoxDecoration(
+                  color: Colors.pink,
+                  shape: BoxShape.circle,
+                )
+              ),
+              rowHeight: 55,
+              daysOfWeekHeight: 30,
+              firstDay: DateTime.utc(2023, 12, 1),
+              currentDay: DateTime.now(),
+              focusedDay: DateTime.now(),
+              lastDay: DateTime.utc(2050, 12, 31)),
+               
           ],
         ),
       ),
