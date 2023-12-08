@@ -17,9 +17,32 @@ class _NewEventState extends State<NewEvent> {
   late String selectedAssignee = '';
   final List<String> householdMembers = ['Henry', 'Josh', 'Billy'];
 
+  DateTime? date;
+  final TextEditingController dateController = TextEditingController();
+
+  TimeOfDay? time;
+  final TextEditingController timeController = TextEditingController();
+
+  String? note;
+  final TextEditingController noteController = TextEditingController();
+
+  final TextEditingController reminderController = TextEditingController();
+
+  final TextEditingController repetitionController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+  }
+
+  @override 
+  void dispose() {
+    dateController.dispose();
+    timeController.dispose();
+    noteController.dispose();
+    reminderController.dispose();
+    repetitionController.dispose();
+    super.dispose();
   }
 
    @override
@@ -96,8 +119,71 @@ class _NewEventState extends State<NewEvent> {
                       labelText: 'Name your Event'),
                 ),
               ),
+              const SizedBox(height:20),
+              GestureDetector(
+                onTap: () async {
+                  DateTime? selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2101),
+                  );
+                  if (selectedDate != null && selectedDate != date) {
+                    setState(() {
+                      date = selectedDate;
+                      dateController.text =
+                          '${date!.month}/${date!.day}/${date!.year}';
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: SizedBox(
+                    width: 1500,
+                    child: TextField(
+                      controller: dateController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Select Date',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height:20),
+
+              GestureDetector(
+                onTap: () async {
+                  TimeOfDay? selectedTime = await showTimePicker(
+                    initialEntryMode: TimePickerEntryMode.input,
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (selectedTime != null && selectedTime != time) {
+                    setState(() {
+                      time = selectedTime;
+                      timeController.text =
+                          '${time!.hour}/${time!.minute}';
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: SizedBox(
+                    width: 1500,
+                    child: TextField(
+                      controller: dateController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Select Time',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               // Assign User Dropdown
               DropdownButtonFormField<String>(
@@ -121,6 +207,99 @@ class _NewEventState extends State<NewEvent> {
                   labelText: 'Assign User',
                 ),
               ),
+
+              const SizedBox(height: 20),
+
+              SizedBox(
+                width: 1500,
+                child: DropdownButton<String>(
+                  value: repetitionController.text.isEmpty
+                      ? null
+                      : repetitionController.text,
+                  items: const [
+                    DropdownMenuItem<String>(
+                      value: 'None',
+                      child: Text('None'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Daily',
+                      child: Text('Daily'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Weekly',
+                      child: Text('Weekly'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Bi-weekly',
+                      child: Text('Bi-weekly'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Monthly',
+                      child: Text('Monthly'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Custom',
+                      child: Text('Custom'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      repetitionController.text = value!;
+                    });
+                    return;
+                  },
+                  hint: const Text('Repetition'),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              SizedBox(
+                width: 1500,
+                child: DropdownButton<String>(
+                  value: reminderController.text.isEmpty
+                      ? null
+                      : reminderController.text,
+                  items: const [
+                    DropdownMenuItem<String>(
+                      value: '1 Hour Before',
+                      child: Text('1 Hour Before'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: '1 Day Before',
+                      child: Text('1 Day Before'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: '1 Week Before',
+                      child: Text('1 Week Before'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Custom',
+                      child: Text('Custom'),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      reminderController.text = value!;
+                    });
+                    return;
+                  },
+                  hint: const Text('Reminder'),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              SizedBox(
+                width: 1500,
+                child: TextField(
+                  controller: noteController,
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'Note'),
+                ),
+              ),
+
             ],
           ),
           ),
