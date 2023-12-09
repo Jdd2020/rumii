@@ -31,7 +31,8 @@ class _EditItemState extends State<EditItem> {
   late TextEditingController itemController;
   late TextEditingController assignUserController;
   late TextEditingController quantityController;
-  late TextEditingController typeController;
+//  late TextEditingController typeController;
+  late String selectedType = '';
   late TextEditingController notesController;
   String selectedAssignee = '';
 
@@ -43,8 +44,9 @@ class _EditItemState extends State<EditItem> {
     quantityController =
         TextEditingController(text: widget.shop.quantity.toString());
     notesController = TextEditingController(text: widget.shop.notes);
-    typeController = TextEditingController(text: widget.shop.type);
+    //  typeController = TextEditingController(text: widget.shop.type);
     selectedAssignee = widget.user;
+    selectedType = widget.shop.type;
 
     Provider.of<ShoppingListViewModel>(context, listen: false)
         .getData(widget.housekey);
@@ -55,7 +57,7 @@ class _EditItemState extends State<EditItem> {
     // Dispose controllers to avoid memory leaks
     itemController.dispose();
     quantityController.dispose();
-    typeController.dispose();
+    //  typeController.dispose();
     notesController.dispose();
     assignUserController.dispose();
     super.dispose();
@@ -102,11 +104,14 @@ class _EditItemState extends State<EditItem> {
                       Provider.of<ShoppingListViewModel>(context, listen: false)
                           .addItem(
                               Shop(
-                                  isCompleted: false,
-                                  name: itemController.text,
-                                  notes: notesController.text,
-                                  quantity: int.parse(quantityController.text),
-                                  type: typeController.text),
+                                isCompleted: false,
+                                name: itemController.text,
+                                notes: notesController.text,
+                                quantity: int.parse(quantityController.text),
+                                type: selectedType,
+
+                                //type: typeController.text
+                              ),
                               widget.user);
                       Provider.of<ShoppingListViewModel>(context, listen: false)
                           .writeData(widget.housekey);
@@ -134,11 +139,25 @@ class _EditItemState extends State<EditItem> {
               ),
 
               // editable text fields
-              const SizedBox(height: 20),
               buildEditableTextField("Item", itemController),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Item Type',
+                    style: TextStyle(
+                      fontSize: 15.5,
+                      color: Color.fromARGB(255, 114, 114, 114),
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  buildTypeIcons(),
+                ],
+              ),
+              const SizedBox(height: 20),
               buildEditableTextField("Assigned user", assignUserController),
               buildEditableTextField("Quantity", quantityController),
-              buildEditableTextField("Type", typeController),
               buildEditableTextField("Notes", notesController),
               const SizedBox(height: 20),
               SizedBox(
@@ -187,40 +206,43 @@ class _EditItemState extends State<EditItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Consumer<ShoppingListViewModel>(
-                  builder: (context, shopList, child) {
-                var householdMembers = shopList.usernames;
+                builder: (context, shopList, child) {
+                  var householdMembers = shopList.usernames;
 
-                return Expanded(
-                  child: label == 'Assigned user'
-                      ? DropdownButtonFormField<String>(
-                          value: householdMembers.contains(controller.text)
-                              ? controller.text
-                              : householdMembers[0],
-                          items: householdMembers.map((String member) {
-                            return DropdownMenuItem<String>(
-                              value: member,
-                              child: Text(member),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                controller.text = newValue;
-                              });
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        )
-                      : TextField(
-                          controller: controller,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                );
-              }),
+                  return Expanded(
+                    child: label == 'Assigned user'
+                        ? DropdownButtonFormField<String>(
+                            value: householdMembers.contains(controller.text)
+                                ? controller.text
+                                : householdMembers[0],
+                            items: householdMembers.map((String member) {
+                              return DropdownMenuItem<String>(
+                                value: member,
+                                child: Text(member),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              if (newValue != null) {
+                                setState(() {
+                                  controller.text = newValue;
+                                });
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                          )
+                        : label == 'Item Type'
+                            ? SizedBox.shrink()
+                            : TextField(
+                                controller: controller,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -228,4 +250,75 @@ class _EditItemState extends State<EditItem> {
       ],
     );
   }
+
+  Widget buildTypeIcons() {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return Container(
+      height: 100, // Adjust the height as needed
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: types.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedType = types[index]['name'];
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.fromLTRB(
+                0,
+                8,
+                index == types.length - 1 ? 0 : screenWidth * 0.03,
+                8,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: selectedType == types[index]['name']
+                        ? Colors.pink
+                        : Colors.grey,
+                    child: Icon(
+                      types[index]['icon'],
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: 70, // Adjust the width as needed
+                    child: Text(
+                      types[index]['name'],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: selectedType == types[index]['name']
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        color: selectedType == types[index]['name']
+                            ? Colors.pink
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
+
+final List<Map<String, dynamic>> types = [
+  {'name': 'Eggs/Dairy', 'icon': Icons.egg_rounded},
+  {'name': 'Produce', 'icon': Icons.apple_rounded},
+  {'name': 'Protein', 'icon': Icons.lunch_dining_rounded},
+  {'name': 'Grain', 'icon': Icons.breakfast_dining_rounded},
+  {'name': 'Sweets', 'icon': Icons.cake},
+  {'name': 'Beverage', 'icon': Icons.wine_bar_rounded},
+  {'name': 'Other', 'icon': Icons.question_mark_rounded},
+];
