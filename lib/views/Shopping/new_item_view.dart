@@ -306,9 +306,10 @@ class _NewItemState extends State<NewItem> {
 
 final List<Map<String, dynamic>> types = [
   {'name': 'Eggs/Dairy', 'icon': Icons.egg_rounded},
-  {'name': 'Produce', 'icon': Icons.apple_rounded},
   {'name': 'Protein', 'icon': Icons.lunch_dining_rounded},
+  {'name': 'Produce', 'icon': Icons.eco},
   {'name': 'Grain', 'icon': Icons.breakfast_dining_rounded},
+  {'name': 'Snacks', 'icon': Icons.workspaces},
   {'name': 'Sweets', 'icon': Icons.cake},
   {'name': 'Beverage', 'icon': Icons.wine_bar_rounded},
   {'name': 'Other', 'icon': Icons.question_mark_rounded},

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/SessionData.dart';
+import 'package:rumii/constants.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -79,13 +80,28 @@ class _DashboardViewState extends State<DashboardView> {
       body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Container(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.fromLTRB(25,0,25,25),
               width: MediaQuery.of(context).size.width,
               //height: MediaQuery.of(context).size.height,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(height: 10),
+                    Row (
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton (
+                            child: const Row(
+                              children: [
+                              Text('Log Out', style: TextStyle(color: Colors.black)),
+                              SizedBox(width: 6),
+                              Icon(Icons.logout, size: 14, color: Colors.black),],),
+                          onPressed: () {
+                            _showLogoutConfirmationDialog();
+                          }
+                        ),  
+                      ],
+                      ),
                     const Text('Dashboard',
                         style: (TextStyle(
                           fontSize: 28,
@@ -255,7 +271,85 @@ class _DashboardViewState extends State<DashboardView> {
       ],
     );
   }
+
+  Future<void> _showLogoutConfirmationDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsPadding: const EdgeInsets.fromLTRB(10,0,10,10),
+          contentPadding: const EdgeInsets.fromLTRB(30,15,30,10),
+          icon: const Icon(Icons.logout),
+          title: const Text('Log Out'),
+          content: 
+          const Text('Are you sure you want to log out?'),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+              const SizedBox(height:30),
+              SizedBox(
+              width: 80,
+              height: 40,
+                child: TextButton(
+                  style: ButtonStyle(
+                
+                backgroundColor: const MaterialStatePropertyAll(Colors.white),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: const BorderSide(
+                                color: Colors.pink,
+                                width: 1.25,
+                              ),
+                          ),
+                          ),
+
+
+              ),
+              
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No', style: TextStyle(fontSize: 18)),
+            ),),
+            const SizedBox(width:50),
+
+            SizedBox(
+              width: 80,
+              height: 40,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: const MaterialStatePropertyAll(Colors.pink),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: const BorderSide(
+                                color: Color.fromARGB(0, 233, 30, 98),
+                                width: 0,
+                              ),
+                          ),
+                          ),
+
+
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, loginRoute);
+              },
+              child: const Text('Yes', style: TextStyle(fontSize: 18, color: Colors.white)),
+            ),),
+            const SizedBox(height: 70),
+            ]),
+          ],
+        );
+      },
+    );
+  }
+
 }
+
+
 
 class DataProvider {
   Future<Map<String, dynamic>> fetchJsonData() async {
