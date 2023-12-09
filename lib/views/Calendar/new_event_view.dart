@@ -20,8 +20,11 @@ class _NewEventState extends State<NewEvent> {
   DateTime? date;
   final TextEditingController dateController = TextEditingController();
 
-  TimeOfDay? time;
-  final TextEditingController timeController = TextEditingController();
+  TimeOfDay? startTime;
+  final TextEditingController startTimeController = TextEditingController();
+
+  TimeOfDay? endTime;
+  final TextEditingController endTimeController = TextEditingController();
 
   String? note;
   final TextEditingController noteController = TextEditingController();
@@ -38,7 +41,8 @@ class _NewEventState extends State<NewEvent> {
   @override 
   void dispose() {
     dateController.dispose();
-    timeController.dispose();
+    startTimeController.dispose();
+    endTimeController.dispose();
     noteController.dispose();
     reminderController.dispose();
     repetitionController.dispose();
@@ -157,13 +161,13 @@ class _NewEventState extends State<NewEvent> {
                   TimeOfDay? selectedTime = await showTimePicker(
                     initialEntryMode: TimePickerEntryMode.input,
                     context: context,
-                    initialTime: TimeOfDay.now(),
+                    initialTime: const TimeOfDay(hour:0, minute:0),
                   );
-                  if (selectedTime != null && selectedTime != time) {
+                  if (selectedTime != null && selectedTime != startTime) {
                     setState(() {
-                      time = selectedTime;
-                      timeController.text =
-                          '${time!.hour}/${time!.minute}';
+                      startTime = selectedTime;
+                      startTimeController.text =
+                          '${startTime!.hour}/${startTime!.minute}';
                     });
                   }
                 },
@@ -171,11 +175,44 @@ class _NewEventState extends State<NewEvent> {
                   child: SizedBox(
                     width: 1500,
                     child: TextField(
-                      controller: dateController,
+                      controller: startTimeController,
                       obscureText: false,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Select Time',
+                        labelText: 'Start Time',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height:20),
+
+              GestureDetector(
+                onTap: () async {
+                  TimeOfDay? selectedTime = await showTimePicker(
+                    initialEntryMode: TimePickerEntryMode.input,
+                    context: context,
+                    initialTime: const TimeOfDay(hour:0, minute:0),
+
+                  );
+                  if (selectedTime != null && selectedTime != endTime) {
+                    setState(() {
+                      endTime = selectedTime;
+                      endTimeController.text =
+                          '${endTime!.hour}/${endTime!.minute}';
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: SizedBox(
+                    width: 1500,
+                    child: TextField(
+                      controller: endTimeController,
+                      obscureText: false,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'End Time',
                       ),
                     ),
                   ),
