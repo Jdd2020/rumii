@@ -159,6 +159,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   }
 
   Widget _buildShoppingItem(ShopViewModel item, UserViewModel user) {
+    IconData getItemIcon(String itemType) {
+      for (var type in types) {
+        if (type['name'] == itemType) {
+          return type['icon'];
+        }
+      }
+      // Return a default icon if the item type is not found
+      return Icons.question_mark_rounded;
+    }
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
@@ -177,11 +187,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
               ));
         },
         contentPadding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-        leading: Text(
+        leading: Icon(
+          getItemIcon(item.type),
+          size: 32,
+          color: Colors.grey,
+        ),
+        title: Text(
           item.name,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        title: Text(
+        subtitle: Text(
           item.notes,
           style: const TextStyle(
             fontSize: 14.0,
@@ -192,7 +207,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           value: item.isCompleted,
           onChanged: (value) {
             setState(() {
-              //item.isCompleted = value ?? false;
+              // item.isCompleted = value ?? false;
             });
           },
         ),
@@ -200,7 +215,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 }
-
+/*
 // Fake data
 class User {
   final String name;
@@ -260,3 +275,4 @@ List<User> users = [
     ],
   ),
 ];
+*/
