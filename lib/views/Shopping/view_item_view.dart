@@ -94,11 +94,11 @@ class _ViewItemState extends State<ViewItem> {
 
             //add other widgets
             const SizedBox(height: 20),
-            buildInfoRow('Item', widget.shop.name),
-            buildInfoRow('Assigned user', widget.user),
-            buildInfoRow('Quantity', widget.shop.quantity.toString()),
-            buildInfoRow('Type', widget.shop.type),
-            buildInfoRow('Notes', widget.shop.notes),
+            buildInfoRow(context, 'Item', widget.shop.name),
+            buildInfoRow(context, 'Type', widget.shop.type),
+            buildInfoRow(context, 'Assigned user', widget.user),
+            buildInfoRow(context, 'Quantity', widget.shop.quantity.toString()),
+            buildInfoRow(context, 'Notes', widget.shop.notes),
             const SizedBox(height: 20),
           ],
         ),
@@ -107,7 +107,7 @@ class _ViewItemState extends State<ViewItem> {
   }
 }
 
-Widget buildInfoRow(String label, String value) {
+Widget buildInfoRow(BuildContext context, String label, String value) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -117,18 +117,71 @@ Widget buildInfoRow(String label, String value) {
           fontWeight: FontWeight.normal,
         ),
       ),
-      SizedBox(
-        width: 1250,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-            color: Colors.grey.shade300,
-          ),
-          child: Text(value),
-        ),
-      ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 2),
+      label == 'Type'
+          ? Container(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: types.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(
+                      0,
+                      8,
+                      index == types.length - 1 ? 0 : 20,
+                      8,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundColor: value == types[index]['name']
+                              ? Colors.pink
+                              : Colors.grey,
+                          child: Icon(
+                            types[index]['icon'],
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          width: 70,
+                          child: Text(
+                            types[index]['name'],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: value == types[index]['name']
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                              color: value == types[index]['name']
+                                  ? Colors.pink
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            )
+          : Container(
+              width: MediaQuery.of(context).size.width * 0.98,
+              height: 50,
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+              ),
+              child: Row(
+                children: [
+                  Text(value),
+                ],
+              ),
+            ),
+      const SizedBox(height: 10),
     ],
   );
 }
