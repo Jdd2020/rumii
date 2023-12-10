@@ -23,13 +23,13 @@ class ExpandView extends StatelessWidget {
           children: [
             Text(
               DateFormat('EEEE, MMMM d, y').format(selectedDay),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 20),
-            Text(
+            const Text(
               'Events:',
               style: TextStyle(
                 fontSize: 18,
@@ -61,7 +61,7 @@ class ExpandView extends StatelessWidget {
                           );
                         },
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.black,
                         thickness: 1.0,
                       ),
@@ -89,8 +89,8 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
     ExpandEvent(
       title: 'Meeting with Team',
       date: DateTime(1,1,1,1),
-      startTime: TimeOfDay(hour: 1,minute: 1),
-      endTime: TimeOfDay(hour: 2,minute: 1),
+      startTime: const TimeOfDay(hour: 1,minute: 1),
+      endTime: const TimeOfDay(hour: 2,minute: 1),
       isRecurring: 'Daily',
       remind: '1 Hour Before',
       note: 'Discuss project updates',
@@ -98,8 +98,8 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
     ExpandEvent(
       title: 'Lunch Break',
       date:DateTime(2,1,1,1),
-      startTime: TimeOfDay(hour: 2,minute: 1),
-      endTime: TimeOfDay(hour: 5,minute: 5),
+      startTime: const TimeOfDay(hour: 2,minute: 1),
+      endTime: const TimeOfDay(hour: 5,minute: 5),
       isRecurring: 'Biweekly',
       remind: '1 Hour Before',
       note: 'Grab lunch at the cafeteria',
@@ -107,8 +107,8 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
     ExpandEvent(
       title: 'Project Discussion',
       date: DateTime(2,8,1,1),
-      startTime: TimeOfDay(hour: 5,minute: 5),
-      endTime: TimeOfDay(hour: 15,minute: 0),
+      startTime: const TimeOfDay(hour: 5,minute: 5),
+      endTime: const TimeOfDay(hour: 15,minute: 0),
       isRecurring: 'Monthly',
       remind: '1 Day Before',
       note: 'Review project milestones',

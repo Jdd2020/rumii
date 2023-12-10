@@ -6,6 +6,12 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:rumii/viewmodels/calendar_view_model.dart';
 import 'package:rumii/views/Calendar/new_event_view.dart';
 import 'package:provider/provider.dart';
+import 'package:rumii/models/event_model.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:rumii/viewmodels/event_view_model.dart';
+import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class CalendarView extends StatefulWidget {
   final String username;
@@ -20,10 +26,22 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
   DateTime? _selectedDate;
+  List<Event> _recentEvents = [];
+
+  Future<void> _fetchData() async {
+    if (widget.username != null && widget.housekey != null) {
+      List<Event> recentEvents = await fetchRecentEvents(widget.housekey!);
+
+      setState(() {
+        _recentEvents = recentEvents;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _fetchData();
   }
 
   @override
@@ -40,10 +58,11 @@ class _CalendarViewState extends State<CalendarView> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              const SizedBox(height: 10),
               const Text('Calendar',
                   style: TextStyle(
                     fontSize: 26,
@@ -148,23 +167,9 @@ class _CalendarViewState extends State<CalendarView> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('Upcoming Events',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: context
-                      .watch<CalendarViewModel>()
-                      .calendar
-                      .map((event) => ListTile(
-                            title: Text(event.name),
-                            subtitle: Text(
-                                '${event.startTime.format(context)} - ${event.endTime.format(context)}'),
-                          ))
-                      .toList(),
-                ),
-              ),
+              _buildList("Upcoming Events", "/calendar", _recentEvents,
+                  Icons.calendar_month_outlined, 'event'),
+              const SizedBox(height: 5),
             ],
           ),
         ),
@@ -175,6 +180,106 @@ class _CalendarViewState extends State<CalendarView> {
             Navigator.pushNamed(context, route,
                 arguments: SessionData.data(widget.username, widget.housekey));
           }),
+    );
+  }
+
+  Future<List<Event>> fetchRecentEvents(houseKey) async {
+    final Map<String, dynamic> jsonData = await fetchEventJsonData();
+    final List<Event> recentEvents = [];
+
+    if (jsonData.containsKey(houseKey)) {
+      //personName
+      final Map<String, dynamic> houseData = jsonData[houseKey];
+      final List<dynamic> events = houseData.values.toList();
+
+      for (int i = 0; i < 3 && i < events.length; i++) {
+        final eventData = events[i];
+        // retrieve up to 3 most recent chores
+        final event = Event(
+          name: eventData['name'],
+          day: eventData['day'],
+          month: eventData['month'],
+          year: eventData['year'],
+          starttime: eventData['starttime'],
+          endtime: eventData['endtime'],
+          isRecurring: eventData['isRecurring'],
+          user: eventData['user'],
+          remind: eventData['remind'],
+          note: eventData['note'],
+        );
+        recentEvents.add(event);
+      }
+    }
+    return recentEvents;
+  }
+
+  Future<Map<String, dynamic>> fetchEventJsonData() async {
+    String jsonString = await rootBundle.loadString('assets/eventDB.json');
+
+    Map<String, dynamic> jsonData = json.decode(jsonString);
+
+    return jsonData;
+  }
+
+  Widget _buildList(String title, String route, List<dynamic> items,
+      IconData iconData, String type) {
+    return Column(
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: Icon(iconData), // header icon
+          title: Text(
+            // header
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        if (items.isNotEmpty)
+          ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              dynamic item = items[index];
+              Event event = item;
+              EventViewModel eventViewModel = EventViewModel(event: event);
+              return Card(
+                elevation: 2,
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: ListTile(
+                  title: Text(event.name),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewEvent(
+                          event: ExpandEvent(
+                              title: eventViewModel.name,
+                              date: eventViewModel.date,
+                              startTime: eventViewModel.startTime,
+                              endTime: eventViewModel.endTime,
+                              isRecurring: eventViewModel.isRecurring,
+                              remind: eventViewModel.remind,
+                              note: eventViewModel.note),
+                          eventViewModel: eventViewModel,
+                          user: widget.username,
+                          lastItem: event.name,
+                          housekey: widget.housekey,
+                          username: widget.username,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+      ],
     );
   }
 }

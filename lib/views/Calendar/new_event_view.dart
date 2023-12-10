@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/viewmodels/calendar_view_model.dart';
-import 'package:rumii/viewmodels/event_view_model.dart';
 import 'package:rumii/models/event_model.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:provider/provider.dart';
