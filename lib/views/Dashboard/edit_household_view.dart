@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:rumii/viewmodels/edit_household_view_model.dart';
 
 class EditHousehold extends StatefulWidget {
   final String housekey;
@@ -13,6 +14,8 @@ class _EditHouseholdState extends State<EditHousehold> {
   List<String> householdMembers = [];
   late Map<String, dynamic> choreData;
   late String currentHouseKey;
+
+  final EditHouseholdViewModel _editHouseholdViewModel = EditHouseholdViewModel();
 
   @override
   void initState() {
@@ -140,14 +143,7 @@ class _EditHouseholdState extends State<EditHousehold> {
         children: [
           Align(
             alignment: Alignment.center,
-            child: Text(
-              userName.substring(0, 1),
-              style: const TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              ),
-            ),
+            child: _getUserImageWidget(userName, _editHouseholdViewModel),
           ),
           Align(
             alignment: const Alignment(1.15, -1.15),
@@ -232,3 +228,40 @@ class _EditHouseholdState extends State<EditHousehold> {
     );
   }
 }
+
+Widget _getUserImageWidget(String userName, EditHouseholdViewModel editHouseholdViewModel) {
+    return FutureBuilder<String?>(
+      future: editHouseholdViewModel.getUserImage(userName),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Container();
+          } else {
+            if (snapshot.data != null) {
+              return Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage('assets/images/${snapshot.data}'),
+                  fit: BoxFit.cover,
+                ),
+              ),);
+            } else {
+              return Text(
+                  userName.substring(0, 1),
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.0,
+                  ),
+              );
+            }
+          }
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }

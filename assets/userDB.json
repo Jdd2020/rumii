@@ -7,7 +7,28 @@
             "houseKey": "DSBU781",
             "uniqueId": 0,
             "signedIn": true,
-            "verification": 18732
+            "verification": 18732,
+            "image": "henry.jpg"
+        },
+        "Billy": {
+            "username": "Billy",
+            "password": "iLuvSoccer",
+            "email": "billybillz@gmail.com",
+            "houseKey": "DSBU781",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": 12345,
+            "image": "billy.jpg"
+        },
+        "Josh": {
+            "username": "Josh",
+            "password": "0000",
+            "email": "joshg123@yahoo.com",
+            "houseKey": "DSBU781",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": 54321,
+            "image": "josh.png"
         },
         "HDawg": {
             "username": "HDawg",
@@ -34,7 +55,8 @@
             "houseKey": "DSBU781",
             "uniqueId": 0,
             "signedIn": false,
-            "verification": -1
+            "verification": -1,
+            "image": "chet.png"
         },
         "Harry": {
             "username": "Harry",
