@@ -5,9 +5,9 @@ class Event {
   final int year;
   final String starttime;
   final String endtime;
-  final bool isRecurring;
+  final String isRecurring;
   final String user;
-  final int remind;
+  final String remind;
   final String note;
 
   Event({
@@ -30,9 +30,9 @@ class Event {
         year = json['year'] as int,
         starttime = json['starttime'] as String,
         endtime = json['endtime'] as String,
-        isRecurring = json['isRecurring'] as bool,
+        isRecurring = json['isRecurring'] as String,
         user = json['user'] as String,
-        remind = json['remind'] as int,
+        remind = json['remind'] as String,
         note = json['note'] as String;
 
   Map<String, dynamic> toJson() => {

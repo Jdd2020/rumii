@@ -111,9 +111,9 @@ class _NewEventState extends State<NewEvent> {
                                   year: eventDate?.year ?? 0,
                                   starttime: startTime?.format(context) ?? "",
                                   endtime: endTime?.format(context) ?? "",
-                                  isRecurring: repetitionController.text.isNotEmpty,
+                                  isRecurring: repetitionController.text,
                                   user: assignee,
-                                  remind: 0,
+                                  remind: reminderController.text,
                                   note: noteController.text,
                                 );
                               Provider.of<CalendarViewModel>(context,

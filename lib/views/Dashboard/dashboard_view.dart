@@ -5,13 +5,23 @@ import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:rumii/viewmodels/login_list_view_model.dart';
+import 'package:rumii/viewmodels/login_view_model.dart';
+import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
 import 'package:rumii/models/chore_model.dart';
+import 'package:provider/provider.dart';
 import 'package:rumii/views/Dashboard/edit_household_view.dart';
+import 'package:rumii/viewmodels/edit_household_view_model.dart';
 import 'package:rumii/models/shop_model.dart';
 import 'package:rumii/views/Shopping/view_item_view.dart';
+import 'package:rumii/views/Shopping/edit_item_view.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
+import 'package:rumii/viewmodels/event_view_model.dart';
+import 'package:rumii/viewmodels/calendar_view_model.dart';
+import 'package:rumii/models/event_model.dart';
+import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class DashboardView extends StatefulWidget {
   final String username;
@@ -29,9 +39,13 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   final DataProvider _dataProvider = DataProvider();
 
+/*
+  String personName = "";
+  String houseKey = "";*/
+
   List<Chore> _recentChores = [];
   List<Shop> _recentStoreNeeds = [];
-  List<String> _recentEvents = [];
+  List<Event> _recentEvents = [];
 
   Future<void> _fetchData() async {
     if (widget.username != null && widget.housekey != null) {
@@ -39,7 +53,7 @@ class _DashboardViewState extends State<DashboardView> {
           widget.username!, widget.housekey!);
       List<Shop> recentStoreNeeds = await _dataProvider.fetchRecentStoreNeeds(
           widget.username!, widget.housekey!);
-      List<String> recentEvents = await _dataProvider.fetchRecentEvents();
+      List<Event> recentEvents = await _dataProvider.fetchRecentEvents(widget.housekey!);
 
       setState(() {
         _recentChores = recentChores;
@@ -70,30 +84,28 @@ class _DashboardViewState extends State<DashboardView> {
       body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Container(
-              padding: const EdgeInsets.fromLTRB(25, 0, 25, 25),
+              padding: const EdgeInsets.fromLTRB(25,0,25,25),
               width: MediaQuery.of(context).size.width,
+              //height: MediaQuery.of(context).size.height,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
+                    Row (
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton (
                             child: const Row(
                               children: [
-                                Text('Log Out',
-                                    style: TextStyle(color: Colors.black)),
-                                SizedBox(width: 6),
-                                Icon(Icons.logout,
-                                    size: 14, color: Colors.black),
-                              ],
-                            ),
-                            onPressed: () {
-                              _showLogoutConfirmationDialog();
-                            }),
+                              Text('Log Out', style: TextStyle(color: Colors.black)),
+                              SizedBox(width: 6),
+                              Icon(Icons.logout, size: 14, color: Colors.black),],),
+                          onPressed: () {
+                            _showLogoutConfirmationDialog();
+                          }
+                        ),  
                       ],
-                    ),
+                      ),
                     const Text('Dashboard',
                         style: (TextStyle(
                           fontSize: 28,
@@ -112,26 +124,24 @@ class _DashboardViewState extends State<DashboardView> {
                               fontSize: 18,
                             )),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditHousehold(housekey: widget.housekey)),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 255, 255),
-                              side: const BorderSide(color: Colors.black)),
-                          child: const Text('Edit Household',
-                              style: TextStyle(
-                                color: Colors.black,
-                              )),
-                        ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditHousehold(housekey: widget.housekey)),
+                              );
+                            },
+                            child: const Text('Edit Household',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                )),
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                side: const BorderSide(color: Colors.black)))
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -148,7 +158,7 @@ class _DashboardViewState extends State<DashboardView> {
                     _buildList(
                         "Upcoming Events",
                         "/calendar",
-                        [], // replace array with _recentEvents
+                        _recentEvents, // replace array with _recentEvents
                         Icons.calendar_month_outlined,
                         'event'),
                     const SizedBox(height: 5),
@@ -157,7 +167,8 @@ class _DashboardViewState extends State<DashboardView> {
           currentRoute: '/home',
           onRouteChanged: (route) {
             Navigator.pushNamed(context, route,
-                arguments: SessionData.data(user, house));
+                arguments: SessionData.data(
+                    user, house)); // navigate to a different view
           }),
     );
   }
@@ -165,11 +176,13 @@ class _DashboardViewState extends State<DashboardView> {
   Widget _buildList(String title, String route, List<dynamic> items,
       IconData iconData, String type) {
     return Column(
+      //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           contentPadding: EdgeInsets.zero,
-          leading: Icon(iconData),
+          leading: Icon(iconData), // header icon
           title: Text(
+            // header
             title,
             style: const TextStyle(
               fontSize: 18,
@@ -177,6 +190,7 @@ class _DashboardViewState extends State<DashboardView> {
             ),
           ),
           trailing: IconButton(
+            // arrow to corresponding module
             icon: const Icon(Icons.arrow_forward),
             onPressed: () {
               Navigator.pushNamed(context, route,
@@ -244,17 +258,39 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               );
             } else if (type == 'event') {
-              String event = item;
+              Event event = item;
+              EventViewModel eventViewModel = EventViewModel(event: event);
 
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  title: Text(event),
+                  title: Text(event.name),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewEvent(
+                          event: ExpandEvent(
+                            title: eventViewModel.name,
+                            date: eventViewModel.date,
+                            startTime: eventViewModel.startTime,
+                            endTime: eventViewModel.endTime,
+                            isRecurring: eventViewModel.isRecurring,
+                            remind: eventViewModel.remind,
+                            note: eventViewModel.note),
+                          eventViewModel: eventViewModel,
+                          user: "Henry",
+                          lastItem: event.name,
+                          housekey: widget.housekey,
+                          username: widget.username,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               );
             }
-
             return Container();
           },
         ),
@@ -267,70 +303,79 @@ class _DashboardViewState extends State<DashboardView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          actionsPadding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          contentPadding: const EdgeInsets.fromLTRB(30, 15, 30, 10),
+          actionsPadding: const EdgeInsets.fromLTRB(10,0,10,10),
+          contentPadding: const EdgeInsets.fromLTRB(30,15,30,10),
           icon: const Icon(Icons.logout),
           title: const Text('Log Out'),
-          content: const Text('Are you sure you want to log out?'),
+          content: 
+          const Text('Are you sure you want to log out?'),
           actions: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+              const SizedBox(height:30),
               SizedBox(
-                width: 80,
-                height: 40,
+              width: 80,
+              height: 40,
                 child: TextButton(
                   style: ButtonStyle(
-                    backgroundColor:
-                        const MaterialStatePropertyAll(Colors.white),
-                    shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        side: const BorderSide(
-                          color: Colors.pink,
-                          width: 1.25,
-                        ),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('No', style: TextStyle(fontSize: 18)),
-                ),
+                
+                backgroundColor: const MaterialStatePropertyAll(Colors.white),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: const BorderSide(
+                                color: Colors.pink,
+                                width: 1.25,
+                              ),
+                          ),
+                          ),
+
+
               ),
-              const SizedBox(width: 50),
-              SizedBox(
-                width: 80,
-                height: 40,
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        const MaterialStatePropertyAll(Colors.pink),
-                    shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        side: const BorderSide(
-                          color: Color.fromARGB(0, 233, 30, 98),
-                          width: 0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, loginRoute);
-                  },
-                  child: const Text('Yes',
-                      style: TextStyle(fontSize: 18, color: Colors.white)),
-                ),
+              
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No', style: TextStyle(fontSize: 18)),
+            ),),
+            const SizedBox(width:50),
+
+            SizedBox(
+              width: 80,
+              height: 40,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: const MaterialStatePropertyAll(Colors.pink),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: const BorderSide(
+                                color: Color.fromARGB(0, 233, 30, 98),
+                                width: 0,
+                              ),
+                          ),
+                          ),
+
+
               ),
-              const SizedBox(height: 70),
+              onPressed: () {
+                Navigator.pushNamed(context, loginRoute);
+              },
+              child: const Text('Yes', style: TextStyle(fontSize: 18, color: Colors.white)),
+            ),),
+            const SizedBox(height: 70),
             ]),
           ],
         );
       },
     );
   }
+
 }
+
+
 
 class DataProvider {
   Future<Map<String, dynamic>> fetchJsonData() async {
@@ -365,14 +410,17 @@ class DataProvider {
     final List<Chore> recentChores = [];
 
     if (jsonData.containsKey(houseKey)) {
+      //personName
       final Map<String, dynamic> houseData = jsonData[houseKey];
 
       if (houseData.containsKey(personName)) {
         final Map<String, dynamic> personData = houseData[personName];
         final List<dynamic> chores = personData.values.toList();
 
+        // sort chores based on due date
         chores.sort((a, b) => a['dueDate'].compareTo(b['dueDate']));
 
+        // retrieve up to 3 most recent chores
         for (int i = 0; i < 3 && i < chores.length; i++) {
           final choreData = chores[i];
           final chore = Chore(
@@ -393,12 +441,14 @@ class DataProvider {
     final List<Shop> recentStoreNeeds = [];
 
     if (jsonData.containsKey(houseKey)) {
+      //personName
       final Map<String, dynamic> houseData = jsonData[houseKey];
 
       if (houseData.containsKey(personName)) {
         final Map<String, dynamic> personData = houseData[personName];
         final List<dynamic> storeItems = personData.values.toList();
 
+        // retrieve up to 3 most recent chores
         for (int i = 0; i < 3 && i < storeItems.length; i++) {
           final storeItemData = storeItems[i];
           final storeItem = Shop(
@@ -415,10 +465,36 @@ class DataProvider {
     return recentStoreNeeds;
   }
 
-  Future<List<String>> fetchRecentEvents() async {
-    await Future.delayed(const Duration(seconds: 0));
-    return ["Event 1", "Event 2", "Event 3"];
+   Future<List<Event>> fetchRecentEvents(houseKey) async {
+    final Map<String, dynamic> jsonData = await fetchEventJsonData();
+    final List<Event> recentEvents = [];
+
+    if (jsonData.containsKey(houseKey)) {
+      //personName
+      final Map<String, dynamic> houseData = jsonData[houseKey];
+      final List<dynamic> events = houseData.values.toList();
+
+    for (int i = 0; i < 3 && i < events.length; i++) {
+          final eventData = events[i];    
+        // retrieve up to 3 most recent chores
+          final event = Event(
+            name: eventData['name'],
+            day: eventData['day'],
+            month: eventData['month'],
+            year: eventData['year'],
+            starttime: eventData['starttime'],
+            endtime: eventData['endtime'],
+            isRecurring: eventData['isRecurring'],
+            user: eventData['user'],
+            remind: eventData['remind'],     
+            note: eventData['note'],     
+          );
+          recentEvents.add(event);
+      }
+    }
+    return recentEvents;
   }
+   
 
   Future<Map<String, dynamic>> fetchUserData(String username) async {
     final Map<String, dynamic> jsonData = await fetchEventJsonData();
