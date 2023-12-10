@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/viewmodels/calendar_view_model.dart';
+import 'package:rumii/viewmodels/event_view_model.dart';
+import 'package:rumii/models/event_model.dart';
+import 'package:rumii/SessionData.dart';
+import 'package:provider/provider.dart';
+import 'package:rumii/constants.dart';
 
 class NewEvent extends StatefulWidget {
-  const NewEvent({Key? key}) : super(key: key);
+  final String username;
+  final String houseKey;
+
+  const NewEvent({Key? key, required this.username, required this.houseKey,}) : super(key: key);
 
   @override
   _NewEventState createState() => _NewEventState();
 }
 
 class _NewEventState extends State<NewEvent> {
-  CalendarViewModel _calendarViewModel = CalendarViewModel();
+  final CalendarViewModel _calendarViewModel = CalendarViewModel();
   final TextEditingController nameController = TextEditingController();
 
   //users
@@ -25,7 +33,7 @@ class _NewEventState extends State<NewEvent> {
   TimeOfDay? endTime;
   final TextEditingController endTimeController = TextEditingController();
 
-  String? note;
+  //String? note;
   final TextEditingController noteController = TextEditingController();
 
   final TextEditingController reminderController = TextEditingController();
@@ -45,6 +53,7 @@ class _NewEventState extends State<NewEvent> {
     noteController.dispose();
     reminderController.dispose();
     repetitionController.dispose();
+    noteController.dispose();
     super.dispose();
   }
 
@@ -88,6 +97,36 @@ class _NewEventState extends State<NewEvent> {
                                   fontSize: 16,
                                 )),
                             onTap: () async {
+
+                              String name = nameController.text;
+                              DateTime? eventDate = date;
+                              TimeOfDay? startTime = this.startTime;
+                              TimeOfDay? endTime = this.endTime;
+                              String assignee = selectedAssignee;
+
+                              var newEvent = Event(
+                                  name: name,
+                                  day: eventDate?.day ?? 0,
+                                  month: eventDate?.month ?? 0,
+                                  year: eventDate?.year ?? 0,
+                                  starttime: startTime?.format(context) ?? "",
+                                  endtime: endTime?.format(context) ?? "",
+                                  isRecurring: repetitionController.text.isNotEmpty,
+                                  user: assignee,
+                                  remind: 0,
+                                  note: noteController.text,
+                                );
+                              Provider.of<CalendarViewModel>(context,
+                                      listen: false)
+                                  .addEvent(newEvent, selectedAssignee);
+                              Provider.of<CalendarViewModel>(context,
+                                      listen: false)
+                                  .writeData(widget.houseKey);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushNamed(context, calendarRoute,
+                                  arguments: SessionData.data(
+                                      widget.username, widget.houseKey));
+                            }, 
                               /*
                       var newChore = Chore(
                           name: nameController.text,
@@ -100,9 +139,7 @@ class _NewEventState extends State<NewEvent> {
                           .writeData("DSBU781");
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).pushNamed("/chores");*/
-                            }),
-                      ),
-                    ]),
+                            ),),],),
 
                 const Text('New Event',
                     style: (TextStyle(
@@ -337,10 +374,10 @@ class _NewEventState extends State<NewEvent> {
                   ),
                 ),
               ],
+                ),
+              
             ),
           ),
-        ),
-      ),
-    );
+    ),);
   }
 }

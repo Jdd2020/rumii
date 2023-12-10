@@ -8,17 +8,20 @@ class Event {
   final bool isRecurring;
   final String user;
   final int remind;
+  final String note;
 
-  Event(
-      {required this.name,
-      required this.day,
-      required this.month,
-      required this.year,
-      required this.starttime,
-      required this.endtime,
-      required this.isRecurring,
-      required this.user,
-      required this.remind});
+  Event({
+    required this.name,
+    required this.day,
+    required this.month,
+    required this.year,
+    required this.starttime,
+    required this.endtime,
+    required this.isRecurring,
+    required this.user,
+    required this.remind,
+    required this.note,
+  });
 
   Event.fromJson(Map<String, dynamic> json)
       : name = json['name'] as String,
@@ -29,7 +32,8 @@ class Event {
         endtime = json['endtime'] as String,
         isRecurring = json['isRecurring'] as bool,
         user = json['user'] as String,
-        remind = json['remind'] as int;
+        remind = json['remind'] as int,
+        note = json['note'] as String;
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -40,6 +44,7 @@ class Event {
         'endtime': endtime,
         'isRecurring': isRecurring,
         'user': user,
-        'remind': remind
+        'remind': remind,
+        'note': note,
       };
 }

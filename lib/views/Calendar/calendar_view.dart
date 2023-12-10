@@ -55,7 +55,9 @@ class _CalendarViewState extends State<CalendarView> {
                       MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                                 create: (context) => CalendarViewModel(),
-                                child: const NewEvent(),
+                                child: NewEvent(
+                                  username: widget.username,
+                                  houseKey: widget.housekey,),
                               )),
                     ),
                   },
@@ -93,13 +95,56 @@ class _CalendarViewState extends State<CalendarView> {
                 firstDay: DateTime.utc(2023, 12, 1),
                 currentDay: DateTime.now(),
                 focusedDay: DateTime.now(),
-                lastDay: DateTime.utc(2050, 12, 31)),
+                lastDay: DateTime.utc(2050, 12, 31),
+                eventLoader: (date) {
+                  return context.read<CalendarViewModel>().getEventsForDate(date);
+                },
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, date, calendar) {
+  if (calendar.isNotEmpty) {
+    return Stack(
+      children: [
+        Positioned(
+          right: 1,
+          bottom: 1,
+          child: Container(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.pink,
+            ),
+            width: 6.0,
+            height: 5.0,
+          ),
+        ),
+      ],
+    );
+  }
+ // return [];
+},
+                )
+                ),
             const SizedBox(height: 20),
             const Text('Upcoming Events',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          
+          // Display upcoming events
+            Expanded(
+              child: ListView(
+                children: context
+                    .watch<CalendarViewModel>()
+                    .calendar
+                    .map((event) => ListTile(
+                          title: Text(event.name),
+                          subtitle: Text(
+                              '${event.startTime.format(context)} - ${event.endTime.format(context)}'),
+                        ))
+                    .toList(),
+              ),
+            ),
           ],
         ),
       ),
+
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/calendar',
           onRouteChanged: (route) {
