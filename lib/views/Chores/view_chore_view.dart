@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rumii/models/user_model.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
 import 'package:rumii/views/Chores/edit_chore_view.dart';
-import 'chore_list_view.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
 
@@ -33,57 +31,56 @@ class _ViewChoreState extends State<ViewChore> {
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             width: MediaQuery.of(context).size.width,
-            //height: MediaQuery.of(context).size.height,
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 20),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container (
-                        padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20), 
+                          borderRadius: BorderRadius.circular(20),
                           color: Colors.grey[300],
                         ),
-                      child: InkWell(
-                          child: const Text('Cancel',
-                              style: TextStyle(
-                                fontSize: 16,
-                              )),
-                          onTap: () => {
-                                Navigator.pop(context),
-                              }),
+                        child: InkWell(
+                            child: const Text('Cancel',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () => {
+                                  Navigator.pop(context),
+                                }),
                       ),
-                      Container (
-                        padding: const EdgeInsets.fromLTRB(10,2,10,2),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20), 
+                          borderRadius: BorderRadius.circular(20),
                           color: Colors.grey[300],
                         ),
-                      child: InkWell(
-                          child: const Text('Edit',
-                              style: TextStyle(
-                                fontSize: 16,
-                              )),
-                          onTap: () => {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => ChangeNotifierProvider(
-                                            create: (context) =>
-                                                ChoreListViewModel(),
-                                            child: EditChore(
-                                                chore: widget.chore,
-                                                user: widget.user,
-                                                lastChore: widget.lastChore,
-                                                housekey: widget.housekey,
-                                                username: widget.username),
-                                          )),
-                                )
-                              }),
+                        child: InkWell(
+                            child: const Text('Edit',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () => {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ChangeNotifierProvider(
+                                              create: (context) =>
+                                                  ChoreListViewModel(),
+                                              child: EditChore(
+                                                  chore: widget.chore,
+                                                  user: widget.user,
+                                                  lastChore: widget.lastChore,
+                                                  housekey: widget.housekey,
+                                                  username: widget.username),
+                                            )),
+                                  )
+                                }),
                       ),
                     ]),
                 const Text('View Chore',

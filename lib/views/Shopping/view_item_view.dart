@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rumii/models/shop_model.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
 import 'package:rumii/views/Shopping/edit_item_view.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
@@ -119,7 +118,7 @@ Widget buildInfoRow(BuildContext context, String label, String value) {
       ),
       const SizedBox(height: 2),
       label == 'Type'
-          ? Container(
+          ? SizedBox(
               height: 100,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -146,7 +145,7 @@ Widget buildInfoRow(BuildContext context, String label, String value) {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Container(
+                        SizedBox(
                           width: 70,
                           child: Text(
                             types[index]['name'],

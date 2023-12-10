@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
 import 'package:rumii/models/login_model.dart';
-import 'package:rumii/models/user_model.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
-import 'package:rumii/views/Dashboard/dashboard_view.dart';
 
 class HasHousekeyView extends StatefulWidget {
   final String username;

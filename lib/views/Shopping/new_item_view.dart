@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
-import 'package:rumii/viewmodels/shop_view_model.dart';
 import 'package:rumii/viewmodels/shopping_list_view_model.dart';
 import 'package:rumii/models/shop_model.dart';
 
@@ -62,7 +61,7 @@ class _NewItemState extends State<NewItem> {
         });
       },
       child: Container(
-        height: 100, // Adjust the height as needed
+        height: 100,
         margin: EdgeInsets.fromLTRB(0, 8, screenWidth * 0.03, 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -73,8 +72,8 @@ class _NewItemState extends State<NewItem> {
               child: Icon(icon, color: Colors.white),
             ),
             const SizedBox(height: 4),
-            Container(
-              width: 70, // Adjust the width as needed
+            SizedBox(
+              width: 70,
               child: Text(
                 type,
                 textAlign: TextAlign.center,
@@ -163,10 +162,9 @@ class _NewItemState extends State<NewItem> {
 
               const SizedBox(height: 20),
 
-              // Item Text Field
               TextFormField(
                 controller: itemController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Item Name',
                   hintText: 'Enter item name',
                 ),
@@ -188,7 +186,7 @@ class _NewItemState extends State<NewItem> {
                     ),
                   ),
                   const SizedBox(height: 3),
-                  Container(
+                  SizedBox(
                     height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -203,7 +201,6 @@ class _NewItemState extends State<NewItem> {
               ),
               const SizedBox(height: 20),
 
-              // Assign User Dropdown
               Consumer<ShoppingListViewModel>(
                   builder: (context, shopList, child) {
                 var householdMembers = shopList.usernames;
@@ -232,7 +229,6 @@ class _NewItemState extends State<NewItem> {
 
               const SizedBox(height: 20),
 
-              // Quantity Text Field
               TextFormField(
                 controller: quantityController,
                 onChanged: (value) {
@@ -274,7 +270,6 @@ class _NewItemState extends State<NewItem> {
             ),*/
               const SizedBox(height: 2),
 
-              // Notes
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
@@ -285,7 +280,7 @@ class _NewItemState extends State<NewItem> {
                     onChanged: (value) {
                       // handle notes changes
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Notes',
                       hintText:
                           'e.g. Mention any dietary restrictions or preferences such as flavor, brand, etc.',
@@ -294,8 +289,8 @@ class _NewItemState extends State<NewItem> {
                 ),
               ),
 
-              // Image Preview
-              //find a way to display the item's image
+              // image preview
+              //find a way to display the item's image?
             ],
           ),
         ),

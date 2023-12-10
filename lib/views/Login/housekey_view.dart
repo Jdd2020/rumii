@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rumii/models/login_model.dart';
-import 'package:rumii/models/user_model.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:rumii/views/Login/has_key_view.dart';
 import 'package:rumii/views/Login/new_key_view.dart';
@@ -41,26 +39,23 @@ class _HousekeyViewState extends State<HousekeyView> {
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   const Text("Welcome to Rumii!",
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold, height: 1.1)),
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          height: 1.1)),
                   const SizedBox(height: 10),
                   const Text(
                     "We have a few questions to get you started.",
                     style: TextStyle(fontSize: 20),
                   ),
-                  const SizedBox(
-                    height: 50),
-
-                  const Wrap(
-                    alignment: WrapAlignment.center,
-                  children: [ 
-                    const Text("Have a household using Rumii already?",
-                      style:
-                          TextStyle(
-                            fontSize: 16, 
-                            fontWeight: FontWeight.bold,
-                            )),
-                    ]),
+                  const SizedBox(height: 50),
+                  const Wrap(alignment: WrapAlignment.center, children: [
+                    Text("Have a household using Rumii already?",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ]),
                   const SizedBox(
                     height: 30,
                   ),
@@ -68,16 +63,19 @@ class _HousekeyViewState extends State<HousekeyView> {
                     width: MediaQuery.of(context).size.width,
                     height: 35,
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.pink),
-                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              const MaterialStatePropertyAll(Colors.pink),
+                          shape:
+                              MaterialStatePropertyAll<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(
-                                color: const Color.fromARGB(0, 255, 255, 255),
+                              side: const BorderSide(
+                                color: Color.fromARGB(0, 255, 255, 255),
                                 width: 0,
                               ),
-                        ),),
+                            ),
+                          ),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -100,17 +98,20 @@ class _HousekeyViewState extends State<HousekeyView> {
                       width: MediaQuery.of(context).size.width,
                       height: 35,
                       child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(const Color.fromARGB(255, 255, 255, 255)),
-                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(
-                                color: Colors.pink,
-                                width: 1.25,
+                          style: ButtonStyle(
+                            backgroundColor: const MaterialStatePropertyAll(
+                                Color.fromARGB(255, 255, 255, 255)),
+                            shape: MaterialStatePropertyAll<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                side: const BorderSide(
+                                  color: Colors.pink,
+                                  width: 1.25,
+                                ),
                               ),
-                        ),),
-                        ),
+                            ),
+                          ),
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -125,7 +126,10 @@ class _HousekeyViewState extends State<HousekeyView> {
                                           ),
                                         )));
                           },
-                          child: const Text("No, create a household", style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold)))),
+                          child: const Text("No, create a household",
+                              style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.bold)))),
                 ]))));
   }
 }

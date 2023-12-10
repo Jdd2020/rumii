@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
-import 'package:rumii/viewmodels/login_list_view_model.dart';
-import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:rumii/models/chore_model.dart';
 
-// NewChore View
 class NewChore extends StatefulWidget {
   final String housekey;
   final String username;
@@ -70,9 +67,8 @@ class _NewChoreState extends State<NewChore> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              // height: MediaQuery.of(context).size.height,
               child: Column(children: <Widget>[
                 const SizedBox(height: 20),
                 Row(
@@ -92,7 +88,7 @@ class _NewChoreState extends State<NewChore> {
                             onTap: () => {Navigator.pop(context)}),
                       ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.grey[300],
@@ -121,14 +117,12 @@ class _NewChoreState extends State<NewChore> {
                             }),
                       ),
                     ]),
-
                 const Text('New Chore',
                     style: (TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                     ))),
                 const SizedBox(height: 20),
-
                 const SizedBox(
                   height: 30,
                 ),
@@ -145,7 +139,6 @@ class _NewChoreState extends State<NewChore> {
                 const SizedBox(
                   height: 30,
                 ),
-                // Assign User Dropdown
                 Consumer<ChoreListViewModel>(
                     builder: (context, choreList, child) {
                   var householdMembers = choreList.usernames;

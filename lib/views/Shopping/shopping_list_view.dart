@@ -33,7 +33,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/rumii-logo.png',
-            height: 28.00, width: 70.00), //const Text("Rumii"),
+            height: 28.00, width: 70.00),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -50,42 +50,39 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ))),
-            //const SizedBox(height: 10),
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                  child: ElevatedButton(
-                      child: const Text(
-                        "+ New",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          //color: Colors.black,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ChangeNotifierProvider(
-                                    create: (context) =>
-                                        ShoppingListViewModel(),
-                                    child: NewItem(
-                                      username: widget.username,
-                                      housekey: widget.housekey,
-                                    ),
-                                  )),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ))),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                                create: (context) => ShoppingListViewModel(),
+                                child: NewItem(
+                                  username: widget.username,
+                                  housekey: widget.housekey,
+                                ),
+                              )),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    "+ New",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ),
-            //const SizedBox(height: 20),
-            // add the list
             Consumer<ShoppingListViewModel>(
                 builder: (context, shopList, child) {
               return Expanded(
@@ -108,11 +105,9 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                 alignment: Alignment.center,
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 8),
-                                // padding: const EdgeInsets.all(8),
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.pinkAccent,
-                                  //borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Text(
                                   user.name[0],
@@ -165,7 +160,6 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           return type['icon'];
         }
       }
-      // Return a default icon if the item type is not found
       return Icons.question_mark_rounded;
     }
 
@@ -215,64 +209,3 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 }
-/*
-// Fake data
-class User {
-  final String name;
-  final List<ShoppingItem> shoppingItems;
-
-  User({required this.name, required this.shoppingItems});
-}
-
-class ShoppingItem {
-  String itemName;
-  bool isChecked;
-
-  ShoppingItem({
-    required this.itemName,
-    required this.isChecked,
-  });
-}
-
-List<User> users = [
-  User(
-    name: 'Henry',
-    shoppingItems: [
-      ShoppingItem(
-        itemName: 'Apples',
-        isChecked: false,
-      ),
-      ShoppingItem(
-        itemName: 'Chicken',
-        isChecked: true,
-      ),
-    ],
-  ),
-  User(
-    name: 'Josh',
-    shoppingItems: [
-      ShoppingItem(
-        itemName: 'Milk',
-        isChecked: false,
-      ),
-      ShoppingItem(
-        itemName: 'Bread',
-        isChecked: true,
-      ),
-    ],
-  ),
-  User(
-    name: 'Billy',
-    shoppingItems: [
-      ShoppingItem(
-        itemName: 'Eggs',
-        isChecked: false,
-      ),
-      ShoppingItem(
-        itemName: 'Cheese',
-        isChecked: true,
-      ),
-    ],
-  ),
-];
-*/

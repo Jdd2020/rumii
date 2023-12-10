@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
-import 'package:rumii/views/Chores/chore_list_view.dart';
-import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +61,6 @@ class _EditChoreState extends State<EditChore> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             width: MediaQuery.of(context).size.width,
-            //height: MediaQuery.of(context).size.height,
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 20),

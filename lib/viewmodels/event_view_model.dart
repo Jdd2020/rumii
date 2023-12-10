@@ -1,5 +1,4 @@
-import 'dart:isolate';
-
+import 'package:flutter/material.dart';
 import 'package:rumii/models/event_model.dart';
 
 class EventViewModel {
@@ -11,21 +10,19 @@ class EventViewModel {
     return event.name;
   }
 
-  int get day {
-    return event.day;
+  DateTime get date {
+    return DateTime(event.year, event.month, event.day);
   }
 
-  int get month {
-    return event.month;
+  TimeOfDay get startTime {
+    var timeParts = event.starttime.split(':');
+    return TimeOfDay(hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));
   }
 
-  String get starttime {
-    return event.starttime;
-  }
-
-  String get endtime {
-    return event.endtime;
-  }
+  TimeOfDay get endTime {
+    var timeParts = event.endtime.split(':');
+    return TimeOfDay(hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));
+  } 
 
   bool get isRecurring {
     return event.isRecurring;
@@ -37,5 +34,9 @@ class EventViewModel {
 
   int get remind {
     return event.remind;
+  }
+
+   String get note {
+    return event.note;
   }
 }
