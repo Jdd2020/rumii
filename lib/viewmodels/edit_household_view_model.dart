@@ -1,4 +1,3 @@
-import 'package:rumii/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -12,24 +11,24 @@ class EditHouseholdViewModel extends ChangeNotifier {
     loadChoreData();
   }
 
-Future<void> loadChoreData() async {
-  try {
-    // load data
-    String jsonString = await rootBundle.loadString('assets/choreDB.json');
-    choreData = json.decode(jsonString);
+  Future<void> loadChoreData() async {
+    try {
+      // load data
+      String jsonString = await rootBundle.loadString('assets/choreDB.json');
+      choreData = json.decode(jsonString);
 
-    currentHouseKey = choreData.keys.first;
+      currentHouseKey = choreData.keys.first;
 
-    householdMembers = [];
-    choreData[currentHouseKey]?.forEach((personName, _) {
-      householdMembers.add(personName);
-    });
+      householdMembers = [];
+      choreData[currentHouseKey]?.forEach((personName, _) {
+        householdMembers.add(personName);
+      });
 
-    notifyListeners();
-  } catch (error) {
-    print('Error loading chore data: $error');
+      notifyListeners();
+    } catch (error) {
+      print('Error loading chore data: $error');
+    }
   }
-}
 
   void deleteUser(String userName) {
     householdMembers.remove(userName);
@@ -40,7 +39,6 @@ Future<void> loadChoreData() async {
   }
 
   void showAddNewDialog(BuildContext context) {
-
     String shareLink = 'https://example.com/join/$currentHouseKey';
 
     showDialog(
@@ -52,7 +50,8 @@ Future<void> loadChoreData() async {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('House Key: $currentHouseKey', style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text('House Key: $currentHouseKey',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8.0),
               Text('Share Link: $shareLink'),
             ],
@@ -69,6 +68,4 @@ Future<void> loadChoreData() async {
       },
     );
   }
-
-  
 }

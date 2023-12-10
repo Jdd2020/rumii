@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rumii/views/Dashboard/dashboard_view.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:rumii/models/login_model.dart';
 import 'package:rumii/views/Login/housekey_view.dart';
 
 //import 'package:rumii/constants.dart';
@@ -30,7 +28,6 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     _usernameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
@@ -65,7 +62,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: _usernameController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25)),
+                            borderRadius: BorderRadius.circular(25)),
                         labelText: '   Username',
                       ),
                     ),
@@ -97,7 +94,8 @@ class _RegisterViewState extends State<RegisterView> {
                       obscureText: true,
                       controller: _passwordController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25)),
                         labelText: '   Password',
                       ),
                     ),
@@ -112,7 +110,8 @@ class _RegisterViewState extends State<RegisterView> {
                       obscureText: true,
                       controller: _confirmPasswordController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25)),
                         labelText: '   Confirm Password',
                       ),
                     ),
@@ -125,15 +124,18 @@ class _RegisterViewState extends State<RegisterView> {
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.pink),
-                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                          backgroundColor:
+                              const MaterialStatePropertyAll(Colors.pink),
+                          shape:
+                              MaterialStatePropertyAll<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(
-                                color: const Color.fromARGB(0, 255, 255, 255),
+                              side: const BorderSide(
+                                color: Color.fromARGB(0, 255, 255, 255),
                                 width: 0,
                               ),
-                        ),),
+                            ),
+                          ),
                         ),
                         onPressed: () {
                           /*

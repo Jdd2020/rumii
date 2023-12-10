@@ -1,1 +1,66 @@
-{"DSBU781":{"Henry":{"Doritos":{"name":"Doritos","notes":"Cool Ranch","quantity":2,"type":"SNACKS","isCompleted":false},"Mt. Dew":{"name":"Mt. Dew","notes":"Code Red","quantity":1,"type":"DRINKS","isCompleted":false}},"Josh":{"Tofu":{"name":"Tofu","notes":"Silken","quantity":1,"type":"PRODUCE","isCompleted":true},"Kettle Cooked Chips":{"name":"Kettle Cooked Chips","notes":"Salt and vinegar","quantity":1,"type":"SNACKS","isCompleted":true}},"Billy":{"Steaks":{"name":"Steaks","notes":"Ribeye","quantity":3,"type":"MEATS","isCompleted":false}},"Chet":{"Milk":{"name":"Milk","notes":"-2% please","quantity":1,"type":"Eggs/Dairy","isCompleted":false}}},"HGH1234":{"Harry":{"Goat cheese":{"name":"Goat cheese","notes":"Crumbled","quantity":1,"type":"Eggs/Dairy","isCompleted":false}},"TJ":{}}}
+{
+    "DSBU781": {
+        "Henry": {
+            "Doritos": {
+                "name": "Doritos",
+                "notes": "Cool Ranch",
+                "quantity": 2,
+                "type": "Snacks",
+                "isCompleted": false
+            },
+            "Mt. Dew": {
+                "name": "Mt. Dew",
+                "notes": "Code Red",
+                "quantity": 1,
+                "type": "Beverage",
+                "isCompleted": false
+            }
+        },
+        "Josh": {
+            "Tofu": {
+                "name": "Tofu",
+                "notes": "Silken",
+                "quantity": 1,
+                "type": "Protein",
+                "isCompleted": true
+            },
+            "Kettle Cooked Chips": {
+                "name": "Kettle Cooked Chips",
+                "notes": "Salt and vinegar",
+                "quantity": 1,
+                "type": "Snacks",
+                "isCompleted": true
+            }
+        },
+        "Billy": {
+            "Steaks": {
+                "name": "Steaks",
+                "notes": "Ribeye",
+                "quantity": 3,
+                "type": "Protein",
+                "isCompleted": false
+            }
+        },
+        "Chet": {
+            "Milk": {
+                "name": "Milk",
+                "notes": "-2% please",
+                "quantity": 1,
+                "type": "Eggs/Dairy",
+                "isCompleted": false
+            }
+        }
+    },
+    "HGH1234": {
+        "Harry": {
+            "Goat cheese": {
+                "name": "Goat cheese",
+                "notes": "Crumbled",
+                "quantity": 1,
+                "type": "Eggs/Dairy",
+                "isCompleted": false
+            }
+        },
+        "TJ": {}
+    }
+}
