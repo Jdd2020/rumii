@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:rumii/models/event_model.dart';
 
 class EventViewModel {

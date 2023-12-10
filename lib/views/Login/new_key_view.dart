@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
 import 'package:rumii/models/login_model.dart';
-import 'package:rumii/models/user_model.dart';
 import 'package:rumii/viewmodels/login_list_view_model.dart';
-import 'package:rumii/views/Dashboard/dashboard_view.dart';
 
 class NewHousekeyView extends StatefulWidget {
   final String username;
@@ -35,7 +33,7 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
     return Scaffold(
         appBar: AppBar(title: const Text("Have a Household?")),
         body: Container(
-            padding: const EdgeInsets.symmetric(vertical:10,horizontal:40),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Align(
@@ -43,8 +41,10 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                 child:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   const Text("Create a New Household",
-                      style:
-                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold, height: 1.1)),
+                      style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          height: 1.1)),
                   const SizedBox(height: 10),
                   const Text(
                     "There are just a few steps to get you started.",
@@ -53,7 +53,7 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                   const SizedBox(
                     height: 25,
                   ),
-                  const Divider(thickness:1),
+                  const Divider(thickness: 1),
                   const SizedBox(
                     height: 25,
                   ),
@@ -65,12 +65,14 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                     "This is a unique code that others can use to join your household group.",
                     style: TextStyle(fontSize: 18),
                   ),
-                  const SizedBox(height:20),
+                  const SizedBox(height: 20),
                   const Text(
                     "Recommended Format: e.g. ABC1234",
-                    style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 122, 122, 122)),
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 122, 122, 122)),
                   ),
-                  const SizedBox(height:8),
+                  const SizedBox(height: 8),
                   SizedBox(
                     height: 45,
                     width: 250,
@@ -92,17 +94,20 @@ class _NewHousekeyViewState extends State<NewHousekeyView> {
                       height: 50,
                       width: 180,
                       child: ElevatedButton(
-                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.pink),
-                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              side: BorderSide(
-                                color: const Color.fromARGB(0, 255, 255, 255),
-                                width: 0,
+                          style: ButtonStyle(
+                            backgroundColor:
+                                const MaterialStatePropertyAll(Colors.pink),
+                            shape: MaterialStatePropertyAll<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                side: const BorderSide(
+                                  color: Color.fromARGB(0, 255, 255, 255),
+                                  width: 0,
+                                ),
                               ),
+                            ),
                           ),
-                        ),),
                           child: const Text("Create Household"),
                           onPressed: () {
                             var user = Login(

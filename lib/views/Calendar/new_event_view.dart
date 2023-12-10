@@ -9,7 +9,6 @@ class NewEvent extends StatefulWidget {
 }
 
 class _NewEventState extends State<NewEvent> {
-  
   CalendarViewModel _calendarViewModel = CalendarViewModel();
   final TextEditingController nameController = TextEditingController();
 
@@ -38,7 +37,7 @@ class _NewEventState extends State<NewEvent> {
     super.initState();
   }
 
-  @override 
+  @override
   void dispose() {
     dateController.dispose();
     startTimeController.dispose();
@@ -49,45 +48,47 @@ class _NewEventState extends State<NewEvent> {
     super.dispose();
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-          child: Padding (
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Container(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            // height: MediaQuery.of(context).size.height,
-            child: Column(children: <Widget>[
-              const SizedBox(height: 20),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Container (
-                  padding: const EdgeInsets.fromLTRB(10,2,10,2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), 
-                    color: Colors.grey[300],
-                  ),
-                child: InkWell(
-                    child: const Text('Cancel',
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () => {Navigator.pop(context)}),
-                ),
-                Container(
-                padding: EdgeInsets.fromLTRB(10,2,10,2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), 
-                    color: Colors.grey[300],
-                  ),
-                child: InkWell(
-                    child: const Text('Save',
-                        style: TextStyle(
-                          fontSize: 16,
-                        )),
-                    onTap: () async {
-                      /*
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 20),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey[300],
+                        ),
+                        child: InkWell(
+                            child: const Text('Cancel',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () => {Navigator.pop(context)}),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey[300],
+                        ),
+                        child: InkWell(
+                            child: const Text('Save',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                )),
+                            onTap: () async {
+                              /*
                       var newChore = Chore(
                           name: nameController.text,
                           priority: false,
@@ -99,250 +100,247 @@ class _NewEventState extends State<NewEvent> {
                           .writeData("DSBU781");
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).pushNamed("/chores");*/
-                    }),
-                ),
-              ]),
-              
-              const Text('New Event',
-                  style: (TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ))),
-              const SizedBox(height: 20),
-              
-              const SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                width: 1500,
-                child: TextField(
-                  controller: nameController,
-                  obscureText: false,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Name your Event'),
-                ),
-              ),
-              const SizedBox(height:20),
-              GestureDetector(
-                onTap: () async {
-                  DateTime? selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2101),
-                  );
-                  if (selectedDate != null && selectedDate != date) {
-                    setState(() {
-                      date = selectedDate;
-                      dateController.text =
-                          '${date!.month}/${date!.day}/${date!.year}';
-                    });
-                  }
-                },
-                child: AbsorbPointer(
-                  child: SizedBox(
-                    width: 1500,
-                    child: TextField(
-                      controller: dateController,
-                      obscureText: false,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Select Date',
+                            }),
                       ),
-                    ),
+                    ]),
+
+                const Text('New Event',
+                    style: (TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ))),
+                const SizedBox(height: 20),
+
+                const SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  width: 1500,
+                  child: TextField(
+                    controller: nameController,
+                    obscureText: false,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Name your Event'),
                   ),
                 ),
-              ),
-              const SizedBox(height:20),
-
-              GestureDetector(
-                onTap: () async {
-                  TimeOfDay? selectedTime = await showTimePicker(
-                    initialEntryMode: TimePickerEntryMode.input,
-                    context: context,
-                    initialTime: const TimeOfDay(hour:0, minute:0),
-                  );
-                  if (selectedTime != null && selectedTime != startTime) {
-                    setState(() {
-                      startTime = selectedTime;
-                      startTimeController.text =
-                          '${startTime!.hour}/${startTime!.minute}';
-                    });
-                  }
-                },
-                child: AbsorbPointer(
-                  child: SizedBox(
-                    width: 1500,
-                    child: TextField(
-                      controller: startTimeController,
-                      obscureText: false,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Start Time',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height:20),
-
-              GestureDetector(
-                onTap: () async {
-                  TimeOfDay? selectedTime = await showTimePicker(
-                    initialEntryMode: TimePickerEntryMode.input,
-                    context: context,
-                    initialTime: const TimeOfDay(hour:0, minute:0),
-
-                  );
-                  if (selectedTime != null && selectedTime != endTime) {
-                    setState(() {
-                      endTime = selectedTime;
-                      endTimeController.text =
-                          '${endTime!.hour}/${endTime!.minute}';
-                    });
-                  }
-                },
-                child: AbsorbPointer(
-                  child: SizedBox(
-                    width: 1500,
-                    child: TextField(
-                      controller: endTimeController,
-                      obscureText: false,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'End Time',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              // Assign User Dropdown
-              DropdownButtonFormField<String>(
-                value: householdMembers.contains(selectedAssignee)
-                    ? selectedAssignee
-                    : null,
-                items: householdMembers.map((member) {
-                  return DropdownMenuItem<String>(
-                    value: member,
-                    child: Text(member),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    setState(() {
-                      selectedAssignee = newValue;
-                    });
-                  }
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Assign User',
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              SizedBox(
-                width: 1500,
-                child: DropdownButton<String>(
-                  value: repetitionController.text.isEmpty
-                      ? null
-                      : repetitionController.text,
-                  items: const [
-                    DropdownMenuItem<String>(
-                      value: 'None',
-                      child: Text('None'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Daily',
-                      child: Text('Daily'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Weekly',
-                      child: Text('Weekly'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Bi-weekly',
-                      child: Text('Bi-weekly'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Monthly',
-                      child: Text('Monthly'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Custom',
-                      child: Text('Custom'),
-                    ),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      repetitionController.text = value!;
-                    });
-                    return;
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () async {
+                    DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2101),
+                    );
+                    if (selectedDate != null && selectedDate != date) {
+                      setState(() {
+                        date = selectedDate;
+                        dateController.text =
+                            '${date!.month}/${date!.day}/${date!.year}';
+                      });
+                    }
                   },
-                  hint: const Text('Repetition'),
+                  child: AbsorbPointer(
+                    child: SizedBox(
+                      width: 1500,
+                      child: TextField(
+                        controller: dateController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Select Date',
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 20),
 
-              const SizedBox(height: 20),
-
-              SizedBox(
-                width: 1500,
-                child: DropdownButton<String>(
-                  value: reminderController.text.isEmpty
-                      ? null
-                      : reminderController.text,
-                  items: const [
-                    DropdownMenuItem<String>(
-                      value: '1 Hour Before',
-                      child: Text('1 Hour Before'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: '1 Day Before',
-                      child: Text('1 Day Before'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: '1 Week Before',
-                      child: Text('1 Week Before'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Custom',
-                      child: Text('Custom'),
-                    ),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      reminderController.text = value!;
-                    });
-                    return;
+                GestureDetector(
+                  onTap: () async {
+                    TimeOfDay? selectedTime = await showTimePicker(
+                      initialEntryMode: TimePickerEntryMode.input,
+                      context: context,
+                      initialTime: const TimeOfDay(hour: 0, minute: 0),
+                    );
+                    if (selectedTime != null && selectedTime != startTime) {
+                      setState(() {
+                        startTime = selectedTime;
+                        startTimeController.text =
+                            '${startTime!.hour}/${startTime!.minute}';
+                      });
+                    }
                   },
-                  hint: const Text('Reminder'),
+                  child: AbsorbPointer(
+                    child: SizedBox(
+                      width: 1500,
+                      child: TextField(
+                        controller: startTimeController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Start Time',
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              SizedBox(
-                width: 1500,
-                child: TextField(
-                  controller: noteController,
-                  obscureText: false,
+                GestureDetector(
+                  onTap: () async {
+                    TimeOfDay? selectedTime = await showTimePicker(
+                      initialEntryMode: TimePickerEntryMode.input,
+                      context: context,
+                      initialTime: const TimeOfDay(hour: 0, minute: 0),
+                    );
+                    if (selectedTime != null && selectedTime != endTime) {
+                      setState(() {
+                        endTime = selectedTime;
+                        endTimeController.text =
+                            '${endTime!.hour}/${endTime!.minute}';
+                      });
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: SizedBox(
+                      width: 1500,
+                      child: TextField(
+                        controller: endTimeController,
+                        obscureText: false,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'End Time',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                // assign User Dropdown
+                DropdownButtonFormField<String>(
+                  value: householdMembers.contains(selectedAssignee)
+                      ? selectedAssignee
+                      : null,
+                  items: householdMembers.map((member) {
+                    return DropdownMenuItem<String>(
+                      value: member,
+                      child: Text(member),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      setState(() {
+                        selectedAssignee = newValue;
+                      });
+                    }
+                  },
                   decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Note'),
+                    labelText: 'Assign User',
+                  ),
                 ),
-              ),
 
-            ],
-          ),
-          ),
+                const SizedBox(height: 20),
+
+                SizedBox(
+                  width: 1500,
+                  child: DropdownButton<String>(
+                    value: repetitionController.text.isEmpty
+                        ? null
+                        : repetitionController.text,
+                    items: const [
+                      DropdownMenuItem<String>(
+                        value: 'None',
+                        child: Text('None'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Daily',
+                        child: Text('Daily'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Weekly',
+                        child: Text('Weekly'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Bi-weekly',
+                        child: Text('Bi-weekly'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Monthly',
+                        child: Text('Monthly'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Custom',
+                        child: Text('Custom'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        repetitionController.text = value!;
+                      });
+                      return;
+                    },
+                    hint: const Text('Repetition'),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                SizedBox(
+                  width: 1500,
+                  child: DropdownButton<String>(
+                    value: reminderController.text.isEmpty
+                        ? null
+                        : reminderController.text,
+                    items: const [
+                      DropdownMenuItem<String>(
+                        value: '1 Hour Before',
+                        child: Text('1 Hour Before'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: '1 Day Before',
+                        child: Text('1 Day Before'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: '1 Week Before',
+                        child: Text('1 Week Before'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Custom',
+                        child: Text('Custom'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        reminderController.text = value!;
+                      });
+                      return;
+                    },
+                    hint: const Text('Reminder'),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                SizedBox(
+                  width: 1500,
+                  child: TextField(
+                    controller: noteController,
+                    obscureText: false,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'Note'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-          );
-
+      ),
+    );
   }
 }

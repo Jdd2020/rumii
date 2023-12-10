@@ -11,7 +11,7 @@ class EditItem extends StatefulWidget {
   final ShopViewModel shop;
   final String lastItem;
   final String housekey;
-  List<String> householdMembers = [];
+  final List<String> householdMembers = [];
   final String username;
 
   EditItem(
@@ -54,7 +54,6 @@ class _EditItemState extends State<EditItem> {
 
   @override
   void dispose() {
-    // Dispose controllers to avoid memory leaks
     itemController.dispose();
     quantityController.dispose();
     //  typeController.dispose();
@@ -98,7 +97,6 @@ class _EditItemState extends State<EditItem> {
                   ),
                   child: InkWell(
                     onTap: () {
-                      //save
                       Provider.of<ShoppingListViewModel>(context, listen: false)
                           .deleteItem(widget.user, widget.shop.name);
                       Provider.of<ShoppingListViewModel>(context, listen: false)
@@ -137,8 +135,6 @@ class _EditItemState extends State<EditItem> {
                   ),
                 ),
               ),
-
-              // editable text fields
               buildEditableTextField("Item", itemController),
               const SizedBox(height: 20),
               Column(
@@ -233,7 +229,7 @@ class _EditItemState extends State<EditItem> {
                             ),
                           )
                         : label == 'Item Type'
-                            ? SizedBox.shrink()
+                            ? const SizedBox.shrink()
                             : TextField(
                                 controller: controller,
                                 decoration: const InputDecoration(
@@ -254,7 +250,7 @@ class _EditItemState extends State<EditItem> {
   Widget buildTypeIcons() {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       height: 100, // Adjust the height as needed
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -287,7 +283,7 @@ class _EditItemState extends State<EditItem> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Container(
+                  SizedBox(
                     width: 70, // Adjust the width as needed
                     child: Text(
                       types[index]['name'],

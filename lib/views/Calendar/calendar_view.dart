@@ -4,9 +4,7 @@ import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:rumii/viewmodels/calendar_view_model.dart';
 import 'package:rumii/views/Calendar/new_event_view.dart';
-import 'package:rumii/viewmodels/event_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
 class CalendarView extends StatefulWidget {
   final String username;
@@ -30,7 +28,7 @@ class _CalendarViewState extends State<CalendarView> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/rumii-logo.png',
-            height: 28.00, width: 70.00), //const Text("Rumii"),
+            height: 28.00, width: 70.00),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -47,69 +45,58 @@ class _CalendarViewState extends State<CalendarView> {
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ))),
-            //const SizedBox(height: 10),
             Align(
               alignment: Alignment.topRight,
               child: InkWell(
-                  child: ElevatedButton(
-                      child: const Text(
-                        "+ New",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          //color: Colors.black,
-                        ),
-                      ),
-                      onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChangeNotifierProvider(
-                                        create: (context) =>
-                                            CalendarViewModel(),
-                                        child: const NewEvent(),
-                                      )),
-                            ),
-                          },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.fromLTRB(12, 14, 12, 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ))),
+                child: ElevatedButton(
+                  onPressed: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                                create: (context) => CalendarViewModel(),
+                                child: const NewEvent(),
+                              )),
+                    ),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    "+ New",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
-            
             TableCalendar(
-              headerStyle: const HeaderStyle(
-                formatButtonVisible: false,
-                titleTextStyle: 
-                TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,)
-              ),
-              calendarStyle: const CalendarStyle(
-                todayDecoration: BoxDecoration(
+                headerStyle: const HeaderStyle(
+                    formatButtonVisible: false,
+                    titleTextStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                    )),
+                calendarStyle: const CalendarStyle(
+                    todayDecoration: BoxDecoration(
                   color: Colors.pink,
                   shape: BoxShape.circle,
-                )
-              ),
-              rowHeight: 55,
-              daysOfWeekHeight: 30,
-              firstDay: DateTime.utc(2023, 12, 1),
-              currentDay: DateTime.now(),
-              focusedDay: DateTime.now(),
-              lastDay: DateTime.utc(2050, 12, 31)
-            ),
-               
-          const SizedBox(height: 20),
-
-          const Text('Upcoming Events', 
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ))
-
+                )),
+                rowHeight: 55,
+                daysOfWeekHeight: 30,
+                firstDay: DateTime.utc(2023, 12, 1),
+                currentDay: DateTime.now(),
+                focusedDay: DateTime.now(),
+                lastDay: DateTime.utc(2050, 12, 31)),
+            const SizedBox(height: 20),
+            const Text('Upcoming Events',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
           ],
         ),
       ),
@@ -117,8 +104,7 @@ class _CalendarViewState extends State<CalendarView> {
           currentRoute: '/calendar',
           onRouteChanged: (route) {
             Navigator.pushNamed(context, route,
-                arguments: SessionData.data(widget.username,
-                    widget.housekey)); // navigate to a different view
+                arguments: SessionData.data(widget.username, widget.housekey));
           }),
     );
   }
