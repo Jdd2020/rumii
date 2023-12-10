@@ -5,21 +5,14 @@ import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:rumii/viewmodels/login_list_view_model.dart';
-import 'package:rumii/viewmodels/login_view_model.dart';
-import 'package:rumii/views/Chores/chore_list_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_view_model.dart';
 import 'package:rumii/models/chore_model.dart';
-import 'package:provider/provider.dart';
 import 'package:rumii/views/Dashboard/edit_household_view.dart';
-import 'package:rumii/viewmodels/edit_household_view_model.dart';
 import 'package:rumii/models/shop_model.dart';
 import 'package:rumii/views/Shopping/view_item_view.dart';
-import 'package:rumii/views/Shopping/edit_item_view.dart';
 import 'package:rumii/viewmodels/shop_view_model.dart';
 import 'package:rumii/viewmodels/event_view_model.dart';
-import 'package:rumii/viewmodels/calendar_view_model.dart';
 import 'package:rumii/models/event_model.dart';
 import 'package:rumii/views/Calendar/view_event_view.dart';
 
@@ -222,7 +215,7 @@ class _DashboardViewState extends State<DashboardView> {
                       MaterialPageRoute(
                         builder: (context) => ViewChore(
                           chore: choreViewModel,
-                          user: "Henry",
+                          user: widget.username,
                           lastChore: chore.name,
                           username: widget.username,
                           housekey: widget.housekey,
@@ -247,7 +240,7 @@ class _DashboardViewState extends State<DashboardView> {
                       MaterialPageRoute(
                         builder: (context) => ViewItem(
                           shop: shopViewModel,
-                          user: "Henry",
+                          user: widget.username,
                           lastItem: storeNeed.name,
                           housekey: widget.housekey,
                           username: widget.username,
@@ -280,7 +273,7 @@ class _DashboardViewState extends State<DashboardView> {
                             remind: eventViewModel.remind,
                             note: eventViewModel.note),
                           eventViewModel: eventViewModel,
-                          user: "Henry",
+                          user: widget.username,
                           lastItem: event.name,
                           housekey: widget.housekey,
                           username: widget.username,

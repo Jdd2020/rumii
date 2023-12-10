@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:rumii/views/Calendar/expand_event_view.dart';
 import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class EditEvent extends StatefulWidget {
@@ -178,7 +177,7 @@ class _EditEventState extends State<EditEvent> {
           ),
           child: TextField(
             controller: controller,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
             ),
           ),

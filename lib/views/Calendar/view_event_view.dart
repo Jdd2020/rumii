@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:rumii/views/Calendar/edit_event_view.dart';
-import 'package:rumii/views/Calendar/expand_event_view.dart';
 import 'package:rumii/viewmodels/event_view_model.dart';
 
 class ExpandEvent {
@@ -135,7 +134,7 @@ class ViewEvent extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                 ),
               ),
