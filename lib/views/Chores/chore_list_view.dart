@@ -7,6 +7,7 @@ import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:rumii/views/Chores/new_chore_view.dart';
 import 'package:rumii/views/Chores/view_chore_view.dart';
 import 'package:rumii/viewmodels/chore_list_view_model.dart';
+import 'package:rumii/viewmodels/user_view_model.dart';
 
 class ChoreListView extends StatefulWidget {
   final String username;
@@ -21,6 +22,8 @@ class ChoreListView extends StatefulWidget {
 }
 
 class _ChoreListViewState extends State<ChoreListView> {
+
+  final ChoreListViewModel _choreListViewModel = ChoreListViewModel();
   //ChoreListViewModel choreList = ChoreListViewModel();
 
   /*=
@@ -113,6 +116,22 @@ class _ChoreListViewState extends State<ChoreListView> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(children: [
+                            const SizedBox(width: 8),
+                            Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.pinkAccent,
+                                    width: 2.0, 
+                                  ),
+                                ),
+                                child: ClipOval(
+                                  child: getImageWidget(user, _choreListViewModel),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                          
                           Text(
                             user.name,
                             style: const TextStyle(
@@ -120,6 +139,8 @@ class _ChoreListViewState extends State<ChoreListView> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          ],),
+                          const SizedBox(height: 3),
                           const Divider(
                             color: Colors.black,
                           ),
@@ -190,7 +211,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                               );
                             },
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
                         ],
                       );
                     },
@@ -211,4 +232,46 @@ class _ChoreListViewState extends State<ChoreListView> {
           }),
     );
   }
+
+  Widget getImageWidget(UserViewModel user, ChoreListViewModel choreListViewModel) {
+    FutureBuilder<String?> imageFutureBuilder = FutureBuilder<String?>(
+      future: choreListViewModel.getUserImage(user.name),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Container(); 
+          } else {
+            if (snapshot.data != null) {
+              return Image.asset(
+                'assets/images/${snapshot.data}',
+                height: 33,
+                width: 33,
+                fit: BoxFit.cover,
+              );
+            } else {
+              return Container(
+                height: 33,
+                width: 33,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.pinkAccent,
+                ),
+                child: Text(
+                  user.name[0],
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            }
+          }
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+
+    return imageFutureBuilder;
+  }
+
 }

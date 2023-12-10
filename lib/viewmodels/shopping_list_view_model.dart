@@ -38,7 +38,10 @@ class ShoppingListViewModel extends ChangeNotifier {
               shop: Shop.fromJson(items[shopList[n]] as Map<String, dynamic>));
           tempItems.add(shop);
         }
-        var user = UserViewModel(user: User(name: userList[i]));
+        var user = UserViewModel(
+          user: User(
+            name: userList[i]),
+          );
         user.setShopItems(tempItems);
         users.add(user);
         usernames.add(user.name);
@@ -107,4 +110,22 @@ class ShoppingListViewModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<String?> getUserImage(String username) async {
+  final String jsonString = File('assets/userDB.json').readAsStringSync();
+  var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
+
+  if (userMap.containsKey("Users")) {
+    var usersData = userMap["Users"] as Map<String, dynamic>;
+
+    if (usersData.containsKey(username)) {
+      var userData = usersData[username] as Map<String, dynamic>;
+
+      return userData['image'];
+    }
+  }
+
+  return null;
+}
+
 }

@@ -24,6 +24,10 @@ class UserViewModel {
     return user.name;
   }
 
+  String? get image {
+    return user.image;
+  }
+
   void setChores(List<ChoreViewModel> choreList) {
     user.chores = choreList;
   }

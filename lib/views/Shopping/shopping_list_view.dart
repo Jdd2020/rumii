@@ -21,9 +21,13 @@ class ShoppingListView extends StatefulWidget {
 }
 
 class _ShoppingListViewState extends State<ShoppingListView> {
+  
+  final ShoppingListViewModel _shoppingListViewModel = ShoppingListViewModel();
+  
   @override
   void initState() {
     super.initState();
+    _shoppingListViewModel.getData(widget.housekey);
     Provider.of<ShoppingListViewModel>(context, listen: false)
         .getData(widget.housekey);
   }
@@ -96,24 +100,22 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     return Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 12, 8, 6),
+                          padding: const EdgeInsets.fromLTRB(8, 12, 8, 3),
                           child: Row(
                             children: [
                               Container(
-                                height: 33,
-                                width: 33,
-                                alignment: Alignment.center,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.pinkAccent,
+                                  border: Border.all(
+                                    color: Colors.pinkAccent,
+                                    width: 2.0, 
+                                  ),
                                 ),
-                                child: Text(
-                                  user.name[0],
-                                  style: const TextStyle(color: Colors.white),
+                                child: ClipOval(
+                                  child: getImageWidget(user, _shoppingListViewModel),
                                 ),
                               ),
+                              const SizedBox(width: 8),
                               Text(
                                 user.name,
                                 style: const TextStyle(
@@ -208,4 +210,46 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       ),
     );
   }
+
+ Widget getImageWidget(UserViewModel user, ShoppingListViewModel shoppingListViewModel) {
+    FutureBuilder<String?> imageFutureBuilder = FutureBuilder<String?>(
+      future: shoppingListViewModel.getUserImage(user.name),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Container(); 
+          } else {
+            if (snapshot.data != null) {
+              return Image.asset(
+                'assets/images/${snapshot.data}',
+                height: 33,
+                width: 33,
+                fit: BoxFit.cover,
+              );
+            } else {
+              return Container(
+                height: 33,
+                width: 33,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.pinkAccent,
+                ),
+                child: Text(
+                  user.name[0],
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            }
+          }
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+
+    return imageFutureBuilder;
+  }
+
 }
