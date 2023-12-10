@@ -110,7 +110,7 @@ class _EditChoreState extends State<EditChore> {
                                   widget.lastChore);
                           Provider.of<ChoreListViewModel>(context,
                                   listen: false)
-                              .writeData("DSBU781");
+                              .writeData(widget.housekey);
                           Navigator.pushNamed(context, "/chores");
                         },
                       ),

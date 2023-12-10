@@ -85,7 +85,6 @@ class ChoreListViewModel extends ChangeNotifier {
   Future<void> editChore(
       Chore chored, String username, String lastChore) async {
     var chore = ChoreViewModel(chore: chored);
-    print(chore.name);
     for (var i = 0; i < users.length; i++) {
       print(users[1].name);
       if (username == users[i].name) {
