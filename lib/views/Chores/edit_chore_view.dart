@@ -127,7 +127,7 @@ class _EditChoreState extends State<EditChore> {
                 const SizedBox(height: 20),
                 buildEditableTextField('Chore', nameController),
                 buildEditableTextField('Assigned user', assignUserController),
-                buildEditableTextField('Due Date', dueDateController),
+                buildDatePickerField('Due Date', dueDateController),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 50,
@@ -155,6 +155,52 @@ class _EditChoreState extends State<EditChore> {
             ),
           ),
         ));
+  }
+
+  Widget buildDatePickerField(String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        const SizedBox(height: 2),
+        GestureDetector(
+          onTap: () async {
+            DateTime? selectedDate = await showDatePicker(
+              context: context,
+              initialDate: dueDate ?? DateTime.now(),
+              firstDate: DateTime.now(),
+              lastDate: DateTime(2101),
+            );
+            if (selectedDate != null && selectedDate != dueDate) {
+              setState(() {
+                dueDate = selectedDate;
+                controller.text =
+                    '${dueDate!.month}/${dueDate!.day}/${dueDate!.year}';
+              });
+            }
+          },
+          child: AbsorbPointer(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.98,
+              height: 50,
+              child: TextField(
+                controller: controller,
+                obscureText: false,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
   }
 
   Widget buildEditableTextField(
