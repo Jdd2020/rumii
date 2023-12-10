@@ -2,40 +2,48 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:rumii/views/Calendar/edit_event_view.dart';
 import 'package:rumii/views/Calendar/expand_event_view.dart';
+import 'package:rumii/viewmodels/event_view_model.dart';
 
 class ExpandEvent {
   final String title;
-  final DateTime startTime;
-  final DateTime endTime;
-  final String? repetition;
-  final String? reminder;
+  final DateTime date;
+  final TimeOfDay startTime;
+  final TimeOfDay endTime;
+  final String? isRecurring;
+  final String? remind;
   final String? note;
 
   ExpandEvent({
     required this.title,
+    required this.date,
     required this.startTime,
     required this.endTime,
-    this.repetition,
-    this.reminder,
+    this.isRecurring,
+    this.remind,
     this.note,
   });
 }
 
 class ViewEvent extends StatelessWidget {
   final ExpandEvent event;
+  final EventViewModel? eventViewModel;
+  final String? user;
+  final String? lastItem;
+  final String? housekey;
+  final String? username;
 
-  ViewEvent({Key? key, required this.event}) : super(key: key);
+  const ViewEvent({Key? key, required this.event, this.eventViewModel, this.user, this.lastItem, this.housekey, this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Details'),
+        title: const Text('Event Details'),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -74,22 +82,22 @@ class ViewEvent extends StatelessWidget {
                 buildTextBox(
                   context,
                   'Date',
-                  DateFormat('EEEE, MMMM d, y').format(event.startTime),
+                  DateFormat('EEEE, MMMM d, y').format(event.date),
                 ),
                 buildTextBox(
                   context,
                   'Time',
-                  '${DateFormat('h:mm a').format(event.startTime)} - ${DateFormat('h:mm a').format(event.endTime)}',
+                  '${formatTimeOfDay(event.startTime)} - ${formatTimeOfDay(event.endTime)}',
                 ),
                 buildTextBox(
                   context,
                   'Repetition',
-                  event.repetition ?? ' ',
+                  event.isRecurring.toString(),
                 ),
                 buildTextBox(
                   context,
                   'Reminder',
-                  event.reminder ?? ' ',
+                  event.remind.toString(),
                 ),
                 buildTextBox(
                   context,
@@ -138,4 +146,11 @@ class ViewEvent extends StatelessWidget {
       ],
     );
   }
+
+   String formatTimeOfDay(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    return DateFormat('h:mm a').format(dateTime);
+  }
+
 }

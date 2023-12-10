@@ -32,13 +32,19 @@ class _EditEventState extends State<EditEvent> {
     noteController = TextEditingController(text: widget.event.note ?? '');
 
     // Initialize date and time with existing data
-    selectedDate = widget.event.startTime;
-    selectedStartTime = TimeOfDay.fromDateTime(widget.event.startTime);
-    selectedEndTime = TimeOfDay.fromDateTime(widget.event.endTime);
+    selectedDate = widget.event.date;
+    selectedStartTime = TimeOfDay(
+        hour: widget.event.startTime.hour,
+        minute: widget.event.startTime.minute,
+      );
+    selectedEndTime = TimeOfDay(
+        hour: widget.event.endTime.hour,
+        minute: widget.event.endTime.minute,
+      );
 
     // Initialize repetition and reminder with existing data
-    selectedRepetition = widget.event.repetition;
-    selectedReminder = widget.event.reminder;
+    selectedRepetition = widget.event.isRecurring;
+    selectedReminder = widget.event.remind;
   }
 
   @override

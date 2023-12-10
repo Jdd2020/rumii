@@ -15,16 +15,14 @@ class EventViewModel {
   }
 
   TimeOfDay get startTime {
-    var timeParts = event.starttime.split(':');
-    return TimeOfDay(hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));
+    return _parseTimeStringToTimeOfDay(event.starttime);
   }
 
   TimeOfDay get endTime {
-    var timeParts = event.endtime.split(':');
-    return TimeOfDay(hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));
+     return _parseTimeStringToTimeOfDay(event.endtime);
   } 
 
-  bool get isRecurring {
+  String get isRecurring {
     return event.isRecurring;
   }
 
@@ -32,11 +30,24 @@ class EventViewModel {
     return event.user;
   }
 
-  int get remind {
+  String get remind {
     return event.remind;
   }
 
    String get note {
     return event.note;
+  }
+
+  TimeOfDay _parseTimeStringToTimeOfDay(String timeString) {
+    List<String> timeParts = timeString.split(RegExp(r'[:\s]'));
+
+    int hours = int.parse(timeParts[0]);
+    int minutes = int.parse(timeParts[1]);
+
+    if (timeParts.length == 3 && timeParts[2].toLowerCase() == 'pm') {
+      hours = (hours + 12) % 24;
+    }
+
+    return TimeOfDay(hour: hours, minute: minutes);
   }
 }
