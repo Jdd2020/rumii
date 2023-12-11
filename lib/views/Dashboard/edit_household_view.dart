@@ -146,16 +146,14 @@ class _EditHouseholdState extends State<EditHousehold> {
             child: _getUserImageWidget(userName, _editHouseholdViewModel),
           ),
           Align(
-            alignment: const Alignment(1.15, -1.15),
-            child: GestureDetector(
-              onTap: () {
-                _showDeleteConfirmationDialog(userName);
-              },
-              child: const Icon(
-                Icons.delete,
+            alignment: const Alignment(1.2, -1.2),
+            child: IconButton(
+                icon: const Icon(Icons.delete),
                 color: Colors.red,
-                size: 25.0,
-              ),
+                iconSize: 25.0,
+                onPressed: () {
+                  _showDeleteConfirmationDialog(userName);
+                },
             ),
           ),
         ],
