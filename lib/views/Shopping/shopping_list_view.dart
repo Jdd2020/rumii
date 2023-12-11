@@ -21,9 +21,8 @@ class ShoppingListView extends StatefulWidget {
 }
 
 class _ShoppingListViewState extends State<ShoppingListView> {
-  
   final ShoppingListViewModel _shoppingListViewModel = ShoppingListViewModel();
-  
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +58,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
               child: InkWell(
                 child: ElevatedButton(
                   onPressed: () {
+                    Provider.of<ShoppingListViewModel>(context, listen: false)
+                        .writeData(widget.housekey);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -108,11 +109,12 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     color: Colors.pinkAccent,
-                                    width: 2.0, 
+                                    width: 2.0,
                                   ),
                                 ),
                                 child: ClipOval(
-                                  child: getImageWidget(user, _shoppingListViewModel),
+                                  child: getImageWidget(
+                                      user, _shoppingListViewModel),
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -133,7 +135,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                           itemCount: user.shopItems.length,
                           itemBuilder: (context, itemIndex) {
                             final item = user.shopItems[itemIndex];
-                            return _buildShoppingItem(item, user);
+                            return _buildShoppingItem(item, user, shopList);
                           },
                         ),
                       ],
@@ -148,6 +150,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       bottomNavigationBar: CustomBottomNavigationBar(
         currentRoute: '/shopping_list',
         onRouteChanged: (route) {
+          Provider.of<ShoppingListViewModel>(context, listen: false)
+              .writeData(widget.housekey);
           Navigator.pushNamed(context, route,
               arguments: SessionData.data(widget.username, widget.housekey));
         },
@@ -155,7 +159,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 
-  Widget _buildShoppingItem(ShopViewModel item, UserViewModel user) {
+  Widget _buildShoppingItem(
+      ShopViewModel item, UserViewModel user, ShoppingListViewModel shopList) {
     IconData getItemIcon(String itemType) {
       for (var type in types) {
         if (type['name'] == itemType) {
@@ -170,6 +175,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
       child: ListTile(
         onTap: () {
+          Provider.of<ShoppingListViewModel>(context, listen: false)
+              .writeData(widget.housekey);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -204,6 +211,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           onChanged: (value) {
             setState(() {
               // item.isCompleted = value ?? false;
+              shopList.toggleShopComplete(item);
             });
           },
         ),
@@ -211,13 +219,14 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 
- Widget getImageWidget(UserViewModel user, ShoppingListViewModel shoppingListViewModel) {
+  Widget getImageWidget(
+      UserViewModel user, ShoppingListViewModel shoppingListViewModel) {
     FutureBuilder<String?> imageFutureBuilder = FutureBuilder<String?>(
       future: shoppingListViewModel.getUserImage(user.name),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Container(); 
+            return Container();
           } else {
             if (snapshot.data != null) {
               return Image.asset(
@@ -251,5 +260,4 @@ class _ShoppingListViewState extends State<ShoppingListView> {
 
     return imageFutureBuilder;
   }
-
 }

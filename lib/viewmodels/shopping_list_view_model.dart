@@ -39,9 +39,8 @@ class ShoppingListViewModel extends ChangeNotifier {
           tempItems.add(shop);
         }
         var user = UserViewModel(
-          user: User(
-            name: userList[i]),
-          );
+          user: User(name: userList[i]),
+        );
         user.setShopItems(tempItems);
         users.add(user);
         usernames.add(user.name);
@@ -112,20 +111,50 @@ class ShoppingListViewModel extends ChangeNotifier {
   }
 
   Future<String?> getUserImage(String username) async {
-  final String jsonString = File('assets/userDB.json').readAsStringSync();
-  var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
+    final String jsonString = File('assets/userDB.json').readAsStringSync();
+    var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
 
-  if (userMap.containsKey("Users")) {
-    var usersData = userMap["Users"] as Map<String, dynamic>;
+    if (userMap.containsKey("Users")) {
+      var usersData = userMap["Users"] as Map<String, dynamic>;
 
-    if (usersData.containsKey(username)) {
-      var userData = usersData[username] as Map<String, dynamic>;
+      if (usersData.containsKey(username)) {
+        var userData = usersData[username] as Map<String, dynamic>;
 
-      return userData['image'];
+        return userData['image'];
+      }
     }
+
+    return null;
   }
 
-  return null;
-}
+  ShopViewModel findAndUpdateShopComplete(ShopViewModel shopViewModel) {
+    final Shop shop = shopViewModel.shop;
+    // Update the chore's priority
+    final updatedChore = Shop(
+        name: shop.name,
+        isCompleted: !shop.isCompleted,
+        notes: shop.notes,
+        quantity: shop.quantity,
+        type: shop.type);
+    // Update the chore in the choreViewModel
+    shopViewModel.shop = updatedChore;
+    notifyListeners();
+    print("chore updated");
+    return shopViewModel;
+  }
 
+  bool toggleShopComplete(ShopViewModel shopViewModel) {
+    final ShopViewModel updatedShop = findAndUpdateShopComplete(shopViewModel);
+    final List<UserViewModel> updatedUsers = users;
+    for (var user in updatedUsers) {
+      int shopIndex =
+          user.shopItems.indexWhere((c) => c.name == updatedShop.name);
+      if (shopIndex != -1) {
+        user.shopItems[shopIndex] = updatedShop;
+      }
+    }
+    notifyListeners();
+    print(shopViewModel.shop.isCompleted);
+    return shopViewModel.shop.isCompleted;
+  }
 }

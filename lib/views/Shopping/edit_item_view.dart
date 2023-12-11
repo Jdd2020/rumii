@@ -110,7 +110,7 @@ class _EditItemState extends State<EditItem> {
 
                                 //type: typeController.text
                               ),
-                              widget.user);
+                              selectedAssignee);
                       Provider.of<ShoppingListViewModel>(context, listen: false)
                           .writeData(widget.housekey);
                       Navigator.pushNamed(context, shopListRoute,
@@ -221,6 +221,7 @@ class _EditItemState extends State<EditItem> {
                               if (newValue != null) {
                                 setState(() {
                                   controller.text = newValue;
+                                  selectedAssignee = newValue;
                                 });
                               }
                             },
