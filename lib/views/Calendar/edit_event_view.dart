@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:rumii/SessionData.dart';
+import 'package:rumii/constants.dart';
+import 'package:rumii/models/event_model.dart';
+import 'package:rumii/viewmodels/calendar_view_model.dart';
+import 'package:rumii/viewmodels/chore_list_view_model.dart';
+import 'package:rumii/views/Calendar/calendar_view.dart';
 import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class EditEvent extends StatefulWidget {
   final ExpandEvent event;
+  final String housekey;
+  final String username;
 
-  EditEvent({Key? key, required this.event}) : super(key: key);
+  EditEvent(
+      {Key? key,
+      required this.event,
+      required this.housekey,
+      required this.username})
+      : super(key: key);
 
   @override
   _EditEventState createState() => _EditEventState();
@@ -21,11 +35,14 @@ class _EditEventState extends State<EditEvent> {
 
   String? selectedRepetition;
   String? selectedReminder;
+  String? selectedUser;
+  String? initEventTitle;
+  List<String>? usernames;
 
   @override
   void initState() {
     super.initState();
-
+    initEventTitle = widget.event.title;
     // Initialize controllers with existing data
     titleController = TextEditingController(text: widget.event.title);
     noteController = TextEditingController(text: widget.event.note ?? '');
@@ -33,17 +50,26 @@ class _EditEventState extends State<EditEvent> {
     // Initialize date and time with existing data
     selectedDate = widget.event.date;
     selectedStartTime = TimeOfDay(
-        hour: widget.event.startTime.hour,
-        minute: widget.event.startTime.minute,
-      );
+      hour: widget.event.startTime.hour,
+      minute: widget.event.startTime.minute,
+    );
     selectedEndTime = TimeOfDay(
-        hour: widget.event.endTime.hour,
-        minute: widget.event.endTime.minute,
-      );
+      hour: widget.event.endTime.hour,
+      minute: widget.event.endTime.minute,
+    );
 
     // Initialize repetition and reminder with existing data
     selectedRepetition = widget.event.isRecurring;
     selectedReminder = widget.event.remind;
+    selectedUser = widget.username;
+
+    Provider.of<CalendarViewModel>(context, listen: false)
+        .getData(widget.housekey);
+    Provider.of<CalendarViewModel>(context, listen: false)
+        .getUsers(widget.housekey);
+
+    usernames =
+        Provider.of<CalendarViewModel>(context, listen: false).usernames;
   }
 
   @override
@@ -90,7 +116,26 @@ class _EditEventState extends State<EditEvent> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        // Save changes
+                        var event = Event(
+                            name: titleController.text,
+                            day: selectedDate!.day,
+                            month: selectedDate!.month,
+                            year: selectedDate!.year,
+                            starttime: selectedStartTime.toString(),
+                            endtime: selectedEndTime.toString(),
+                            isRecurring: selectedRepetition.toString(),
+                            user: selectedUser!,
+                            remind: selectedReminder.toString(),
+                            note: noteController.text);
+                        Provider.of<CalendarViewModel>(context, listen: false)
+                            .deleteEvent(initEventTitle!);
+                        Provider.of<CalendarViewModel>(context, listen: false)
+                            .addEvent(event);
+                        Provider.of<CalendarViewModel>(context, listen: false)
+                            .writeData(widget.housekey);
+                        Navigator.pushNamed(context, calendarRoute,
+                            arguments: SessionData.data(
+                                widget.username, widget.housekey));
                       },
                       child: const Text('Save',
                           style: TextStyle(
@@ -129,6 +174,18 @@ class _EditEventState extends State<EditEvent> {
                   });
                 },
               ),
+              Consumer<CalendarViewModel>(builder: (context, calendar, child) {
+                return buildDropdown(
+                  'Assigned User',
+                  calendar.usernames,
+                  selectedUser,
+                  (String? value) {
+                    setState(() {
+                      selectedUser = value;
+                    });
+                  },
+                );
+              }),
               buildDropdown(
                 'Repetition',
                 ['None', 'Daily', 'Weekly', 'Bi-weekly', 'Monthly', 'Custom'],
@@ -150,6 +207,22 @@ class _EditEventState extends State<EditEvent> {
                 },
               ),
               buildTextField('Note', noteController),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Provider.of<CalendarViewModel>(context, listen: false)
+                          .deleteEvent(titleController.text);
+                      Provider.of<CalendarViewModel>(context, listen: false)
+                          .writeData(widget.housekey);
+                      Navigator.pushNamed(context, calendarRoute,
+                          arguments: SessionData.data(
+                              widget.username, widget.housekey));
+                    },
+                    child: const Text("Delete")),
+              )
             ],
           ),
         ),
@@ -193,6 +266,7 @@ class _EditEventState extends State<EditEvent> {
     String? selectedValue,
     Function(String?) onChanged,
   ) {
+    //options = Provider.of<CalendarViewModel>(context, listen: false).usernames;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -81,22 +81,25 @@ class ChoreListViewModel extends ChangeNotifier {
   }
 
   Future<void> editChore(
-      Chore chored, String username, String lastChore) async {
+      Chore chored, String username, String lastChore, String lastUser) async {
+    print(username);
     var chore = ChoreViewModel(chore: chored);
     for (var i = 0; i < users.length; i++) {
-      print(users[1].name);
-      if (username == users[i].name) {
-        print("first loop");
+      if (lastUser == users[i].name) {
+        print("user found");
         for (var n = 0; n < users[i].chores.length; n++) {
-          print(users[i].chores[n].name);
-          print("second loop");
           if (lastChore == users[i].chores[n].name) {
-            print("if statement");
             users[i].chores.removeAt(n);
-            users[i].chores.add(chore);
-            print("Chore edited");
+            print("chore removed");
           }
         }
+      }
+    }
+
+    for (var i = 0; i < users.length; i++) {
+      if (username == users[i].name) {
+        users[i].chores.add(chore);
+        print('chore added');
       }
     }
     notifyListeners();
@@ -183,19 +186,19 @@ class ChoreListViewModel extends ChangeNotifier {
   }
 
   Future<String?> getUserImage(String username) async {
-  final String jsonString = File('assets/userDB.json').readAsStringSync();
-  var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
+    final String jsonString = File('assets/userDB.json').readAsStringSync();
+    var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
 
-  if (userMap.containsKey("Users")) {
-    var usersData = userMap["Users"] as Map<String, dynamic>;
+    if (userMap.containsKey("Users")) {
+      var usersData = userMap["Users"] as Map<String, dynamic>;
 
-    if (usersData.containsKey(username)) {
-      var userData = usersData[username] as Map<String, dynamic>;
+      if (usersData.containsKey(username)) {
+        var userData = usersData[username] as Map<String, dynamic>;
 
-      return userData['image'];
+        return userData['image'];
+      }
     }
-  }
 
-  return null;
-}
+    return null;
+  }
 }

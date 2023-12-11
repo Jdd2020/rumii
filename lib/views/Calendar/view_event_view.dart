@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rumii/viewmodels/calendar_view_model.dart';
 import 'package:rumii/views/Calendar/edit_event_view.dart';
 import 'package:rumii/viewmodels/event_view_model.dart';
 
@@ -28,10 +30,18 @@ class ViewEvent extends StatelessWidget {
   final EventViewModel? eventViewModel;
   final String? user;
   final String? lastItem;
-  final String? housekey;
+  final String housekey;
   final String? username;
 
-  const ViewEvent({Key? key, required this.event, this.eventViewModel, this.user, this.lastItem, this.housekey, this.username}) : super(key: key);
+  const ViewEvent(
+      {Key? key,
+      required this.event,
+      this.eventViewModel,
+      this.user,
+      this.lastItem,
+      required this.housekey,
+      this.username})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,22 +67,27 @@ class ViewEvent extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditEvent(event: event),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ChangeNotifierProvider(
+                                    create: (context) => CalendarViewModel(),
+                                    child: EditEvent(
+                                      event: event,
+                                      housekey: housekey,
+                                      username: username!,
+                                    ),
+                                  )));
                     },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      elevation: 0,
+                    ),
                     child: const Text(
                       'Edit',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black,
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      elevation: 0,
                     ),
                   ),
                 ),
@@ -87,6 +102,11 @@ class ViewEvent extends StatelessWidget {
                   context,
                   'Time',
                   '${formatTimeOfDay(event.startTime)} - ${formatTimeOfDay(event.endTime)}',
+                ),
+                buildTextBox(
+                  context,
+                  'User',
+                  eventViewModel!.user.toString(),
                 ),
                 buildTextBox(
                   context,
@@ -146,10 +166,10 @@ class ViewEvent extends StatelessWidget {
     );
   }
 
-   String formatTimeOfDay(TimeOfDay timeOfDay) {
+  String formatTimeOfDay(TimeOfDay timeOfDay) {
     final now = DateTime.now();
-    final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    final dateTime = DateTime(
+        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
     return DateFormat('h:mm a').format(dateTime);
   }
-
 }

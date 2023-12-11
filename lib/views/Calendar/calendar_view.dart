@@ -28,20 +28,11 @@ class _CalendarViewState extends State<CalendarView> {
   DateTime? _selectedDate;
   List<Event> _recentEvents = [];
 
-  Future<void> _fetchData() async {
-    if (widget.username != null && widget.housekey != null) {
-      List<Event> recentEvents = await fetchRecentEvents(widget.housekey!);
-
-      setState(() {
-        _recentEvents = recentEvents;
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    Provider.of<CalendarViewModel>(context, listen: false)
+        .getData(widget.housekey);
   }
 
   @override
@@ -126,9 +117,9 @@ class _CalendarViewState extends State<CalendarView> {
                   focusedDay: DateTime.now(),
                   lastDay: DateTime.utc(2050, 12, 31),
                   eventLoader: (date) {
-                    return context
-                        .read<CalendarViewModel>()
-                        .getEventsForDate(date);
+                    return Provider.of<CalendarViewModel>(context,
+                            listen: false)
+                        .getDayEvents(date);
                   },
                   onDaySelected: (selectedDate, focusedDate) {
                     setState(() {
@@ -137,8 +128,10 @@ class _CalendarViewState extends State<CalendarView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ExpandView(selectedDay: selectedDate),
+                        builder: (context) => ExpandView(
+                          selectedDay: selectedDate,
+                          housekey: widget.housekey,
+                        ),
                       ),
                     );
                   },
@@ -167,8 +160,10 @@ class _CalendarViewState extends State<CalendarView> {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildList("Upcoming Events", "/calendar", _recentEvents,
-                  Icons.calendar_month_outlined, 'event'),
+              Consumer<CalendarViewModel>(builder: (context, eventList, child) {
+                return _buildList("Upcoming Events", "/calendar",
+                    eventList.calendar, Icons.calendar_month_outlined, 'event');
+              }),
               const SizedBox(height: 5),
             ],
           ),
@@ -221,7 +216,7 @@ class _CalendarViewState extends State<CalendarView> {
     return jsonData;
   }
 
-  Widget _buildList(String title, String route, List<dynamic> items,
+  Widget _buildList(String title, String route, List<EventViewModel> items,
       IconData iconData, String type) {
     return Column(
       //crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,14 +240,13 @@ class _CalendarViewState extends State<CalendarView> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: items.length,
             itemBuilder: (context, index) {
-              dynamic item = items[index];
-              Event event = item;
-              EventViewModel eventViewModel = EventViewModel(event: event);
+              EventViewModel item = items[index];
+              EventViewModel eventViewModel = item;
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  title: Text(event.name),
+                  title: Text(eventViewModel.name),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -268,7 +262,7 @@ class _CalendarViewState extends State<CalendarView> {
                               note: eventViewModel.note),
                           eventViewModel: eventViewModel,
                           user: widget.username,
-                          lastItem: event.name,
+                          lastItem: eventViewModel.name,
                           housekey: widget.housekey,
                           username: widget.username,
                         ),

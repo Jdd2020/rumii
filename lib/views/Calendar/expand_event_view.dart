@@ -4,8 +4,11 @@ import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class ExpandView extends StatelessWidget {
   final DateTime selectedDay;
+  final String housekey;
 
-  const ExpandView({Key? key, required this.selectedDay}) : super(key: key);
+  const ExpandView(
+      {Key? key, required this.selectedDay, required this.housekey})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,7 @@ class ExpandView extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => ViewEvent(
                                 event: event,
+                                housekey: housekey,
                               ),
                             ),
                           );
@@ -77,38 +81,39 @@ class ExpandView extends StatelessWidget {
   }
 }
 
-   String formatTimeOfDay(TimeOfDay timeOfDay) {
-    final now = DateTime.now();
-    final dateTime = DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
-    return DateFormat('h:mm a').format(dateTime);
-  }
+String formatTimeOfDay(TimeOfDay timeOfDay) {
+  final now = DateTime.now();
+  final dateTime =
+      DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+  return DateFormat('h:mm a').format(dateTime);
+}
 
 List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
   // Fake data for demonstration
   return [
     ExpandEvent(
       title: 'Meeting with Team',
-      date: DateTime(1,1,1,1),
-      startTime: const TimeOfDay(hour: 1,minute: 1),
-      endTime: const TimeOfDay(hour: 2,minute: 1),
+      date: DateTime(1, 1, 1, 1),
+      startTime: const TimeOfDay(hour: 1, minute: 1),
+      endTime: const TimeOfDay(hour: 2, minute: 1),
       isRecurring: 'Daily',
       remind: '1 Hour Before',
       note: 'Discuss project updates',
     ),
     ExpandEvent(
       title: 'Lunch Break',
-      date:DateTime(2,1,1,1),
-      startTime: const TimeOfDay(hour: 2,minute: 1),
-      endTime: const TimeOfDay(hour: 5,minute: 5),
+      date: DateTime(2, 1, 1, 1),
+      startTime: const TimeOfDay(hour: 2, minute: 1),
+      endTime: const TimeOfDay(hour: 5, minute: 5),
       isRecurring: 'Biweekly',
       remind: '1 Hour Before',
       note: 'Grab lunch at the cafeteria',
     ),
     ExpandEvent(
       title: 'Project Discussion',
-      date: DateTime(2,8,1,1),
-      startTime: const TimeOfDay(hour: 5,minute: 5),
-      endTime: const TimeOfDay(hour: 15,minute: 0),
+      date: DateTime(2, 8, 1, 1),
+      startTime: const TimeOfDay(hour: 5, minute: 5),
+      endTime: const TimeOfDay(hour: 15, minute: 0),
       isRecurring: 'Monthly',
       remind: '1 Day Before',
       note: 'Review project milestones',

@@ -9,7 +9,11 @@ class NewEvent extends StatefulWidget {
   final String username;
   final String houseKey;
 
-  const NewEvent({Key? key, required this.username, required this.houseKey,}) : super(key: key);
+  const NewEvent({
+    Key? key,
+    required this.username,
+    required this.houseKey,
+  }) : super(key: key);
 
   @override
   _NewEventState createState() => _NewEventState();
@@ -42,6 +46,10 @@ class _NewEventState extends State<NewEvent> {
   @override
   void initState() {
     super.initState();
+    Provider.of<CalendarViewModel>(context, listen: false)
+        .getData(widget.houseKey);
+    Provider.of<CalendarViewModel>(context, listen: false)
+        .getUsers(widget.houseKey);
   }
 
   @override
@@ -69,64 +77,61 @@ class _NewEventState extends State<NewEvent> {
               children: <Widget>[
                 const SizedBox(height: 20),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey[300],
-                        ),
-                        child: InkWell(
-                            child: const Text('Cancel',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            onTap: () => {Navigator.pop(context)}),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[300],
                       ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey[300],
-                        ),
-                        child: InkWell(
-                            child: const Text('Save',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                )),
-                            onTap: () async {
+                      child: InkWell(
+                          child: const Text('Cancel',
+                              style: TextStyle(
+                                fontSize: 16,
+                              )),
+                          onTap: () => {Navigator.pop(context)}),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[300],
+                      ),
+                      child: InkWell(
+                        child: const Text('Save',
+                            style: TextStyle(
+                              fontSize: 16,
+                            )),
+                        onTap: () {
+                          String name = nameController.text;
+                          DateTime? eventDate = date;
+                          TimeOfDay? startTime = this.startTime;
+                          TimeOfDay? endTime = this.endTime;
+                          String assignee = selectedAssignee;
 
-                              String name = nameController.text;
-                              DateTime? eventDate = date;
-                              TimeOfDay? startTime = this.startTime;
-                              TimeOfDay? endTime = this.endTime;
-                              String assignee = selectedAssignee;
-
-                              var newEvent = Event(
-                                  name: name,
-                                  day: eventDate?.day ?? 0,
-                                  month: eventDate?.month ?? 0,
-                                  year: eventDate?.year ?? 0,
-                                  starttime: startTime?.format(context) ?? "",
-                                  endtime: endTime?.format(context) ?? "",
-                                  isRecurring: repetitionController.text,
-                                  user: assignee,
-                                  remind: reminderController.text,
-                                  note: noteController.text,
-                                );
-                              Provider.of<CalendarViewModel>(context,
-                                      listen: false)
-                                  .addEvent(newEvent, selectedAssignee);
-                              Provider.of<CalendarViewModel>(context,
-                                      listen: false)
-                                  .writeData(widget.houseKey);
-                              // ignore: use_build_context_synchronously
-                              Navigator.pushNamed(context, calendarRoute,
-                                  arguments: SessionData.data(
-                                      widget.username, widget.houseKey));
-                            }, 
-                              /*
+                          var newEvent = Event(
+                            name: name,
+                            day: eventDate?.day ?? 0,
+                            month: eventDate?.month ?? 0,
+                            year: eventDate?.year ?? 0,
+                            starttime: startTime?.format(context) ?? "",
+                            endtime: endTime?.format(context) ?? "",
+                            isRecurring: repetitionController.text,
+                            user: assignee,
+                            remind: reminderController.text,
+                            note: noteController.text,
+                          );
+                          Provider.of<CalendarViewModel>(context, listen: false)
+                              .addEvent(newEvent);
+                          Provider.of<CalendarViewModel>(context, listen: false)
+                              .writeData(widget.houseKey);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushNamed(context, calendarRoute,
+                              arguments: SessionData.data(
+                                  widget.username, widget.houseKey));
+                        },
+                        /*
                       var newChore = Chore(
                           name: nameController.text,
                           priority: false,
@@ -138,7 +143,10 @@ class _NewEventState extends State<NewEvent> {
                           .writeData("DSBU781");
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).pushNamed("/chores");*/
-                            ),),],),
+                      ),
+                    ),
+                  ],
+                ),
 
                 const Text('New Event',
                     style: (TextStyle(
@@ -259,27 +267,31 @@ class _NewEventState extends State<NewEvent> {
                   height: 20,
                 ),
                 // assign User Dropdown
-                DropdownButtonFormField<String>(
-                  value: householdMembers.contains(selectedAssignee)
-                      ? selectedAssignee
-                      : null,
-                  items: householdMembers.map((member) {
-                    return DropdownMenuItem<String>(
-                      value: member,
-                      child: Text(member),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      setState(() {
-                        selectedAssignee = newValue;
-                      });
-                    }
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Assign User',
-                  ),
-                ),
+                Consumer<CalendarViewModel>(
+                    builder: (context, usernames, child) {
+                  var householdMembers = usernames.usernames;
+                  return DropdownButtonFormField<String>(
+                    value: householdMembers.contains(selectedAssignee)
+                        ? selectedAssignee
+                        : null,
+                    items: householdMembers.map((member) {
+                      return DropdownMenuItem<String>(
+                        value: member,
+                        child: Text(member),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedAssignee = newValue;
+                        });
+                      }
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Assign User',
+                    ),
+                  );
+                }),
 
                 const SizedBox(height: 20),
 
@@ -373,10 +385,10 @@ class _NewEventState extends State<NewEvent> {
                   ),
                 ),
               ],
-                ),
-              
             ),
           ),
-    ),);
+        ),
+      ),
+    );
   }
 }

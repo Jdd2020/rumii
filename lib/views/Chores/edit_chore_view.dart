@@ -103,12 +103,14 @@ class _EditChoreState extends State<EditChore> {
                               isCompleted: false);
                           Provider.of<ChoreListViewModel>(context,
                                   listen: false)
-                              .editChore(altered, assignUserController.text,
-                                  widget.lastChore);
+                              .editChore(altered, selectedAssignee,
+                                  widget.lastChore, widget.user);
                           Provider.of<ChoreListViewModel>(context,
                                   listen: false)
                               .writeData(widget.housekey);
-                          Navigator.pushNamed(context, "/chores");
+                          Navigator.pushNamed(context, "/chores",
+                              arguments: SessionData.data(
+                                  widget.username, widget.housekey));
                         },
                       ),
                     ),
@@ -135,8 +137,7 @@ class _EditChoreState extends State<EditChore> {
                   child: ElevatedButton(
                       onPressed: () {
                         Provider.of<ChoreListViewModel>(context, listen: false)
-                            .deleteChore(
-                                assignUserController.text, widget.lastChore);
+                            .deleteChore(widget.user, widget.lastChore);
                         Provider.of<ChoreListViewModel>(context, listen: false)
                             .writeData(widget.housekey);
                         Navigator.pushNamed(context, choreListRoute,
@@ -244,6 +245,7 @@ class _EditChoreState extends State<EditChore> {
                             if (newValue != null) {
                               setState(() {
                                 controller.text = newValue;
+                                selectedAssignee = newValue;
                               });
                             }
                           },
