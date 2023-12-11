@@ -316,5 +316,6 @@ final List<Map<String, dynamic>> types = [
   {'name': 'Grain', 'icon': Icons.breakfast_dining_rounded},
   {'name': 'Sweets', 'icon': Icons.cake},
   {'name': 'Beverage', 'icon': Icons.wine_bar_rounded},
+  {'name': 'Snacks', 'icon': Icons.workspaces},
   {'name': 'Other', 'icon': Icons.question_mark_rounded},
 ];
