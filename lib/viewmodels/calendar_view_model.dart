@@ -14,9 +14,13 @@ class CalendarViewModel extends ChangeNotifier {
   List<String> usernames = <String>[];
 
   List<EventViewModel> getDayEvents(DateTime date) {
+    //print("func");
     var eventList = <EventViewModel>[];
     for (var event in calendar) {
-      if (date == event.date) {
+      if (date.day == event.date.day &&
+          date.month == event.date.month &&
+          date.year == event.date.year) {
+        print("eventadded");
         eventList.add(event);
       }
     }

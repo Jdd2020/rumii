@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rumii/viewmodels/event_view_model.dart';
 import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class ExpandView extends StatelessWidget {
   final DateTime selectedDay;
   final String housekey;
+  final List<EventViewModel> dayEvents;
+  final String username;
 
   const ExpandView(
-      {Key? key, required this.selectedDay, required this.housekey})
+      {Key? key,
+      required this.selectedDay,
+      required this.housekey,
+      required this.dayEvents,
+      required this.username})
       : super(key: key);
 
   @override
@@ -42,13 +49,13 @@ class ExpandView extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: events.length,
+                itemCount: dayEvents.length,
                 itemBuilder: (context, index) {
-                  ExpandEvent event = events[index];
+                  EventViewModel event = dayEvents[index];
                   return Column(
                     children: [
                       ListTile(
-                        title: Text(event.title),
+                        title: Text(event.name),
                         subtitle: Text(
                           '${formatTimeOfDay(event.startTime)} - ${formatTimeOfDay(event.endTime)}',
                         ),
@@ -58,8 +65,17 @@ class ExpandView extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => ViewEvent(
-                                event: event,
+                                event: ExpandEvent(
+                                    date: event.date,
+                                    title: event.name,
+                                    endTime: event.endTime,
+                                    startTime: event.startTime,
+                                    isRecurring: event.isRecurring,
+                                    remind: event.remind,
+                                    note: event.note),
                                 housekey: housekey,
+                                username: username,
+                                eventViewModel: event,
                               ),
                             ),
                           );

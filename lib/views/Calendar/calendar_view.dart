@@ -125,12 +125,18 @@ class _CalendarViewState extends State<CalendarView> {
                     setState(() {
                       _selectedDate = selectedDate;
                     });
+                    print(_selectedDate);
+                    var dayEvents =
+                        Provider.of<CalendarViewModel>(context, listen: false)
+                            .getDayEvents(_selectedDate!);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ExpandView(
                           selectedDay: selectedDate,
                           housekey: widget.housekey,
+                          dayEvents: dayEvents,
+                          username: widget.username,
                         ),
                       ),
                     );
