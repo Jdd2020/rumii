@@ -78,23 +78,27 @@ class _DashboardViewState extends State<DashboardView> {
       backgroundColor: Colors.pink,
       appBar: null,
       resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
+      body: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(30, 10, 20, 25),
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                        child: Row(
-                          children: [
-                            Text('Log Out',
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(30, 10, 20, 25),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          child: Row(
+                            children: [
+                              Text(
+                                'Log Out',
                                 style: TextStyle(
                                   color: Colors.white,
                                   shadows: [
@@ -104,120 +108,123 @@ class _DashboardViewState extends State<DashboardView> {
                                       blurRadius: 2,
                                     ),
                                   ],
-                                )),
-                            const SizedBox(width: 6),
-                            Icon(
-                              Icons.logout,
-                              size: 14,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  offset: const Offset(1, 1),
-                                  blurRadius: 2,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        onPressed: () {
-                          _showLogoutConfirmationDialog();
-                        }),
-                  ],
-                ),
-                Row(children: [
-                  const Icon(Icons.dashboard_outlined,
-                      color: Colors.white, size: 32),
-                  const SizedBox(width: 10),
-                  Text('Dashboard',
-                      style: (TextStyle(
-                        fontSize: 28,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withOpacity(0.2),
-                            offset: const Offset(1, 1),
-                            blurRadius: 2,
+                              ),
+                              const SizedBox(width: 6),
+                              Icon(
+                                Icons.logout,
+                                size: 14,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    offset: const Offset(1, 1),
+                                    blurRadius: 2,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      ))),
-                ]),
-                const SizedBox(height: 20),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
+                          onPressed: () {
+                            _showLogoutConfirmationDialog();
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(children: [
+                      const Icon(Icons.dashboard_outlined,
+                          color: Colors.white, size: 32),
+                      const SizedBox(width: 10),
+                      Text('Dashboard',
+                          style: (TextStyle(
+                            fontSize: 28,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.2),
+                                offset: const Offset(1, 1),
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ))),
+                    ]),
+                    const SizedBox(height: 20),
                     Row(
-                      children: [
-                        _userImage != null
-                            ? CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/$_userImage'),
-                                radius: 30,
-                              )
-                            : const SizedBox.shrink(),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.34,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Hello, $user!',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        offset: const Offset(1, 1),
-                                        blurRadius: 2,
-                                      ),
-                                    ],
-                                  )),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            _userImage != null
+                                ? CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('assets/images/$_userImage'),
+                                    radius: 30,
+                                  )
+                                : const SizedBox.shrink(),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.34,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(children: [
-                                    const Icon(Icons.key_outlined,
-                                        color: Colors.white, size: 18),
-                                    const SizedBox(width: 5),
-                                    Text('House Key: $house',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          shadows: [
-                                            Shadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.2),
-                                              offset: Offset(1, 1),
-                                              blurRadius: 2,
-                                            ),
-                                          ],
-                                        )),
-                                  ]),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditHousehold(
-                                                      housekey:
-                                                          widget.housekey)),
-                                        );
-                                      },
-                                      child: const Row(children: [
-                                        Text('Edit Household',
+                                  Text('Hello, $user!',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 32,
+                                        shadows: [
+                                          Shadow(
+                                            color:
+                                                Colors.black.withOpacity(0.2),
+                                            offset: const Offset(1, 1),
+                                            blurRadius: 2,
+                                          ),
+                                        ],
+                                      )),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(children: [
+                                        const Icon(Icons.key_outlined,
+                                            color: Colors.white, size: 18),
+                                        const SizedBox(width: 5),
+                                        Text('House Key: $house',
                                             style: TextStyle(
-                                              color: Colors.black,
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              shadows: [
+                                                Shadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.2),
+                                                  offset: Offset(1, 1),
+                                                  blurRadius: 2,
+                                                ),
+                                              ],
                                             )),
-                                        SizedBox(width: 5),
-                                        Icon(Icons.edit_outlined,
-                                            color: Colors.black, size: 16),
                                       ]),
-                                      style: ElevatedButton.styleFrom(
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditHousehold(
+                                                        housekey:
+                                                            widget.housekey)),
+                                          );
+                                        },
+                                        child: const Row(children: [
+                                          Text('Edit Household',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                              )),
+                                          SizedBox(width: 5),
+                                          Icon(Icons.edit_outlined,
+                                              color: Colors.black, size: 16),
+                                        ]),
+                                        style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(15),
@@ -226,87 +233,98 @@ class _DashboardViewState extends State<DashboardView> {
                                               255, 255, 255, 255),
                                           side: const BorderSide(
                                               color:
-                                                  Color.fromARGB(0, 0, 0, 0))))
+                                                  Color.fromARGB(0, 0, 0, 0)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(30, 10, 30, 15),
-            height: MediaQuery.of(context).size.height / 1.15,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-                bottomLeft: Radius.zero,
-                bottomRight: Radius.zero,
               ),
-              boxShadow: [
-                BoxShadow(
-                  spreadRadius: 3,
-                  blurRadius: 3,
-                  color: Color.fromARGB(35, 0, 0, 0),
+              Container(
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 15),
+                height: MediaQuery.of(context).size.height / 1.15,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.zero,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 3,
+                      blurRadius: 3,
+                      color: Color.fromARGB(35, 0, 0, 0),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(height: 15),
-                  const Row(children: [
-                    Icon(Icons.home_outlined, size: 35),
-                    Text(' Overview',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 26)),
-                  ]),
-                  const SizedBox(height: 15),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(105, 255, 205, 221),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: _buildList("Unfinished Chores", "/chores",
-                        _recentChores, Icons.view_list_outlined, 'chore'),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(height: 15),
+                      const Row(children: [
+                        Icon(Icons.home_outlined, size: 35),
+                        Text(' Overview',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 26)),
+                      ]),
+                      const SizedBox(height: 15),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(105, 255, 205, 221),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: _buildList("Unfinished Chores", "/chores",
+                            _recentChores, Icons.view_list_outlined, 'chore'),
+                      ),
+                      const SizedBox(height: 15),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(105, 255, 205, 221),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: _buildList(
+                            "Store Needs",
+                            "/shopping_list",
+                            _recentStoreNeeds,
+                            Icons.shopping_cart_outlined,
+                            'storeNeed'),
+                      ),
+                      const SizedBox(height: 15),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(105, 255, 205, 221),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: _buildList(
+                            "Upcoming Events",
+                            "/calendar",
+                            _recentEvents,
+                            Icons.calendar_month_outlined,
+                            'event'),
+                      ),
+                      const SizedBox(height: 15),
+                    ],
                   ),
-                  const SizedBox(height: 15),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(105, 255, 205, 221),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: _buildList(
-                        "Store Needs",
-                        "/shopping_list",
-                        _recentStoreNeeds,
-                        Icons.shopping_cart_outlined,
-                        'storeNeed'),
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 15),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(105, 255, 205, 221),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: _buildList("Upcoming Events", "/calendar",
-                        _recentEvents, Icons.calendar_month_outlined, 'event'),
-                  ),
-                  const SizedBox(height: 15),
-                ]),
-          ),
-        ]),
+                ),
+              )
+            ],
+          );
+        },
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
           currentRoute: '/home',
@@ -600,7 +618,7 @@ class DataProvider {
     return recentStoreNeeds;
   }
 
-  Future<List<Event>> fetchRecentEvents(houseKey) async {
+  Future<List<Event>> fetchRecentEvents(String houseKey) async {
     final Map<String, dynamic> jsonData = await fetchEventJsonData();
     final List<Event> recentEvents = [];
 
