@@ -82,22 +82,91 @@ class _DashboardViewState extends State<DashboardView> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(children: [
           Container(
-              padding: const EdgeInsets.fromLTRB(40, 10, 30, 25),
-              width: MediaQuery.of(context).size.width,
-              //height: MediaQuery.of(context).size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                          child: Row(
+            padding: const EdgeInsets.fromLTRB(30, 10, 20, 25),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        child: Row(
+                          children: [
+                            Text('Log Out',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      offset: const Offset(1, 1),
+                                      blurRadius: 2,
+                                    ),
+                                  ],
+                                )),
+                            const SizedBox(width: 6),
+                            Icon(
+                              Icons.logout,
+                              size: 14,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: const Offset(1, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          _showLogoutConfirmationDialog();
+                        }),
+                  ],
+                ),
+                Row(children: [
+                  const Icon(Icons.dashboard_outlined,
+                      color: Colors.white, size: 32),
+                  const SizedBox(width: 10),
+                  Text('Dashboard',
+                      style: (TextStyle(
+                        fontSize: 28,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: const Offset(1, 1),
+                            blurRadius: 2,
+                          ),
+                        ],
+                      ))),
+                ]),
+                const SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        _userImage != null
+                            ? CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/$_userImage'),
+                                radius: 30,
+                              )
+                            : const SizedBox.shrink(),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.34,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Log Out',
+                              Text('Hello, $user!',
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 32,
                                     shadows: [
                                       Shadow(
                                         color: Colors.black.withOpacity(0.2),
@@ -106,150 +175,72 @@ class _DashboardViewState extends State<DashboardView> {
                                       ),
                                     ],
                                   )),
-                              const SizedBox(width: 6),
-                              Icon(
-                                Icons.logout,
-                                size: 14,
-                                color: Colors.white,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    offset: const Offset(1, 1),
-                                    blurRadius: 2,
-                                  ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(children: [
+                                    const Icon(Icons.key_outlined,
+                                        color: Colors.white, size: 18),
+                                    const SizedBox(width: 5),
+                                    Text('House Key: $house',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          shadows: [
+                                            Shadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              offset: Offset(1, 1),
+                                              blurRadius: 2,
+                                            ),
+                                          ],
+                                        )),
+                                  ]),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditHousehold(
+                                                      housekey:
+                                                          widget.housekey)),
+                                        );
+                                      },
+                                      child: const Row(children: [
+                                        Text('Edit Household',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            )),
+                                        SizedBox(width: 5),
+                                        Icon(Icons.edit_outlined,
+                                            color: Colors.black, size: 16),
+                                      ]),
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          side: const BorderSide(
+                                              color:
+                                                  Color.fromARGB(0, 0, 0, 0))))
                                 ],
                               ),
                             ],
                           ),
-                          onPressed: () {
-                            _showLogoutConfirmationDialog();
-                          }),
-                    ],
-                  ),
-                  Row(children: [
-                    const Icon(Icons.dashboard_outlined,
-                        color: Colors.white, size: 32),
-                    const SizedBox(width: 10),
-                    Text('Dashboard',
-                        style: (TextStyle(
-                          fontSize: 28,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.2),
-                              offset: const Offset(1, 1),
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ))),
-                  ]),
-                  const SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: [
-
-                          _userImage != null
-                              ? CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/$_userImage'),
-                                  radius: 30,
-                                )
-                              : const SizedBox.shrink(),
-
-                          const SizedBox(width: 8),
-
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.34,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Hello, $user!',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 32,
-                                        shadows: [
-                                          Shadow(
-                                            color:
-                                                Colors.black.withOpacity(0.2),
-                                            offset: const Offset(1, 1),
-                                            blurRadius: 2,
-                                          ),
-                                        ],
-                                      )),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(children: [
-                                        const Icon(Icons.key_outlined,
-                                            color: Colors.white, size: 18),
-                                        const SizedBox(width: 5),
-                                        Text('House Key: $house',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              shadows: [
-                                                Shadow(
-                                                  color: Colors.black.withOpacity(
-                                                      0.2), 
-                                                  offset: Offset(1, 1),
-                                                  blurRadius: 2,
-                                                ),
-                                              ],
-                                            )),
-                                      ]),
-                                
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditHousehold(
-                                                          housekey:
-                                                              widget.housekey)),
-                                            );
-                                          },
-                                          child: const Row(
-                                              children: [
-                                                Text('Edit Household',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                    )),
-                                                SizedBox(width: 5),
-                                                Icon(Icons.edit_outlined,
-                                                    color: Colors.black,
-                                                    size: 16),
-                                              ]),
-                                          style: ElevatedButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 255, 255, 255),
-                                              side: const BorderSide(
-                                                  color: Color.fromARGB(
-                                                      0, 0, 0, 0))))
-                                    ],
-                                  ),
-                                ]),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
-          
+          ),
           Container(
-            padding: const EdgeInsets.fromLTRB(40, 10, 40, 15),
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 15),
             height: MediaQuery.of(context).size.height / 1.15,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
@@ -267,14 +258,12 @@ class _DashboardViewState extends State<DashboardView> {
                   color: Color.fromARGB(35, 0, 0, 0),
                 ),
               ],
-              ),
-            
+            ),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const SizedBox(height: 15),
-                  const Row(
-                    children: [
+                  const Row(children: [
                     Icon(Icons.home_outlined, size: 35),
                     Text(' Overview',
                         style: TextStyle(
@@ -311,12 +300,8 @@ class _DashboardViewState extends State<DashboardView> {
                       color: const Color.fromARGB(105, 255, 205, 221),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: _buildList(
-                        "Upcoming Events",
-                        "/calendar",
-                        _recentEvents, 
-                        Icons.calendar_month_outlined,
-                        'event'),
+                    child: _buildList("Upcoming Events", "/calendar",
+                        _recentEvents, Icons.calendar_month_outlined, 'event'),
                   ),
                   const SizedBox(height: 15),
                 ]),
@@ -327,8 +312,7 @@ class _DashboardViewState extends State<DashboardView> {
           currentRoute: '/home',
           onRouteChanged: (route) {
             Navigator.pushNamed(context, route,
-                arguments: SessionData.data(
-                    user, house));
+                arguments: SessionData.data(user, house));
           }),
     );
   }
@@ -340,7 +324,7 @@ class _DashboardViewState extends State<DashboardView> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: 2,
-          leading: Icon(iconData, color: Colors.pink), 
+          leading: Icon(iconData, color: Colors.pink),
           title: Text(
             title,
             style: const TextStyle(
@@ -398,6 +382,7 @@ class _DashboardViewState extends State<DashboardView> {
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
+                  contentPadding: const EdgeInsets.only(left: 25),
                   title: Text(storeNeed.name),
                   onTap: () {
                     Navigator.push(
@@ -561,7 +546,6 @@ class DataProvider {
 
   Future<List<Chore>> fetchRecentChores(
       String personName, String houseKey) async {
-
     final Map<String, dynamic> jsonData = await fetchJsonData();
     final List<Chore> recentChores = [];
 
