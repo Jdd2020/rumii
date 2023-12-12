@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/views/Calendar/expand_event_view.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
@@ -33,7 +34,6 @@ class _CalendarViewState extends State<CalendarView> {
     super.initState();
     Provider.of<CalendarViewModel>(context, listen: false)
         .getData(widget.housekey);
-    
   }
 
   @override
@@ -183,7 +183,7 @@ class _CalendarViewState extends State<CalendarView> {
           }),
     );
   }
-
+/*
   Future<List<Event>> fetchRecentEvents(houseKey) async {
     final Map<String, dynamic> jsonData = await fetchEventJsonData();
     final List<Event> recentEvents = [];
@@ -211,7 +211,7 @@ class _CalendarViewState extends State<CalendarView> {
       }
     }
     return recentEvents;
-  }
+  }*/
 
   Future<Map<String, dynamic>> fetchEventJsonData() async {
     String jsonString = await rootBundle.loadString('assets/eventDB.json');
@@ -223,6 +223,9 @@ class _CalendarViewState extends State<CalendarView> {
 
   Widget _buildList(String title, String route, List<EventViewModel> items,
       IconData iconData, String type) {
+    
+    items.sort((a,b) => a.date.compareTo(b.date));
+      
     return Column(
       children: [
         ListTile(
@@ -245,11 +248,21 @@ class _CalendarViewState extends State<CalendarView> {
             itemBuilder: (context, index) {
               EventViewModel item = items[index];
               EventViewModel eventViewModel = item;
+
+              String weekDay = DateFormat('EEEE').format(item.date);
+
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  title: Text(eventViewModel.name),
+                  title: Row(children: [
+                    Text(item.name),
+                    const SizedBox(width: 8),
+                    Text('  ${weekDay}, ${item.date.month}/${item.date.day}',
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 141, 141, 141)))
+                  ]),
                   onTap: () {
                     Navigator.push(
                       context,
