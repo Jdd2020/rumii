@@ -110,17 +110,11 @@ class EditHouseholdViewModel extends ChangeNotifier {
   }
 
   Future<String?> getUserImage(String username) async {
-    final String jsonString = File('assets/userDB.json').readAsStringSync();
+    final String jsonString = File('assets/imageDB.json').readAsStringSync();
     var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
 
-    if (userMap.containsKey("Users")) {
-      var usersData = userMap["Users"] as Map<String, dynamic>;
-
-      if (usersData.containsKey(username)) {
-        var userData = usersData[username] as Map<String, dynamic>;
-
-        return userData['image'];
-      }
+    if (userMap.containsKey(username)) {
+      return userMap[username];
     }
 
     return null;
