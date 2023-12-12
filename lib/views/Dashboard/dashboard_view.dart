@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rumii/SessionData.dart';
@@ -35,11 +37,10 @@ class _DashboardViewState extends State<DashboardView> {
   String? _userImage;
 
   Future<void> _fetchUserData() async {
-    final Map<String, dynamic> userData =
-        await _dataProvider.fetchUserDataForImage(widget.username);
+    var userData = await _dataProvider.fetchUserDataForImage(widget.username);
 
     setState(() {
-      _userImage = userData['image'];
+      _userImage = userData;
     });
   }
 
@@ -374,63 +375,67 @@ class _DashboardViewState extends State<DashboardView> {
               Chore chore = item;
               ChoreViewModel choreViewModel = ChoreViewModel(chore: chore);
 
-            if(chore.isCompleted == false) {
-              return Card(
-                elevation: 2,
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.only(left: 20),
-                  title: Text(chore.name),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewChore(
-                          chore: choreViewModel,
-                          user: widget.username,
-                          lastChore: chore.name,
-                          username: widget.username,
-                          housekey: widget.housekey,
+              if (chore.isCompleted == false) {
+                return Card(
+                  elevation: 2,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.only(left: 20),
+                    title: Text(chore.name),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewChore(
+                            chore: choreViewModel,
+                            user: widget.username,
+                            lastChore: chore.name,
+                            username: widget.username,
+                            housekey: widget.housekey,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              );}
+                      );
+                    },
+                  ),
+                );
+              }
             } else if (type == 'storeNeed') {
               Shop storeNeed = item;
               ShopViewModel shopViewModel = ShopViewModel(shop: storeNeed);
 
-              if(storeNeed.isCompleted == false) {
-              return Card(
-                elevation: 2,
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.only(left: 20),
-                  title: Row(children: [
-                    Text(storeNeed.name),
-                    const SizedBox(width: 8),
-                    Text('  ${storeNeed.notes}',
-                        style: const TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 141, 141, 141)))
-                  ]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewItem(
-                          shop: shopViewModel,
-                          user: widget.username,
-                          lastItem: storeNeed.name,
-                          housekey: widget.housekey,
-                          username: widget.username,
+              if (storeNeed.isCompleted == false) {
+                return Card(
+                  elevation: 2,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.only(left: 20),
+                    title: Row(children: [
+                      Text(storeNeed.name),
+                      const SizedBox(width: 8),
+                      Text('  ${storeNeed.notes}',
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 141, 141, 141)))
+                    ]),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewItem(
+                            shop: shopViewModel,
+                            user: widget.username,
+                            lastItem: storeNeed.name,
+                            housekey: widget.housekey,
+                            username: widget.username,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              );}
+                      );
+                    },
+                  ),
+                );
+              }
             } else if (type == 'event') {
               Event event = item;
               EventViewModel eventViewModel = EventViewModel(event: event);
@@ -685,17 +690,17 @@ class DataProvider {
     return {};
   }
 
-  Future<Map<String, dynamic>> fetchUserDataForImage(String username) async {
-    final Map<String, dynamic> jsonData = await fetchUserJsonData();
+  Future<String?> fetchUserDataForImage(String username) async {
+    final String jsonImageString =
+        File('assets/imageDB.json').readAsStringSync();
+    var imageList = await jsonDecode(jsonImageString) as Map<String, dynamic>;
 
-    if (jsonData.containsKey("Users")) {
-      final Map<String, dynamic> usersData = jsonData["Users"];
+    if (imageList.keys.contains(username)) {
+      var image = imageList[username];
 
-      if (usersData.containsKey(username)) {
-        return usersData[username];
-      }
+      return image;
     }
 
-    return {};
+    return "";
   }
 }

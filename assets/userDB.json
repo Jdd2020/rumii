@@ -7,8 +7,7 @@
             "houseKey": "DSBU781",
             "uniqueId": 0,
             "signedIn": true,
-            "verification": 18732,
-            "image": "henry.jpg"
+            "verification": 18732
         },
         "Billy": {
             "username": "Billy",
@@ -17,8 +16,7 @@
             "houseKey": "DSBU781",
             "uniqueId": 0,
             "signedIn": false,
-            "verification": 12345,
-            "image": "billy.jpg"
+            "verification": 12345
         },
         "Josh": {
             "username": "Josh",
@@ -27,8 +25,7 @@
             "houseKey": "DSBU781",
             "uniqueId": 0,
             "signedIn": false,
-            "verification": 54321,
-            "image": "josh.png"
+            "verification": 54321
         },
         "HDawg": {
             "username": "HDawg",
@@ -55,8 +52,7 @@
             "houseKey": "DSBU781",
             "uniqueId": 0,
             "signedIn": false,
-            "verification": -1,
-            "image": "chet.png"
+            "verification": -1
         },
         "Harry": {
             "username": "Harry",
@@ -66,10 +62,38 @@
             "uniqueId": 0,
             "signedIn": false,
             "verification": -1
+        },
+        "Nancy": {
+            "username": "Nancy",
+            "password": "1234",
+            "email": "1234",
+            "houseKey": "BVX654",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": -1
+        },
+        "Kevin": {
+            "username": "Kevin",
+            "password": "1234",
+            "email": "kev456@yahoo.org",
+            "houseKey": "BVX654",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": -1
+        },
+        "Daniel": {
+            "username": "Daniel",
+            "password": "12345",
+            "email": "danDaniel@gmail.com",
+            "houseKey": "BVX654",
+            "uniqueId": 0,
+            "signedIn": false,
+            "verification": -1
         }
     },
     "Houses": [
         "DSBU781",
-        "HGH1234"
+        "HGH1234",
+        "BVX654"
     ]
 }

@@ -22,8 +22,14 @@ class ChoreListViewModel extends ChangeNotifier {
   Future<void> getData(String houseKey) async {
     //final directory = await getApplicationDocumentsDirectory();
     //var path = directory.path;
+
     final String jsonString = File('assets/choreDB.json').readAsStringSync();
     var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
+
+    final String jsonImageString =
+        File('assets/imageDB.json').readAsStringSync();
+    var imageList = await jsonDecode(jsonImageString) as Map<String, dynamic>;
+
     if (houseList.containsKey(houseKey)) {
       var userData = houseList[houseKey] as Map<String, dynamic>;
       var userList = userData.keys.toList();
@@ -40,6 +46,9 @@ class ChoreListViewModel extends ChangeNotifier {
           tempChores.add(chore);
         }
         var user = UserViewModel(user: User(name: userList[i]));
+        if (imageList.keys.contains(user.name)) {
+          user.user.image = imageList[user.name];
+        }
         user.setChores(tempChores);
         users.add(user);
         usernames.add(user.name);
@@ -125,7 +134,7 @@ class ChoreListViewModel extends ChangeNotifier {
 
   ChoreViewModel findAndUpdateChorePriority(ChoreViewModel choreViewModel) {
     final Chore chore = choreViewModel.chore;
- 
+
     final updatedChore = Chore(
         priority: !chore.priority,
         name: chore.name,
@@ -134,7 +143,7 @@ class ChoreListViewModel extends ChangeNotifier {
         note: chore.note,
         isRecurring: chore.isRecurring,
         remind: chore.remind);
-  
+
     choreViewModel.chore = updatedChore;
     notifyListeners();
     return choreViewModel;
@@ -166,7 +175,7 @@ class ChoreListViewModel extends ChangeNotifier {
         note: chore.note,
         isRecurring: chore.isRecurring,
         remind: chore.remind);
-  
+
     choreViewModel.chore = updatedChore;
     notifyListeners();
     print("chore updated");
@@ -190,19 +199,11 @@ class ChoreListViewModel extends ChangeNotifier {
   }
 
   Future<String?> getUserImage(String username) async {
-    final String jsonString = File('assets/userDB.json').readAsStringSync();
-    var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
-
-    if (userMap.containsKey("Users")) {
-      var usersData = userMap["Users"] as Map<String, dynamic>;
-
-      if (usersData.containsKey(username)) {
-        var userData = usersData[username] as Map<String, dynamic>;
-
-        return userData['image'];
+    for (var user in users) {
+      if (user.name == username && user.image != null) {
+        return user.image;
       }
     }
-
     return null;
   }
 }

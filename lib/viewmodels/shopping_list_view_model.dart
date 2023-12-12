@@ -24,6 +24,11 @@ class ShoppingListViewModel extends ChangeNotifier {
     //var path = directory.path;
     final String jsonString = File('assets/shopDB.json').readAsStringSync();
     var houseList = await jsonDecode(jsonString) as Map<String, dynamic>;
+
+    final String jsonImageString =
+        File('assets/imageDB.json').readAsStringSync();
+    var imageList = await jsonDecode(jsonImageString) as Map<String, dynamic>;
+
     if (houseList.containsKey(houseKey)) {
       var userData = houseList[houseKey] as Map<String, dynamic>;
       var userList = userData.keys.toList();
@@ -41,6 +46,9 @@ class ShoppingListViewModel extends ChangeNotifier {
         var user = UserViewModel(
           user: User(name: userList[i]),
         );
+        if (imageList.keys.contains(user.name)) {
+          user.user.image = imageList[user.name];
+        }
         user.setShopItems(tempItems);
         users.add(user);
         usernames.add(user.name);
@@ -111,19 +119,11 @@ class ShoppingListViewModel extends ChangeNotifier {
   }
 
   Future<String?> getUserImage(String username) async {
-    final String jsonString = File('assets/userDB.json').readAsStringSync();
-    var userMap = jsonDecode(jsonString) as Map<String, dynamic>;
-
-    if (userMap.containsKey("Users")) {
-      var usersData = userMap["Users"] as Map<String, dynamic>;
-
-      if (usersData.containsKey(username)) {
-        var userData = usersData[username] as Map<String, dynamic>;
-
-        return userData['image'];
+    for (var user in users) {
+      if (user.name == username && user.image != null) {
+        return user.image;
       }
     }
-
     return null;
   }
 

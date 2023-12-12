@@ -16,7 +16,7 @@ class UserViewModel {
     return user.shopItems;
   }
 
-    List<EventViewModel> get events {
+  List<EventViewModel> get events {
     return user.events;
   }
 
@@ -36,7 +36,11 @@ class UserViewModel {
     user.shopItems = shopItems;
   }
 
-    void setEvents(List<EventViewModel> events) {
+  void setEvents(List<EventViewModel> events) {
     user.events = events;
+  }
+
+  void setImage(String imageString) {
+    user.image = imageString;
   }
 }

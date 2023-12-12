@@ -114,8 +114,7 @@ class _HasHousekeyViewState extends State<HasHousekeyView> {
                                   context: context,
                                   builder: (context) {
                                     return const AlertDialog(
-                                      content:
-                                          Text("Invalid username or password"),
+                                      content: Text("Invalid key"),
                                     );
                                   });
                             }

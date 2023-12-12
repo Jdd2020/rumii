@@ -114,8 +114,7 @@ class _ChoreListViewState extends State<ChoreListView> {
                                   ),
                                 ),
                                 child: ClipOval(
-                                  child:
-                                      getImageWidget(user, _choreListViewModel),
+                                  child: getImageWidget(user, choreList),
                                 ),
                               ),
                               const SizedBox(width: 8),

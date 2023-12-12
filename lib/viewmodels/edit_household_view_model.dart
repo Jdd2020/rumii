@@ -1,15 +1,54 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:rumii/models/chore_model.dart';
+import 'package:rumii/models/event_model.dart';
+import 'package:rumii/models/shop_model.dart';
 import 'dart:io';
+
+import 'package:rumii/viewmodels/chore_view_model.dart';
+import 'package:rumii/viewmodels/event_view_model.dart';
+import 'package:rumii/viewmodels/shop_view_model.dart';
+import 'package:rumii/views/Shopping/shopping_list_view.dart';
 
 class EditHouseholdViewModel extends ChangeNotifier {
   List<String> householdMembers = [];
   late Map<String, dynamic> choreData;
   late String currentHouseKey = "";
+  List<Chore> choreList = <Chore>[];
+  List<Shop> shopList = <Shop>[];
+  List<Event> eventList = <Event>[];
 
   EditHouseholdViewModel() {
     loadChoreData();
+  }
+
+  Future<void> loadData(String housekey, String username) async {
+    String jsonStringChore = await rootBundle.loadString('assets/choreDB.json');
+    var choreData = json.decode(jsonStringChore) as Map<String, dynamic>;
+
+    var userChoreList = choreData[housekey][username] as Map<String, dynamic>;
+    for (var key in userChoreList.keys) {
+      choreList.add(Chore.fromJson(userChoreList[key]));
+    }
+    print(choreList);
+
+    String jsonStringShop = await rootBundle.loadString('assets/shopDB.json');
+    var shopData = json.decode(jsonStringShop) as Map<String, dynamic>;
+
+    var userShopList = shopData[housekey][username];
+    for (var key in userShopList.keys.toList()) {
+      shopList.add(Shop.fromJson(userShopList[key]));
+    }
+
+    String jsonStringEvent = await rootBundle.loadString('assets/eventDB.json');
+    var eventData = json.decode(jsonStringEvent) as Map<String, dynamic>;
+
+    var userEventList = eventData[housekey][username];
+    for (var key in userEventList.keys.toList()) {
+      eventList.add(Event.fromJson(userEventList[key]));
+    }
+    notifyListeners();
   }
 
   Future<void> loadChoreData() async {
