@@ -586,6 +586,9 @@ class DataProvider {
             dueDate: choreData['dueDate'],
             priority: choreData['priority'],
             isCompleted: choreData['isCompleted'],
+            note: choreData['note'],
+            isRecurring: choreData['isRecurring'],
+            remind: choreData['remind']
           );
           recentChores.add(chore);
         }

@@ -97,6 +97,9 @@ class _ViewChoreState extends State<ViewChore> {
                 buildInfoRow('Chore', widget.chore.name),
                 buildInfoRow('Assigned', widget.user),
                 buildInfoRow('Due Date', widget.chore.dueDate),
+                buildInfoRow('Note', widget.chore.note.toString()),
+                buildInfoRow('Repetition', widget.chore.isRecurring.toString()),
+                buildInfoRow('Reminder', widget.chore.remind.toString()),
                 //buildInfoRow('Repetition', widget.repetition),
                 // buildInfoRow('Reminder', widget.reminder),
                 //buildInfoRow('Note', widget.note),
@@ -123,7 +126,7 @@ class _ViewChoreState extends State<ViewChore> {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
-              color: Colors.grey.shade300,
+              color: const Color.fromARGB(207, 220, 220, 220),
             ),
             child: Text(value),
           ),

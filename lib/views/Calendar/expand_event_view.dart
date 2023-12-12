@@ -113,7 +113,7 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
       startTime: const TimeOfDay(hour: 1, minute: 1),
       endTime: const TimeOfDay(hour: 2, minute: 1),
       isRecurring: 'Daily',
-      remind: '1 Hour Before',
+      remind: '1 hour before Before',
       note: 'Discuss project updates',
     ),
     ExpandEvent(
@@ -122,7 +122,7 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
       startTime: const TimeOfDay(hour: 2, minute: 1),
       endTime: const TimeOfDay(hour: 5, minute: 5),
       isRecurring: 'Biweekly',
-      remind: '1 Hour Before',
+      remind: '1 hour before Before',
       note: 'Grab lunch at the cafeteria',
     ),
     ExpandEvent(
@@ -131,7 +131,7 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
       startTime: const TimeOfDay(hour: 5, minute: 5),
       endTime: const TimeOfDay(hour: 15, minute: 0),
       isRecurring: 'Monthly',
-      remind: '1 Day Before',
+      remind: '1 day before Before',
       note: 'Review project milestones',
     ),
   ];
@@ -147,7 +147,7 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
       startTime: DateTime(day.year, day.month, day.day, 10, 0),
       endTime: DateTime(day.year, day.month, day.day, 11, 30),
       isRecurring: 'Weekly',
-      remind: '1 Day Before',
+      remind: '1 day before Before',
       note: 'Discuss project updates',
     ),
     ExpandEvent(
@@ -165,7 +165,7 @@ List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
       startTime: DateTime(day.year, day.month, day.day, 14, 0),
       endTime: DateTime(day.year, day.month, day.day, 15, 30),
       isRecurring: 'Bi-weekly',
-      remind: '1 Hour Before',
+      remind: '1 hour before Before',
       note: 'Review project milestones',
     ),
   ];

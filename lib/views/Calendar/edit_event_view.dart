@@ -198,7 +198,7 @@ class _EditEventState extends State<EditEvent> {
               ),
               buildDropdown(
                 'Reminder',
-                ['1 Hour Before', '1 Day Before', '1 Week Before', 'Custom'],
+                ['1 hour before Before', '1 day before Before', '1 week before Before', 'Custom'],
                 selectedReminder,
                 (String? value) {
                   setState(() {

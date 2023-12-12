@@ -45,6 +45,7 @@ class _EditChoreState extends State<EditChore> {
     nameController.text = widget.chore.name;
     selectedAssignee = widget.user;
     dueDateController.text = widget.chore.dueDate;
+    noteController.text = widget.chore.note.toString();
     /*
     repetitionController.text = widget.repetition;
     reminderController.text = widget.reminder;
@@ -100,7 +101,8 @@ class _EditChoreState extends State<EditChore> {
                               name: nameController.text,
                               priority: false,
                               dueDate: dueDateController.text,
-                              isCompleted: false);
+                              isCompleted: false,
+                              note: noteController.text);
                           Provider.of<ChoreListViewModel>(context,
                                   listen: false)
                               .editChore(altered, selectedAssignee,
@@ -130,6 +132,7 @@ class _EditChoreState extends State<EditChore> {
                 buildEditableTextField('Chore', nameController),
                 buildEditableTextField('Assigned user', assignUserController),
                 buildDatePickerField('Due Date', dueDateController),
+                buildEditableTextField('Note', noteController),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 50,

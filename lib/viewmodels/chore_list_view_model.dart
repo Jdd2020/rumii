@@ -131,6 +131,9 @@ class ChoreListViewModel extends ChangeNotifier {
       name: chore.name,
       dueDate: chore.dueDate,
       isCompleted: chore.isCompleted,
+      note: chore.note,
+      isRecurring: chore.isRecurring,
+      remind: chore.remind
     );
     // Update the chore in the choreViewModel
     choreViewModel.chore = updatedChore;
@@ -161,6 +164,9 @@ class ChoreListViewModel extends ChangeNotifier {
       name: chore.name,
       dueDate: chore.dueDate,
       isCompleted: !chore.isCompleted,
+      note: chore.note,
+      isRecurring: chore.isRecurring,
+      remind: chore.remind
     );
     // Update the chore in the choreViewModel
     choreViewModel.chore = updatedChore;

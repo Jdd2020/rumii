@@ -9,7 +9,7 @@
             "endtime": "11:35 PM",
             "isRecurring": "Bi-weekly",
             "user": "Henry",
-            "remind": "1 Hour Before",
+            "remind": "1 hour before",
             "note": "Bring Buff Chick Dip"
         },
         "Electric Slide": {
@@ -21,7 +21,7 @@
             "endtime": "1:30 PM",
             "isRecurring": "Daily",
             "user": "Billy",
-            "remind": "1 Day Before",
+            "remind": "1 day before",
             "note": "Cha Cha Real Smooth"
         },
         "Marathon": {
@@ -33,8 +33,8 @@
             "endtime": "5:00 PM",
             "isRecurring": "Monthly",
             "user": "Billy",
-            "remind": "1 Week Before",
-            "note": ""
+            "remind": "1 week before",
+            "note": "Bring gallon jug of water"
         }
     }
 }
