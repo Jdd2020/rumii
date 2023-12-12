@@ -98,7 +98,7 @@ class _CalendarViewState extends State<CalendarView> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.fromLTRB(15,0,15,0),
                 child: TableCalendar(
                   headerStyle: const HeaderStyle(
                     formatButtonVisible: false,
@@ -168,7 +168,6 @@ class _CalendarViewState extends State<CalendarView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
               Consumer<CalendarViewModel>(builder: (context, eventList, child) {
                 return _buildList("Upcoming Events", "/calendar",
                     eventList.calendar, Icons.calendar_month_outlined, 'event');
