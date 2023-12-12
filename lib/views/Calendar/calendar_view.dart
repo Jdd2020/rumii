@@ -32,9 +32,11 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CalendarViewModel>(context, listen: false)
-        .getData(widget.housekey);
-    setState(() {});
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Provider.of<CalendarViewModel>(context, listen: false)
+          .getData(widget.housekey);
+      setState(() {});
+    });
   }
 
   @override
