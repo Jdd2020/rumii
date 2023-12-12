@@ -33,6 +33,7 @@ class _CalendarViewState extends State<CalendarView> {
     super.initState();
     Provider.of<CalendarViewModel>(context, listen: false)
         .getData(widget.housekey);
+    
   }
 
   @override
@@ -93,7 +94,6 @@ class _CalendarViewState extends State<CalendarView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: TableCalendar(
@@ -147,8 +147,8 @@ class _CalendarViewState extends State<CalendarView> {
                         return Stack(
                           children: [
                             Positioned(
-                              right: 1,
-                              bottom: 1,
+                              right: 25,
+                              bottom: 7,
                               child: Container(
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,

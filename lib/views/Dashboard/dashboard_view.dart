@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
@@ -97,6 +98,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Log Out',
                                 style: TextStyle(
+                                  fontSize: 12,
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(
@@ -372,6 +374,7 @@ class _DashboardViewState extends State<DashboardView> {
               Chore chore = item;
               ChoreViewModel choreViewModel = ChoreViewModel(chore: chore);
 
+            if(chore.isCompleted == false) {
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -393,11 +396,12 @@ class _DashboardViewState extends State<DashboardView> {
                     );
                   },
                 ),
-              );
+              );}
             } else if (type == 'storeNeed') {
               Shop storeNeed = item;
               ShopViewModel shopViewModel = ShopViewModel(shop: storeNeed);
 
+              if(storeNeed.isCompleted == false) {
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -426,17 +430,26 @@ class _DashboardViewState extends State<DashboardView> {
                     );
                   },
                 ),
-              );
+              );}
             } else if (type == 'event') {
               Event event = item;
               EventViewModel eventViewModel = EventViewModel(event: event);
+              DateTime date = DateTime.utc(event.year, event.month, event.day);
+              String weekDay = DateFormat('EEEE').format(date);
 
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
                   contentPadding: const EdgeInsets.only(left: 20),
-                  title: Text(event.name),
+                  title: Row(children: [
+                    Text(event.name),
+                    const SizedBox(width: 8),
+                    Text('  ${weekDay}, ${event.month}/${event.day}',
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 141, 141, 141)))
+                  ]),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -637,6 +650,10 @@ class DataProvider {
     if (jsonData.containsKey(houseKey)) {
       final Map<String, dynamic> houseData = jsonData[houseKey];
       final List<dynamic> events = houseData.values.toList();
+
+      events.sort((a, b) => a['year'].compareTo(b['year']));
+      events.sort((a, b) => a['month'].compareTo(b['month']));
+      events.sort((a, b) => a['day'].compareTo(b['day']));
 
       for (int i = 0; i < 3 && i < events.length; i++) {
         final eventData = events[i];

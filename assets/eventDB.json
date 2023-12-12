@@ -14,7 +14,7 @@
         },
         "Electric Slide": {
             "name": "Electric Slide",
-            "day": 8,
+            "day": 23,
             "month": 12,
             "year": 2023,
             "starttime": "10:30 AM",
@@ -26,7 +26,7 @@
         },
         "Marathon": {
             "name": "Marathon",
-            "day": 13,
+            "day": 15,
             "month": 12,
             "year": 2023,
             "starttime": "12:00 PM",
