@@ -78,17 +78,17 @@ class _DashboardViewState extends State<DashboardView> {
       backgroundColor: Colors.pink,
       appBar: null,
       resizeToAvoidBottomInset: false,
-      body: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return Column(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return ListView (
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(30, 10, 20, 25),
+                padding: const EdgeInsets.fromLTRB(30, 10, 10, 25),
                 width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                //height: MediaQuery.of(context).size.width,
+                child: Column (
+                  
+                  //crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(height: 5),
                     Row(
@@ -152,7 +152,7 @@ class _DashboardViewState extends State<DashboardView> {
                     const SizedBox(height: 20),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Row(
                           children: [
@@ -183,8 +183,7 @@ class _DashboardViewState extends State<DashboardView> {
                                         ],
                                       )),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(children: [
                                         const Icon(Icons.key_outlined,
@@ -198,11 +197,12 @@ class _DashboardViewState extends State<DashboardView> {
                                                 Shadow(
                                                   color: Colors.black
                                                       .withOpacity(0.2),
-                                                  offset: Offset(1, 1),
+                                                  offset: const Offset(1, 1),
                                                   blurRadius: 2,
                                                 ),
                                               ],
                                             )),
+                                            //const SizedBox(width:2),
                                       ]),
                                       ElevatedButton(
                                         onPressed: () {
@@ -218,13 +218,16 @@ class _DashboardViewState extends State<DashboardView> {
                                         child: const Row(children: [
                                           Text('Edit Household',
                                               style: TextStyle(
+                                                letterSpacing: 0.05,
+                                                fontSize: 12,
                                                 color: Colors.black,
                                               )),
-                                          SizedBox(width: 5),
+                                          SizedBox(width: 2),
                                           Icon(Icons.edit_outlined,
-                                              color: Colors.black, size: 16),
+                                              color: Colors.black, size: 14),
                                         ]),
                                         style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(15),
