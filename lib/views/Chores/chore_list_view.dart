@@ -136,6 +136,11 @@ class _ChoreListViewState extends State<ChoreListView> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: user.chores.length,
                             itemBuilder: (context, choreIndex) {
+
+                              final chores = user.chores;
+                              chores.sort((a,b) => a.dueDate.compareTo(b.dueDate));
+                              chores.sort((b,a) => (a.priority).toString().compareTo((b.priority).toString()));
+
                               final chore = user.chores[choreIndex];
                               return Card(
                                 elevation: 2,
