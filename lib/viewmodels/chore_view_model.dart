@@ -23,12 +23,16 @@ class ChoreViewModel extends ChangeNotifier {
     return chore.isCompleted;
   }
 
-  /*
-  set isCompleted (bool value){
-    if(_isCompleted != value) {
-      _isCompleted = value;
-      notifyListeners();
-    }
+  String? get note {
+    return chore.note;
   }
-  */
+
+  String? get isRecurring {
+    return chore.isRecurring;
+  }
+
+  String? get remind {
+    return chore.remind;
+  }
+
 }

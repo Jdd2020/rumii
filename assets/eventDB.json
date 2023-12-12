@@ -1,1 +1,40 @@
-{"DSBU781":{"Superbowl Party":{"name":"Superbowl Party","day":27,"month":2,"year":2024,"starttime":"06:15 PM","endtime":"11:35 PM","isRecurring":"Bi-weekly","user":"Henry","remind":"1 Hour Before","note":"Bring Buff Chick Dip"},"Marathon":{"name":"Marathon","day":13,"month":12,"year":2023,"starttime":"12:00 PM","endtime":"5:00 PM","isRecurring":"Monthly","user":"Billy","remind":"1 Week Before","note":""},"Project Pitch":{"name":"Project Pitch","day":12,"month":12,"year":2023,"starttime":"1:00 PM","endtime":"2:00 PM","isRecurring":"None","user":"Chet","remind":"1 Hour Before","note":"Good luck!"},"Electric Slides":{"name":"Electric Slides","day":8,"month":12,"year":2023,"starttime":"TimeOfDay(10:30)","endtime":"TimeOfDay(13:30)","isRecurring":"Daily","user":"Chet","remind":"1 Day Before","note":"Cha Cha Real Smooth"}}}
+{
+    "DSBU781": {
+        "Superbowl Party": {
+            "name": "Superbowl Party",
+            "day": 27,
+            "month": 2,
+            "year": 2024,
+            "starttime": "06:15 PM",
+            "endtime": "11:35 PM",
+            "isRecurring": "Bi-weekly",
+            "user": "Henry",
+            "remind": "1 hour before",
+            "note": "Bring Buff Chick Dip"
+        },
+        "Electric Slide": {
+            "name": "Electric Slide",
+            "day": 23,
+            "month": 12,
+            "year": 2023,
+            "starttime": "10:30 AM",
+            "endtime": "1:30 PM",
+            "isRecurring": "Daily",
+            "user": "Billy",
+            "remind": "1 day before",
+            "note": "Cha Cha Real Smooth"
+        },
+        "Marathon": {
+            "name": "Marathon",
+            "day": 15,
+            "month": 12,
+            "year": 2023,
+            "starttime": "12:00 PM",
+            "endtime": "5:00 PM",
+            "isRecurring": "Monthly",
+            "user": "Billy",
+            "remind": "1 week before",
+            "note": "Bring gallon jug of water"
+        }
+    }
+}

@@ -107,8 +107,6 @@ class _EditItemState extends State<EditItem> {
                                 notes: notesController.text,
                                 quantity: int.parse(quantityController.text),
                                 type: selectedType,
-
-                                //type: typeController.text
                               ),
                               selectedAssignee);
                       Provider.of<ShoppingListViewModel>(context, listen: false)
@@ -252,7 +250,7 @@ class _EditItemState extends State<EditItem> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      height: 100, // Adjust the height as needed
+      height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: types.length,
@@ -285,7 +283,7 @@ class _EditItemState extends State<EditItem> {
                   ),
                   const SizedBox(height: 4),
                   SizedBox(
-                    width: 70, // Adjust the width as needed
+                    width: 70,
                     child: Text(
                       types[index]['name'],
                       textAlign: TextAlign.center,

@@ -147,7 +147,7 @@ class ViewEvent extends StatelessWidget {
           height: 50,
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: const Color.fromARGB(207, 220, 220, 220),
             border: Border.all(color: Colors.black),
           ),
           child: Row(

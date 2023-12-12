@@ -129,14 +129,14 @@ class ShoppingListViewModel extends ChangeNotifier {
 
   ShopViewModel findAndUpdateShopComplete(ShopViewModel shopViewModel) {
     final Shop shop = shopViewModel.shop;
-    // Update the chore's priority
+
     final updatedChore = Shop(
         name: shop.name,
         isCompleted: !shop.isCompleted,
         notes: shop.notes,
         quantity: shop.quantity,
         type: shop.type);
-    // Update the chore in the choreViewModel
+
     shopViewModel.shop = updatedChore;
     notifyListeners();
     print("chore updated");

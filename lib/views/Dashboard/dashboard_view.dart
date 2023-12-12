@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
 import 'package:rumii/views/widgets/custom_bottom_navigation_bar.dart';
@@ -78,17 +79,14 @@ class _DashboardViewState extends State<DashboardView> {
       backgroundColor: Colors.pink,
       appBar: null,
       resizeToAvoidBottomInset: false,
-      body: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return Column(
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return ListView(
             children: [
               Container(
-                padding: const EdgeInsets.fromLTRB(30, 10, 20, 25),
+                padding: const EdgeInsets.fromLTRB(30, 10, 10, 25),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(height: 5),
                     Row(
@@ -100,6 +98,7 @@ class _DashboardViewState extends State<DashboardView> {
                               Text(
                                 'Log Out',
                                 style: TextStyle(
+                                  fontSize: 12,
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(
@@ -152,7 +151,7 @@ class _DashboardViewState extends State<DashboardView> {
                     const SizedBox(height: 20),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Row(
                           children: [
@@ -160,7 +159,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 ? CircleAvatar(
                                     backgroundImage:
                                         AssetImage('assets/images/$_userImage'),
-                                    radius: 30,
+                                    radius: 25,
                                   )
                                 : const SizedBox.shrink(),
                             const SizedBox(width: 8),
@@ -198,7 +197,7 @@ class _DashboardViewState extends State<DashboardView> {
                                                 Shadow(
                                                   color: Colors.black
                                                       .withOpacity(0.2),
-                                                  offset: Offset(1, 1),
+                                                  offset: const Offset(1, 1),
                                                   blurRadius: 2,
                                                 ),
                                               ],
@@ -215,16 +214,9 @@ class _DashboardViewState extends State<DashboardView> {
                                                             widget.housekey)),
                                           );
                                         },
-                                        child: const Row(children: [
-                                          Text('Edit Household',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                              )),
-                                          SizedBox(width: 5),
-                                          Icon(Icons.edit_outlined,
-                                              color: Colors.black, size: 16),
-                                        ]),
                                         style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 8),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(15),
@@ -235,6 +227,17 @@ class _DashboardViewState extends State<DashboardView> {
                                               color:
                                                   Color.fromARGB(0, 0, 0, 0)),
                                         ),
+                                        child: const Row(children: [
+                                          Text('Edit Household',
+                                              style: TextStyle(
+                                                letterSpacing: 0.05,
+                                                fontSize: 12,
+                                                color: Colors.black,
+                                              )),
+                                          SizedBox(width: 2),
+                                          Icon(Icons.edit_outlined,
+                                              color: Colors.black, size: 14),
+                                        ]),
                                       )
                                     ],
                                   ),
@@ -371,10 +374,12 @@ class _DashboardViewState extends State<DashboardView> {
               Chore chore = item;
               ChoreViewModel choreViewModel = ChoreViewModel(chore: chore);
 
+            if(chore.isCompleted == false) {
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
+                  contentPadding: const EdgeInsets.only(left: 20),
                   title: Text(chore.name),
                   onTap: () {
                     Navigator.push(
@@ -391,17 +396,25 @@ class _DashboardViewState extends State<DashboardView> {
                     );
                   },
                 ),
-              );
+              );}
             } else if (type == 'storeNeed') {
               Shop storeNeed = item;
               ShopViewModel shopViewModel = ShopViewModel(shop: storeNeed);
 
+              if(storeNeed.isCompleted == false) {
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  title: Text(storeNeed.name),
+                  contentPadding: const EdgeInsets.only(left: 20),
+                  title: Row(children: [
+                    Text(storeNeed.name),
+                    const SizedBox(width: 8),
+                    Text('  ${storeNeed.notes}',
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 141, 141, 141)))
+                  ]),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -417,16 +430,26 @@ class _DashboardViewState extends State<DashboardView> {
                     );
                   },
                 ),
-              );
+              );}
             } else if (type == 'event') {
               Event event = item;
               EventViewModel eventViewModel = EventViewModel(event: event);
+              DateTime date = DateTime.utc(event.year, event.month, event.day);
+              String weekDay = DateFormat('EEEE').format(date);
 
               return Card(
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  title: Text(event.name),
+                  contentPadding: const EdgeInsets.only(left: 20),
+                  title: Row(children: [
+                    Text(event.name),
+                    const SizedBox(width: 8),
+                    Text('  ${weekDay}, ${event.month}/${event.day}',
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 141, 141, 141)))
+                  ]),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -579,11 +602,13 @@ class DataProvider {
         for (int i = 0; i < 3 && i < chores.length; i++) {
           final choreData = chores[i];
           final chore = Chore(
-            name: choreData['name'],
-            dueDate: choreData['dueDate'],
-            priority: choreData['priority'],
-            isCompleted: choreData['isCompleted'],
-          );
+              name: choreData['name'],
+              dueDate: choreData['dueDate'],
+              priority: choreData['priority'],
+              isCompleted: choreData['isCompleted'],
+              note: choreData['note'],
+              isRecurring: choreData['isRecurring'],
+              remind: choreData['remind']);
           recentChores.add(chore);
         }
       }
@@ -625,6 +650,10 @@ class DataProvider {
     if (jsonData.containsKey(houseKey)) {
       final Map<String, dynamic> houseData = jsonData[houseKey];
       final List<dynamic> events = houseData.values.toList();
+
+      events.sort((a, b) => a['year'].compareTo(b['year']));
+      events.sort((a, b) => a['month'].compareTo(b['month']));
+      events.sort((a, b) => a['day'].compareTo(b['day']));
 
       for (int i = 0; i < 3 && i < events.length; i++) {
         final eventData = events[i];
