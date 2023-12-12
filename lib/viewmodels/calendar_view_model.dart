@@ -80,10 +80,11 @@ class CalendarViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteEvent(String eventName) {
+  Future<void> deleteEvent(String eventName) async {
     for (var event in calendar) {
       if (event.name == eventName) {
         calendar.remove(event);
+        break;
       }
     }
     notifyListeners();
