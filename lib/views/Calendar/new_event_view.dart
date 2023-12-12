@@ -347,16 +347,20 @@ class _NewEventState extends State<NewEvent> {
                         : reminderController.text,
                     items: const [
                       DropdownMenuItem<String>(
-                        value: '1 Hour Before',
-                        child: Text('1 Hour Before'),
+                        value: 'None',
+                        child: Text('None'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 Day Before',
-                        child: Text('1 Day Before'),
+                        value: '1 hour before',
+                        child: Text('1 hour before'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 Week Before',
-                        child: Text('1 Week Before'),
+                        value: '1 day before Before',
+                        child: Text('1 day before'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: '1 week before Before',
+                        child: Text('1 week before'),
                       ),
                       DropdownMenuItem<String>(
                         value: 'Custom',

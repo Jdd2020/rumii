@@ -5,8 +5,6 @@ import 'package:rumii/SessionData.dart';
 import 'package:rumii/constants.dart';
 import 'package:rumii/models/event_model.dart';
 import 'package:rumii/viewmodels/calendar_view_model.dart';
-import 'package:rumii/viewmodels/chore_list_view_model.dart';
-import 'package:rumii/views/Calendar/calendar_view.dart';
 import 'package:rumii/views/Calendar/view_event_view.dart';
 
 class EditEvent extends StatefulWidget {
@@ -14,7 +12,7 @@ class EditEvent extends StatefulWidget {
   final String housekey;
   final String username;
 
-  EditEvent(
+  const EditEvent(
       {Key? key,
       required this.event,
       required this.housekey,
@@ -43,11 +41,10 @@ class _EditEventState extends State<EditEvent> {
   void initState() {
     super.initState();
     initEventTitle = widget.event.title;
-    // Initialize controllers with existing data
+
     titleController = TextEditingController(text: widget.event.title);
     noteController = TextEditingController(text: widget.event.note ?? '');
 
-    // Initialize date and time with existing data
     selectedDate = widget.event.date;
     selectedStartTime = TimeOfDay(
       hour: widget.event.startTime.hour,
@@ -58,7 +55,6 @@ class _EditEventState extends State<EditEvent> {
       minute: widget.event.endTime.minute,
     );
 
-    // Initialize repetition and reminder with existing data
     selectedRepetition = widget.event.isRecurring;
     selectedReminder = widget.event.remind;
     selectedUser = widget.username;
@@ -152,8 +148,8 @@ class _EditEventState extends State<EditEvent> {
                 setState(() {
                   selectedDate = date;
                   selectedStartTime =
-                      null; // Reset start time when date changes
-                  selectedEndTime = null; // Reset end time when date changes
+                      null; // reset start time when date changes
+                  selectedEndTime = null; // reset end time when date changes
                 });
               }),
               buildTimePicker(
@@ -198,7 +194,7 @@ class _EditEventState extends State<EditEvent> {
               ),
               buildDropdown(
                 'Reminder',
-                ['1 Hour Before', '1 Day Before', '1 Week Before', 'Custom'],
+                ['1 hour before', '1 day before', '1 week before', 'Custom'],
                 selectedReminder,
                 (String? value) {
                   setState(() {
@@ -208,21 +204,23 @@ class _EditEventState extends State<EditEvent> {
               ),
               buildTextField('Note', noteController),
               const SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Provider.of<CalendarViewModel>(context, listen: false)
-                          .deleteEvent(titleController.text);
-                      Provider.of<CalendarViewModel>(context, listen: false)
-                          .writeData(widget.housekey);
-                      Navigator.pushNamed(context, calendarRoute,
-                          arguments: SessionData.data(
-                              widget.username, widget.housekey));
-                    },
-                    child: const Text("Delete")),
-              )
+              Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Provider.of<CalendarViewModel>(context, listen: false)
+                              .deleteEvent(titleController.text);
+                          Provider.of<CalendarViewModel>(context, listen: false)
+                              .writeData(widget.housekey);
+                          Navigator.pushNamed(context, calendarRoute,
+                              arguments: SessionData.data(
+                                  widget.username, widget.housekey));
+                        },
+                        child: const Text("Delete")),
+                  )),
             ],
           ),
         ),

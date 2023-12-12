@@ -33,6 +33,7 @@ class _CalendarViewState extends State<CalendarView> {
     super.initState();
     Provider.of<CalendarViewModel>(context, listen: false)
         .getData(widget.housekey);
+    
   }
 
   @override
@@ -93,7 +94,6 @@ class _CalendarViewState extends State<CalendarView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: TableCalendar(
@@ -147,8 +147,8 @@ class _CalendarViewState extends State<CalendarView> {
                         return Stack(
                           children: [
                             Positioned(
-                              right: 1,
-                              bottom: 1,
+                              right: 25,
+                              bottom: 7,
                               child: Container(
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
@@ -189,13 +189,12 @@ class _CalendarViewState extends State<CalendarView> {
     final List<Event> recentEvents = [];
 
     if (jsonData.containsKey(houseKey)) {
-      //personName
       final Map<String, dynamic> houseData = jsonData[houseKey];
       final List<dynamic> events = houseData.values.toList();
 
       for (int i = 0; i < 3 && i < events.length; i++) {
         final eventData = events[i];
-        // retrieve up to 3 most recent chores
+
         final event = Event(
           name: eventData['name'],
           day: eventData['day'],
@@ -225,13 +224,11 @@ class _CalendarViewState extends State<CalendarView> {
   Widget _buildList(String title, String route, List<EventViewModel> items,
       IconData iconData, String type) {
     return Column(
-      //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           contentPadding: EdgeInsets.zero,
-          leading: Icon(iconData), // header icon
+          leading: Icon(iconData), 
           title: Text(
-            // header
             title,
             style: const TextStyle(
               fontSize: 20,

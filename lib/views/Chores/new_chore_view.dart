@@ -19,7 +19,7 @@ class _NewChoreState extends State<NewChore> {
   DateTime? dueDate;
   ChoreListViewModel choreList = ChoreListViewModel();
   final TextEditingController nameController = TextEditingController();
-  // final TextEditingController assignUserController = TextEditingController();
+  final TextEditingController assignUserController = TextEditingController();
   final TextEditingController dueDateController = TextEditingController();
   final TextEditingController repetitionController = TextEditingController();
   final TextEditingController reminderController = TextEditingController();
@@ -53,10 +53,11 @@ class _NewChoreState extends State<NewChore> {
   @override
   void dispose() {
     nameController.dispose();
-    //assignUserController.dispose();
+    assignUserController.dispose();
     dueDateController.dispose();
     noteController.dispose();
-    pointsController.dispose();
+    repetitionController.dispose();
+    reminderController.dispose();
     super.dispose();
   }
 
@@ -103,7 +104,10 @@ class _NewChoreState extends State<NewChore> {
                                   name: nameController.text,
                                   priority: false,
                                   dueDate: dueDateController.text,
-                                  isCompleted: false);
+                                  isCompleted: false,
+                                  note: noteController.text,
+                                  isRecurring: repetitionController.text,
+                                  remind: reminderController.text);
                               Provider.of<ChoreListViewModel>(context,
                                       listen: false)
                                   .addChore(newChore, selectedAssignee);
@@ -136,44 +140,6 @@ class _NewChoreState extends State<NewChore> {
                         labelText: 'Name your Chore'),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Consumer<ChoreListViewModel>(
-                    builder: (context, choreList, child) {
-                  var householdMembers = choreList.usernames;
-                  return DropdownButtonFormField<String>(
-                    value: householdMembers.contains(selectedAssignee)
-                        ? selectedAssignee
-                        : null,
-                    items: householdMembers.map((member) {
-                      return DropdownMenuItem<String>(
-                        value: member,
-                        child: Text(member),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          selectedAssignee = newValue;
-                        });
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Assign User',
-                    ),
-                  );
-                }),
-
-                /*  SizedBox(
-                width: 1500,
-                child: TextField(
-                  controller: assignUserController,
-                  obscureText: false,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Assign User'),
-                ),
-              ), */
                 const SizedBox(
                   height: 30,
                 ),
@@ -210,6 +176,44 @@ class _NewChoreState extends State<NewChore> {
                 const SizedBox(
                   height: 30,
                 ),
+                SizedBox(
+                  width: 1500,
+                  child: TextField(
+                    controller: noteController,
+                    obscureText: false,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: 'Note'),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Consumer<ChoreListViewModel>(
+                    builder: (context, choreList, child) {
+                  var householdMembers = choreList.usernames;
+                  return DropdownButtonFormField<String>(
+                    value: householdMembers.contains(selectedAssignee)
+                        ? selectedAssignee
+                        : null,
+                    items: householdMembers.map((member) {
+                      return DropdownMenuItem<String>(
+                        value: member,
+                        child: Text(member),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedAssignee = newValue;
+                        });
+                      }
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Assign User',
+                    ),
+                  );
+                }),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: 1500,
                   child: DropdownButton<String>(
@@ -258,20 +262,24 @@ class _NewChoreState extends State<NewChore> {
                         : reminderController.text,
                     items: const [
                       DropdownMenuItem<String>(
-                        value: '1 hour',
-                        child: Text('1 hour'),
+                        value: 'None',
+                        child: Text('None'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 day',
-                        child: Text('1 day'),
+                        value: '1 hour before',
+                        child: Text('1 hour before'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 week',
-                        child: Text('1 week'),
+                        value: '1 day before',
+                        child: Text('1 day before'),
                       ),
                       DropdownMenuItem<String>(
-                        value: 'custom',
-                        child: Text('custom'),
+                        value: '1 week before',
+                        child: Text('1 week before'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Custom',
+                        child: Text('Custom'),
                       ),
                     ],
                     onChanged: (value) {
@@ -285,27 +293,6 @@ class _NewChoreState extends State<NewChore> {
                 ),
                 const SizedBox(
                   height: 30,
-                ),
-                SizedBox(
-                  width: 1500,
-                  child: TextField(
-                    controller: noteController,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Note'),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                SizedBox(
-                  width: 1500,
-                  child: TextField(
-                    controller: pointsController,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Points'),
-                  ),
                 ),
               ]),
             ),

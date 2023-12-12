@@ -172,6 +172,7 @@ Widget buildInfoRow(BuildContext context, String label, String value) {
               height: 50,
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               decoration: BoxDecoration(
+                color: const Color.fromARGB(207, 220, 220, 220),
                 border: Border.all(color: Colors.black),
               ),
               child: Row(
