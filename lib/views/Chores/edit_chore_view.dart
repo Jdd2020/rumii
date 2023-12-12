@@ -46,6 +46,8 @@ class _EditChoreState extends State<EditChore> {
     selectedAssignee = widget.user;
     dueDateController.text = widget.chore.dueDate;
     noteController.text = widget.chore.note.toString();
+    repetitionController.text = widget.chore.isRecurring.toString();
+    reminderController.text = widget.chore.remind.toString();
     /*
     repetitionController.text = widget.repetition;
     reminderController.text = widget.reminder;
@@ -96,13 +98,14 @@ class _EditChoreState extends State<EditChore> {
                           ),
                         ),
                         onTap: () {
-                          //save changes
                           var altered = Chore(
                               name: nameController.text,
                               priority: false,
                               dueDate: dueDateController.text,
                               isCompleted: false,
-                              note: noteController.text);
+                              note: noteController.text,
+                              isRecurring: repetitionController.text,
+                              remind: reminderController.text);
                           Provider.of<ChoreListViewModel>(context,
                                   listen: false)
                               .editChore(altered, selectedAssignee,
@@ -133,6 +136,9 @@ class _EditChoreState extends State<EditChore> {
                 buildEditableTextField('Assigned user', assignUserController),
                 buildDatePickerField('Due Date', dueDateController),
                 buildEditableTextField('Note', noteController),
+                buildEditableRepetitionDropDown(
+                    'Repetition', repetitionController),
+                buildEditableReminderDropDown('Reminder', reminderController),
                 const SizedBox(height: 20),
                 SizedBox(
                   height: 50,
@@ -256,6 +262,156 @@ class _EditChoreState extends State<EditChore> {
                             border: InputBorder.none,
                           ),
                         )
+                      : TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                        ),
+                );
+              }),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
+
+  Widget buildEditableRepetitionDropDown(
+      String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.98,
+          height: 50,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Consumer<ChoreListViewModel>(
+                  builder: (context, choreList, child) {
+                var householdMembers = choreList.usernames;
+                return Expanded(
+                  child: label == 'Repetition'
+                      ? DropdownButtonFormField(
+                          value: repetitionController.text.isEmpty
+                              ? null
+                              : repetitionController.text,
+                          items: const [
+                            DropdownMenuItem<String>(
+                              value: 'None',
+                              child: Text('None'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Daily',
+                              child: Text('Daily'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Weekly',
+                              child: Text('Weekly'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Bi-weekly',
+                              child: Text('Bi-weekly'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Monthly',
+                              child: Text('Monthly'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              repetitionController.text = value!;
+                            });
+                            return;
+                          })
+                      : TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                        ),
+                );
+              }),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
+
+  Widget buildEditableReminderDropDown(
+      String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Container(
+          width: MediaQuery.of(context).size.width * 0.98,
+          height: 50,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Consumer<ChoreListViewModel>(
+                  builder: (context, choreList, child) {
+                var householdMembers = choreList.usernames;
+                return Expanded(
+                  child: label == 'Reminder'
+                      ? DropdownButtonFormField(
+                          value: reminderController.text.isEmpty
+                              ? null
+                              : reminderController.text,
+                          items: const [
+                            DropdownMenuItem<String>(
+                              value: 'None',
+                              child: Text('None'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: '1 hour before',
+                              child: Text('1 hour before'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: '1 day before',
+                              child: Text('1 day before'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: '1 week before',
+                              child: Text('1 week before'),
+                            ),
+                            DropdownMenuItem<String>(
+                              value: 'Custom',
+                              child: Text('Custom'),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              reminderController.text = value!;
+                            });
+                            return;
+                          })
                       : TextField(
                           controller: controller,
                           decoration: const InputDecoration(

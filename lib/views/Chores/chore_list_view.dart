@@ -22,21 +22,7 @@ class ChoreListView extends StatefulWidget {
 }
 
 class _ChoreListViewState extends State<ChoreListView> {
-
   final ChoreListViewModel _choreListViewModel = ChoreListViewModel();
-  //ChoreListViewModel choreList = ChoreListViewModel();
-
-  /*=
-      Future<List<UserViewModel>>(() async {
-    ChoreListViewModel chores = ChoreListViewModel();
-    chores.getUserList("DSBU781");
-    return chores.users;
-  });
-  */
-
-  //Future<void> toggleChorePriority(ChoreViewModel choreViewModel) {
-  //choreList.toggleChorePriority(choreViewModel);
-  //}
 
   @override
   initState() {
@@ -55,7 +41,7 @@ class _ChoreListViewState extends State<ChoreListView> {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/images/rumii-logo.png',
-            height: 28.00, width: 70.00), 
+            height: 28.00, width: 70.00),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -116,30 +102,32 @@ class _ChoreListViewState extends State<ChoreListView> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(children: [
-                            const SizedBox(width: 8),
-                            Container(
+                          Row(
+                            children: [
+                              const SizedBox(width: 8),
+                              Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     color: Colors.pinkAccent,
-                                    width: 2.0, 
+                                    width: 2.0,
                                   ),
                                 ),
                                 child: ClipOval(
-                                  child: getImageWidget(user, _choreListViewModel),
+                                  child:
+                                      getImageWidget(user, _choreListViewModel),
                                 ),
                               ),
                               const SizedBox(width: 8),
-                          
-                          Text(
-                            user.name,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                              Text(
+                                user.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          ],),
                           const SizedBox(height: 3),
                           const Divider(
                             color: Colors.black,
@@ -233,13 +221,14 @@ class _ChoreListViewState extends State<ChoreListView> {
     );
   }
 
-  Widget getImageWidget(UserViewModel user, ChoreListViewModel choreListViewModel) {
+  Widget getImageWidget(
+      UserViewModel user, ChoreListViewModel choreListViewModel) {
     FutureBuilder<String?> imageFutureBuilder = FutureBuilder<String?>(
       future: choreListViewModel.getUserImage(user.name),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Container(); 
+            return Container();
           } else {
             if (snapshot.data != null) {
               return Image.asset(
@@ -273,5 +262,4 @@ class _ChoreListViewState extends State<ChoreListView> {
 
     return imageFutureBuilder;
   }
-
 }

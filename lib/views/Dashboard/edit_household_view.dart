@@ -15,7 +15,8 @@ class _EditHouseholdState extends State<EditHousehold> {
   late Map<String, dynamic> choreData;
   late String currentHouseKey;
 
-  final EditHouseholdViewModel _editHouseholdViewModel = EditHouseholdViewModel();
+  final EditHouseholdViewModel _editHouseholdViewModel =
+      EditHouseholdViewModel();
 
   @override
   void initState() {
@@ -148,12 +149,12 @@ class _EditHouseholdState extends State<EditHousehold> {
           Align(
             alignment: const Alignment(1.2, -1.2),
             child: IconButton(
-                icon: const Icon(Icons.delete),
-                color: Colors.red,
-                iconSize: 25.0,
-                onPressed: () {
-                  _showDeleteConfirmationDialog(userName);
-                },
+              icon: const Icon(Icons.delete),
+              color: Colors.red,
+              iconSize: 25.0,
+              onPressed: () {
+                _showDeleteConfirmationDialog(userName);
+              },
             ),
           ),
         ],
@@ -227,16 +228,17 @@ class _EditHouseholdState extends State<EditHousehold> {
   }
 }
 
-Widget _getUserImageWidget(String userName, EditHouseholdViewModel editHouseholdViewModel) {
-    return FutureBuilder<String?>(
-      future: editHouseholdViewModel.getUserImage(userName),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            return Container();
-          } else {
-            if (snapshot.data != null) {
-              return Container(
+Widget _getUserImageWidget(
+    String userName, EditHouseholdViewModel editHouseholdViewModel) {
+  return FutureBuilder<String?>(
+    future: editHouseholdViewModel.getUserImage(userName),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasError) {
+          return Container();
+        } else {
+          if (snapshot.data != null) {
+            return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -245,21 +247,22 @@ Widget _getUserImageWidget(String userName, EditHouseholdViewModel editHousehold
                   image: AssetImage('assets/images/${snapshot.data}'),
                   fit: BoxFit.cover,
                 ),
-              ),);
-            } else {
-              return Text(
-                  userName.substring(0, 1),
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24.0,
-                  ),
-              );
-            }
+              ),
+            );
+          } else {
+            return Text(
+              userName.substring(0, 1),
+              style: const TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+                fontSize: 24.0,
+              ),
+            );
           }
-        } else {
-          return CircularProgressIndicator();
         }
-      },
-    );
-  }
+      } else {
+        return const CircularProgressIndicator();
+      }
+    },
+  );
+}

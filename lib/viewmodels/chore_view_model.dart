@@ -35,12 +35,4 @@ class ChoreViewModel extends ChangeNotifier {
     return chore.remind;
   }
 
-  /*
-  set isCompleted (bool value){
-    if(_isCompleted != value) {
-      _isCompleted = value;
-      notifyListeners();
-    }
-  }
-  */
 }

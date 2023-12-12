@@ -60,7 +60,6 @@ class ExpandView extends StatelessWidget {
                           '${formatTimeOfDay(event.startTime)} - ${formatTimeOfDay(event.endTime)}',
                         ),
                         onTap: () {
-                          // Navigate to ViewEvent with the selected event details
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -105,7 +104,7 @@ String formatTimeOfDay(TimeOfDay timeOfDay) {
 }
 
 List<ExpandEvent> fetchFakeEventsForDay(DateTime day) {
-  // Fake data for demonstration
+  // fake data for demonstration
   return [
     ExpandEvent(
       title: 'Meeting with Team',

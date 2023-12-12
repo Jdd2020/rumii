@@ -80,15 +80,12 @@ class _DashboardViewState extends State<DashboardView> {
       resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return ListView (
+          return ListView(
             children: [
               Container(
                 padding: const EdgeInsets.fromLTRB(30, 10, 10, 25),
                 width: MediaQuery.of(context).size.width,
-                //height: MediaQuery.of(context).size.width,
-                child: Column (
-                  
-                  //crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
                   children: <Widget>[
                     const SizedBox(height: 5),
                     Row(
@@ -160,7 +157,7 @@ class _DashboardViewState extends State<DashboardView> {
                                 ? CircleAvatar(
                                     backgroundImage:
                                         AssetImage('assets/images/$_userImage'),
-                                    radius: 30,
+                                    radius: 25,
                                   )
                                 : const SizedBox.shrink(),
                             const SizedBox(width: 8),
@@ -183,7 +180,8 @@ class _DashboardViewState extends State<DashboardView> {
                                         ],
                                       )),
                                   Row(
-                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(children: [
                                         const Icon(Icons.key_outlined,
@@ -202,7 +200,6 @@ class _DashboardViewState extends State<DashboardView> {
                                                 ),
                                               ],
                                             )),
-                                            //const SizedBox(width:2),
                                       ]),
                                       ElevatedButton(
                                         onPressed: () {
@@ -215,6 +212,19 @@ class _DashboardViewState extends State<DashboardView> {
                                                             widget.housekey)),
                                           );
                                         },
+                                        style: ElevatedButton.styleFrom(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 8),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 255, 255, 255),
+                                          side: const BorderSide(
+                                              color:
+                                                  Color.fromARGB(0, 0, 0, 0)),
+                                        ),
                                         child: const Row(children: [
                                           Text('Edit Household',
                                               style: TextStyle(
@@ -226,18 +236,6 @@ class _DashboardViewState extends State<DashboardView> {
                                           Icon(Icons.edit_outlined,
                                               color: Colors.black, size: 14),
                                         ]),
-                                        style: ElevatedButton.styleFrom(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          backgroundColor: const Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          side: const BorderSide(
-                                              color:
-                                                  Color.fromARGB(0, 0, 0, 0)),
-                                        ),
                                       )
                                     ],
                                   ),
@@ -378,6 +376,7 @@ class _DashboardViewState extends State<DashboardView> {
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
+                  contentPadding: const EdgeInsets.only(left: 20),
                   title: Text(chore.name),
                   onTap: () {
                     Navigator.push(
@@ -403,8 +402,15 @@ class _DashboardViewState extends State<DashboardView> {
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  title: Text(storeNeed.name),
+                  contentPadding: const EdgeInsets.only(left: 20),
+                  title: Row(children: [
+                    Text(storeNeed.name),
+                    const SizedBox(width: 8),
+                    Text('  ${storeNeed.notes}',
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 141, 141, 141)))
+                  ]),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -429,6 +435,7 @@ class _DashboardViewState extends State<DashboardView> {
                 elevation: 2,
                 margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
+                  contentPadding: const EdgeInsets.only(left: 20),
                   title: Text(event.name),
                   onTap: () {
                     Navigator.push(
@@ -582,14 +589,13 @@ class DataProvider {
         for (int i = 0; i < 3 && i < chores.length; i++) {
           final choreData = chores[i];
           final chore = Chore(
-            name: choreData['name'],
-            dueDate: choreData['dueDate'],
-            priority: choreData['priority'],
-            isCompleted: choreData['isCompleted'],
-            note: choreData['note'],
-            isRecurring: choreData['isRecurring'],
-            remind: choreData['remind']
-          );
+              name: choreData['name'],
+              dueDate: choreData['dueDate'],
+              priority: choreData['priority'],
+              isCompleted: choreData['isCompleted'],
+              note: choreData['note'],
+              isRecurring: choreData['isRecurring'],
+              remind: choreData['remind']);
           recentChores.add(chore);
         }
       }

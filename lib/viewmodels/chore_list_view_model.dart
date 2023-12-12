@@ -125,17 +125,16 @@ class ChoreListViewModel extends ChangeNotifier {
 
   ChoreViewModel findAndUpdateChorePriority(ChoreViewModel choreViewModel) {
     final Chore chore = choreViewModel.chore;
-    // Update the chore's priority
+ 
     final updatedChore = Chore(
-      priority: !chore.priority,
-      name: chore.name,
-      dueDate: chore.dueDate,
-      isCompleted: chore.isCompleted,
-      note: chore.note,
-      isRecurring: chore.isRecurring,
-      remind: chore.remind
-    );
-    // Update the chore in the choreViewModel
+        priority: !chore.priority,
+        name: chore.name,
+        dueDate: chore.dueDate,
+        isCompleted: chore.isCompleted,
+        note: chore.note,
+        isRecurring: chore.isRecurring,
+        remind: chore.remind);
+  
     choreViewModel.chore = updatedChore;
     notifyListeners();
     return choreViewModel;
@@ -158,17 +157,16 @@ class ChoreListViewModel extends ChangeNotifier {
 
   ChoreViewModel findAndUpdateChoreComplete(ChoreViewModel choreViewModel) {
     final Chore chore = choreViewModel.chore;
-    // Update the chore's priority
+
     final updatedChore = Chore(
-      priority: chore.priority,
-      name: chore.name,
-      dueDate: chore.dueDate,
-      isCompleted: !chore.isCompleted,
-      note: chore.note,
-      isRecurring: chore.isRecurring,
-      remind: chore.remind
-    );
-    // Update the chore in the choreViewModel
+        priority: chore.priority,
+        name: chore.name,
+        dueDate: chore.dueDate,
+        isCompleted: !chore.isCompleted,
+        note: chore.note,
+        isRecurring: chore.isRecurring,
+        remind: chore.remind);
+  
     choreViewModel.chore = updatedChore;
     notifyListeners();
     print("chore updated");

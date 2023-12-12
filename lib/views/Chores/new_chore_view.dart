@@ -143,17 +143,7 @@ class _NewChoreState extends State<NewChore> {
                 const SizedBox(
                   height: 30,
                 ),
-
-                /*  SizedBox(
-                width: 1500,
-                child: TextField(
-                  controller: assignUserController,
-                  obscureText: false,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Assign User'),
-                ),
-              ), */
-              GestureDetector(
+                GestureDetector(
                   onTap: () async {
                     DateTime? selectedDate = await showDatePicker(
                       context: context,
@@ -223,7 +213,7 @@ class _NewChoreState extends State<NewChore> {
                     ),
                   );
                 }),
-                const SizedBox(height:30),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: 1500,
                   child: DropdownButton<String>(
@@ -304,19 +294,6 @@ class _NewChoreState extends State<NewChore> {
                 const SizedBox(
                   height: 30,
                 ),
-                
-                /*const SizedBox(
-                  height: 30,
-                ),
-                SizedBox(
-                  width: 1500,
-                  child: TextField(
-                    controller: pointsController,
-                    obscureText: false,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(), labelText: 'Points'),
-                  ),
-                ),*/
               ]),
             ),
           ),
