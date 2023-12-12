@@ -351,15 +351,15 @@ class _NewEventState extends State<NewEvent> {
                         child: Text('None'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 hour before',
-                        child: Text('1 hour before'),
+                        value: '1 hour Before',
+                        child: Text('1 hour Before'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 day before Before',
-                        child: Text('1 day before'),
+                        value: '1 day Before',
+                        child: Text('1 day Before'),
                       ),
                       DropdownMenuItem<String>(
-                        value: '1 week before Before',
+                        value: '1 week Before',
                         child: Text('1 week before'),
                       ),
                       DropdownMenuItem<String>(

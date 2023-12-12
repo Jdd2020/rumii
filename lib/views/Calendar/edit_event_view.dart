@@ -117,8 +117,8 @@ class _EditEventState extends State<EditEvent> {
                             day: selectedDate!.day,
                             month: selectedDate!.month,
                             year: selectedDate!.year,
-                            starttime: selectedStartTime.toString(),
-                            endtime: selectedEndTime.toString(),
+                            starttime: selectedStartTime!.format(context),
+                            endtime: selectedEndTime!.format(context),
                             isRecurring: selectedRepetition.toString(),
                             user: selectedUser!,
                             remind: selectedReminder.toString(),
@@ -194,7 +194,7 @@ class _EditEventState extends State<EditEvent> {
               ),
               buildDropdown(
                 'Reminder',
-                ['1 hour before', '1 day before', '1 week before', 'Custom'],
+                ['1 hour Before', '1 day Before', '1 week Before', 'Custom'],
                 selectedReminder,
                 (String? value) {
                   setState(() {

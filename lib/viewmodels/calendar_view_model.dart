@@ -81,12 +81,13 @@ class CalendarViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteEvent(String eventName) async {
-    for (var event in calendar) {
-      if (event.name == eventName) {
-        calendar.remove(event);
-        break;
+    var remove_index = -1;
+    for (var i = 0; i < calendar.length; i++) {
+      if (calendar[i].name == eventName) {
+        remove_index = i;
       }
     }
+    calendar.removeAt(remove_index);
     notifyListeners();
   }
 
