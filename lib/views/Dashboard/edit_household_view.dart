@@ -147,7 +147,7 @@ class _EditHouseholdState extends State<EditHousehold> {
             child: _getUserImageWidget(userName, _editHouseholdViewModel),
           ),
           Align(
-            alignment: const Alignment(1.2, -1.2),
+            alignment: const Alignment(1.25, -1.28),
             child: IconButton(
               icon: const Icon(Icons.delete),
               color: Colors.red,
