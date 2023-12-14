@@ -14,7 +14,8 @@
 
 4. Open a new terminal, and run the "flutter run" command. This will resolve any dependency issues. You will be prompted to choose a web browser at this time (your system browser is recommended, e.g. press "1" for Windows on a Windows machine).
 
-7. The first launch may take longer than usual, but Rumii should boot up momentarily! :)
+7. Rumii should boot up momentarily! :)
+   -  Note: Rumii has a responsive interface suitable to different screen sizes, however we recommend condensing your browser to a mobile size for the best User Experience! (e.g. 25-30% as wide as your computer screen)
 
 ## How to Perform Key Tasks
 
@@ -44,7 +45,7 @@ After joining or creating a household, you will be routed to the Dashboard langi
 
 + **Edit Household** → The Edit Household view allows users to see everyone in their household group and remove any members from the household who may have moved out or joined by mistake. There is also an Add Household Member button where users can view their house key or copy an invite link to share with new roommates.
 
-+ **Viewing/Editing Items At a Glance** Users may easily view an item directly from the Dashboard (e.g. clicking the "Wash the Dishes" card to view the chore details). From there, they can choose the Edit button in the upper left to make any desired changes.
++ **Viewing/Editing Items At a Glance** → Users may easily view an item directly from the Dashboard (e.g. clicking the "Wash the Dishes" card to view the chore details). From there, they can choose the Edit button in the upper left to make any desired changes.
 
 + **Navigation** → The user can navigate to the other modules using the arrows next to each respective module header. The bottom navigation bar also follows the user across all of the app's main views. It can be used to travel from one module to another with ease!
 
